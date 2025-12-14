@@ -1,0 +1,15 @@
+services:
+  postgresdb:
+    image: postgres:18
+    container_name: POSTGRESDB
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: aliengnss.
+      POSTGRES_USER: aliengnss
+      POSTGRES_DB: aliengnss
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+volumes:
+  pgdata:
