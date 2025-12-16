@@ -9,9 +9,9 @@ public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Long idUsuario;
-    private final int idCompraProducto;
-    private final int idVenta;
-    private final int idMovimiento;
+    private final Long idCompraProducto;
+    private final Long idVenta;
+    private final Long idMovimiento;
     private final String primerNombre;
     private final String segundoNombre;
     private final String primerApellido;
@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
     private final String rol;
     private final Character esActivo;
 
-    public Usuario(Long idUsuario, int idCompraProducto, int idVenta, int idMovimiento, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String nombreUsuario, String rol, Character esActivo) {
+    public Usuario(Long idUsuario, Long idCompraProducto, Long idVenta, Long idMovimiento, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String nombreUsuario, String rol, Character esActivo) {
         this.idUsuario = idUsuario;
         this.idCompraProducto = idCompraProducto;
         this.idVenta = idVenta;
@@ -38,15 +38,15 @@ public class Usuario implements Serializable {
         return idUsuario;
     }
 
-    public int getIdCompraProducto() {
+    public Long getIdCompraProducto() {
         return idCompraProducto;
     }
 
-    public int getIdVenta() {
+    public Long getIdVenta() {
         return idVenta;
     }
 
-    public int getIdMovimiento() {
+    public Long getIdMovimiento() {
         return idMovimiento;
     }
 
