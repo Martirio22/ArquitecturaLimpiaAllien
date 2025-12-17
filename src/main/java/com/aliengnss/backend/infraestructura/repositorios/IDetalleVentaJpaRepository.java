@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.aliengnss.backend.infraestructura.persistencia.jpa.DetalleVentaJpa;
 
-public interface DetalleVentaJpaRepository extends JpaRepository<DetalleVentaJpa, Long>{
+public interface IDetalleVentaJpaRepository extends JpaRepository<DetalleVentaJpa, Long>{
 
 }
