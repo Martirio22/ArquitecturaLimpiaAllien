@@ -60,11 +60,11 @@ public class UsuarioJpa implements Serializable {
     @NotNull(message = "esActivo es obligatorio")
     @Pattern(regexp = "^[SN]$", message = "esActivo debe ser 'S' o 'N'")
     @Column(nullable = false, length = 1)
-    private Character esActivo;
+    private Boolean esActivo;
 
     @PrePersist
     public void prePersist() {
-        if (esActivo == null) esActivo = 'S';
+        if (esActivo == null) esActivo = true;
         if (nombreUsuario != null) nombreUsuario = nombreUsuario.trim();
     }
 }

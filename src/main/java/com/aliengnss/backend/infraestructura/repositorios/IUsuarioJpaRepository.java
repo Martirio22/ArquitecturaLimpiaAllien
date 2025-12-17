@@ -15,9 +15,9 @@ public interface IUsuarioJpaRepository extends JpaRepository<UsuarioJpa, Long> {
 
     boolean existsByNombreUsuario(String nombreUsuario);
 
-    List<UsuarioJpa> findByEsActivo(Character esActivo);
+    List<UsuarioJpa> findByEsActivo(Boolean esActivo);
 
-    Page<UsuarioJpa> findByEsActivo(Character esActivo, Pageable pageable);
+    Page<UsuarioJpa> findByEsActivo(Boolean esActivo, Pageable pageable);
 
     List<UsuarioJpa> findByPrimerNombre(String primerNombre);
 }
