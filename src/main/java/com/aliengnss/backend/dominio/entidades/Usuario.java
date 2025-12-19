@@ -18,9 +18,9 @@ public class Usuario implements Serializable {
     private final String segundoApellido;
     private final String nombreUsuario;
     private final String rol;
-    private final Character esActivo;
+    private final Boolean esActivo;
 
-    public Usuario(Long idUsuario, Long idCompraProducto, Long idVenta, Long idMovimiento, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String nombreUsuario, String rol, Character esActivo) {
+    public Usuario(Long idUsuario, Long idCompraProducto, Long idVenta, Long idMovimiento, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String nombreUsuario, String rol, Boolean esActivo) {
         this.idUsuario = idUsuario;
         this.idCompraProducto = idCompraProducto;
         this.idVenta = idVenta;
@@ -74,7 +74,7 @@ public class Usuario implements Serializable {
         return rol;
     }
 
-    public Character getEsActivo() {
+    public Boolean getEsActivo() {
         return esActivo;
     }
 }
