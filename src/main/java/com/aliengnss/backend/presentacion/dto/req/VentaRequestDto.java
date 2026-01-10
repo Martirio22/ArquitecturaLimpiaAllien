@@ -1,6 +1,7 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -8,20 +9,26 @@ import java.sql.Date;
 
 @Data
 public class VentaRequestDto {
-    @NotBlank
     private  Long idVenta;
-    @NotBlank
+    @NotNull
+
     private  String numeroFactura;
-    @NotBlank
+    @NotNull
+
     private  Date fechaVenta;
-    @NotBlank
+    @NotNull
+
     private  Long idCliente;
-    @NotBlank
+    @NotNull
+
     private  Long idUsuario;
-    @NotBlank
+    @NotNull
+
     private  Long idUbicacion;
-    @NotBlank
+    @NotNull
+
     private  BigDecimal total;
-    @NotBlank
+    @NotNull
+
     private  String observaciones;
 }
