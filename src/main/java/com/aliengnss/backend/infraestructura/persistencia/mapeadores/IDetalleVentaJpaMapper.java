@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 
-public interface IDetalleVenta {
+public interface IDetalleVentaJpaMapper {
     DetalleVenta toDomain(DetalleVentaJpa entity);
     DetalleVentaJpa toEntity(DetalleVenta detalleVenta);
 }
