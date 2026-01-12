@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IClienteUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleVentaUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaUseCase;
-import com.aliengnss.backend.aplicacion.casosuso.implementacion.ClienteUseCase;
-import com.aliengnss.backend.aplicacion.casosuso.implementacion.DetalleVentaUseCase;
-import com.aliengnss.backend.aplicacion.casosuso.implementacion.VentaUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.ClienteUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.DetalleVentaUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.VentaUseCaseImpl;
 import com.aliengnss.backend.dominio.repositorios.IClienteRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IDetalleVentaRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
@@ -24,6 +24,7 @@ import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 
 @Configuration
 public class ConfiguracionGeneral {
+	// entidades Christian
     @Bean
     IClienteRepositorio clienteRepositorio(IClienteJpaRepository clienteJpaRepository, IClienteJpaMapper clienteJpaMapper) {
         return new ClienteRepositorioImpl(clienteJpaRepository, clienteJpaMapper);
@@ -31,7 +32,7 @@ public class ConfiguracionGeneral {
 
     @Bean
     IClienteUseCase clienteUseCase(IClienteRepositorio clienteRepositorio) {
-        return new ClienteUseCase(clienteRepositorio);
+        return new ClienteUseCaseImpl(clienteRepositorio);
     }
 
     @Bean
@@ -41,7 +42,7 @@ public class ConfiguracionGeneral {
 
     @Bean
     IVentaUseCase ventaUseCase(IVentaRepositorio ventaRepositorio) {
-        return new VentaUseCase(ventaRepositorio);
+        return new VentaUseCaseImpl(ventaRepositorio);
     }
 
     @Bean
@@ -51,9 +52,12 @@ public class ConfiguracionGeneral {
 
     @Bean
     IDetalleVentaUseCase detalleVentaUseCase(IDetalleVentaRepositorio detalleVentaRepositorio) {
-        return new DetalleVentaUseCase(detalleVentaRepositorio);
+        return new DetalleVentaUseCaseImpl(detalleVentaRepositorio);
     }
 
+ // entidades Martin
+ // entidades Shaden
+ // entidades Anthony
     
 
 }

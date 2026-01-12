@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class VentaRequestDto {
@@ -15,7 +16,7 @@ public class VentaRequestDto {
     private  String numeroFactura;
     @NotNull
 
-    private  Date fechaVenta;
+    private  LocalDateTime fechaVenta;
     @NotNull
 
     private  Long idCliente;

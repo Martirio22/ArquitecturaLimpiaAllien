@@ -6,11 +6,11 @@ import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
 
 import java.util.List;
 
-public class VentaUseCase implements IVentaUseCase {
+public class VentaUseCaseImpl implements IVentaUseCase {
 
     private final IVentaRepositorio ventaRepositorio;
 
-    public VentaUseCase(IVentaRepositorio ventaRepositorio) {
+    public VentaUseCaseImpl(IVentaRepositorio ventaRepositorio) {
         this.ventaRepositorio = ventaRepositorio;
     }
 

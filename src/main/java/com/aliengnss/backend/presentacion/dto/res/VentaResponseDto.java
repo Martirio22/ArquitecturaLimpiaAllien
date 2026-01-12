@@ -4,12 +4,13 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class VentaResponseDto {
     private  Long idVenta;
     private  String numeroFactura;
-    private  Date fechaVenta;
+    private  LocalDateTime fechaVenta;
     private  Long idCliente;
     private  Long idUsuario;
     private  Long idUbicacion;
