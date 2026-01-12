@@ -6,12 +6,12 @@ public class MovimientoDetalle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final Long idMovimientoDetalle;
-	private final int idMovimientoSeries;
-	private final int idMovimiento;
-	private final int idProducto;
+	private final Long idMovimientoSeries;
+	private final Long idMovimiento;
+	private final Long idProducto;
 	private final int cantidad;
 
-	private MovimientoDetalle(Long idMovimientoDetalle, int idMovimientoSeries, int idMovimiento, int idProducto,
+	public MovimientoDetalle(Long idMovimientoDetalle, Long idMovimientoSeries, Long idMovimiento, Long idProducto,
 			int cantidad) {
 		super();
 		this.idMovimientoDetalle = idMovimientoDetalle;
@@ -25,15 +25,15 @@ public class MovimientoDetalle implements Serializable {
 		return idMovimientoDetalle;
 	}
 
-	public int getIdMovimientoSeries() {
+	public Long getIdMovimientoSeries() {
 		return idMovimientoSeries;
 	}
 
-	public int getIdMovimiento() {
+	public Long getIdMovimiento() {
 		return idMovimiento;
 	}
 
-	public int getIdProducto() {
+	public Long getIdProducto() {
 		return idProducto;
 	}
 

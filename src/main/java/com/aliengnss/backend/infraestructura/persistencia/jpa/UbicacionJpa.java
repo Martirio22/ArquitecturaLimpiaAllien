@@ -23,13 +23,13 @@ public class UbicacionJpa implements Serializable {
 	private Long idUbicacion;
 
 	@Column(nullable = false)
-	private int idCompraProducto;
+	private Long idCompraProducto;
 	@Column(nullable = false)
-	private int idVenta;
+	private Long idVenta;
 	@Column(nullable = false)
-	private int idDetalleVenta;
+	private Long idDetalleVenta;
 	@Column(nullable = false)
-	private int idMovimiento;
+	private Long idMovimiento;
 	@NotBlank(message = "Nombre es obligatorio")
 	@Size(max = 75, message = "Nombre no debe exceder 75 caracteres")
 	@Column(nullable = false, length = 75)

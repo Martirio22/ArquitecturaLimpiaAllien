@@ -5,15 +5,15 @@ import java.io.Serializable;
 public class Ubicacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final Long idUbicacion;
-	private final int idCompraProducto;
-	private final int idVenta;
-	private final int idDetalleVenta;
-	private final int idMovimiento;
+	private final Long idCompraProducto;
+	private final Long idVenta;
+	private final Long idDetalleVenta;
+	private final Long idMovimiento;
 	private final String nombre;
 	private final String descripcion;
 	private final String tipo;
 
-	private Ubicacion(Long idUbicacion, int idCompraProducto, int idVenta, int idDetalleVenta, int idMovimiento,
+	public Ubicacion(Long idUbicacion, Long idCompraProducto, Long idVenta, Long idDetalleVenta, Long idMovimiento,
 			String nombre, String descripcion, String tipo) {
 		super();
 		this.idUbicacion = idUbicacion;
@@ -31,19 +31,19 @@ public class Ubicacion implements Serializable {
 		return idUbicacion;
 	}
 
-	public int getIdCompraProducto() {
+	public Long getIdCompraProducto() {
 		return idCompraProducto;
 	}
 
-	public int getIdVenta() {
+	public Long getIdVenta() {
 		return idVenta;
 	}
 
-	public int getIdDetalleVenta() {
+	public Long getIdDetalleVenta() {
 		return idDetalleVenta;
 	}
 
-	public int getIdMovimiento() {
+	public Long getIdMovimiento() {
 		return idMovimiento;
 	}
 
