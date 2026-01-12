@@ -1,9 +1,17 @@
 package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.Data;
 import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Data
 @Entity
@@ -16,6 +24,8 @@ public class ClienteJpa implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
+
+
 
 	@NotBlank(message = "primerNombre es obligatorio")
     @Size(max = 60, message = "primerNombre no debe exceder 60 caracteres")
