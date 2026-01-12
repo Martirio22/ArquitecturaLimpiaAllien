@@ -20,11 +20,11 @@ public class MovimientoDetalleJpa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idMovimientoDetalle;
 	@Column(nullable = false)
-	private int idMovimientoSeries;
+	private Long idMovimientoSeries;
 	@Column(nullable = false)
-	private int idMovimiento;
+	private Long idMovimiento;
 	@Column(nullable = false)
-	private int idProducto;
+	private Long idProducto;
 	@Column(nullable = false)
 	private int cantidad;
 

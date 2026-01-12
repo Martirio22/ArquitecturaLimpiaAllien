@@ -1,7 +1,7 @@
 package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,8 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
@@ -25,18 +23,17 @@ public class MovimientoJpa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idMovimiento;
 	@Column(nullable = false)
-	private int idCompraProducto;
+	private Long idCompraProducto;
 	@NotNull(message = " fechaMovimiento es obligatoria")
-	@PastOrPresent(message = "fechaMovimiento no puede ser futura")
-	@Temporal(TemporalType.TIMESTAMP)
+    @PastOrPresent(message = "fechaMovimiento no puede ser futura")
+    @Column(nullable = false)
+    private LocalDateTime fechaMovimiento;
 	@Column(nullable = false)
-	private Date fechaMovimiento;
+	private Long idUsuario;
 	@Column(nullable = false)
-	private int idUsuario;
+	private Long idUbicacionOrigen;
 	@Column(nullable = false)
-	private int idUbicacionOrigen;
-	@Column(nullable = false)
-	private int idUbicacionDestino;
+	private Long idUbicacionDestino;
 	@Column(nullable = false, length = 50)
 	private String tipo;
 	@Column(nullable = false, length = 255)

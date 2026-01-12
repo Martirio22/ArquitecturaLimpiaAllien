@@ -2,23 +2,24 @@ package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Movimiento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final Long idMovimiento;
-	private final int idCompraProducto;
-	private final Date fechaMovimiento;
-	private final int idUsuario;
-	private final int idUbicacionOrigen;
-	private final int idUbicacionDestino;
+	private final Long idCompraProducto;
+	private final LocalDate fechaMovimiento;
+	private final Long idUsuario;
+	private final Long idUbicacionOrigen;
+	private final Long idUbicacionDestino;
 	private final String tipo;
 	private final String observaciones;
 
 	
 
-	private Movimiento(Long idMovimiento, int idCompraProducto, Date fechaMovimiento, int idUsuario,
-			int idUbicacionOrigen, int idUbicacionDestino, String tipo, String observaciones) {
+	public Movimiento(Long idMovimiento, Long idCompraProducto, LocalDate fechaMovimiento, Long idUsuario,
+			Long idUbicacionOrigen, Long idUbicacionDestino, String tipo, String observaciones) {
 		super();
 		this.idMovimiento = idMovimiento;
 		this.idCompraProducto = idCompraProducto;
@@ -34,23 +35,23 @@ public class Movimiento implements Serializable {
 		return idMovimiento;
 	}
 
-	public int getIdCompraProducto() {
+	public Long getIdCompraProducto() {
 		return idCompraProducto;
 	}
 
-	public Date getFechaMovimiento() {
+	public LocalDate getFechaMovimiento() {
 		return fechaMovimiento;
 	}
 
-	public int getIdUsuario() {
+	public Long getIdUsuario() {
 		return idUsuario;
 	}
 
-	public int getIdUbicacionOrigen() {
+	public Long getIdUbicacionOrigen() {
 		return idUbicacionOrigen;
 	}
 
-	public int getIdUbicacionDestino() {
+	public Long getIdUbicacionDestino() {
 		return idUbicacionDestino;
 	}
 
