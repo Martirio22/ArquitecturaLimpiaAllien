@@ -5,26 +5,32 @@ import org.springframework.context.annotation.Configuration;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IClienteUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleVentaUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.ClienteUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.DetalleVentaUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.ProductoUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.VentaUseCaseImpl;
 import com.aliengnss.backend.dominio.repositorios.IClienteRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IDetalleVentaRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IProductoRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ClienteRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.DetalleVentaRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ProductoRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.VentaRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IClienteJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IDetalleVentaJpaMapper;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IProductoJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IClienteJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IDetalleVentaJpaRepository;
+import com.aliengnss.backend.infraestructura.repositorios.IProductoJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 
 @Configuration
 public class ConfiguracionGeneral {
-	// entidades Christian
+
     @Bean
     IClienteRepositorio clienteRepositorio(IClienteJpaRepository clienteJpaRepository, IClienteJpaMapper clienteJpaMapper) {
         return new ClienteRepositorioImpl(clienteJpaRepository, clienteJpaMapper);
@@ -55,9 +61,19 @@ public class ConfiguracionGeneral {
         return new DetalleVentaUseCaseImpl(detalleVentaRepositorio);
     }
 
- // entidades Martin
- // entidades Shaden
- // entidades Anthony
+    
+
+    @Bean
+    IProductoRepositorio productoRepositorio(IProductoJpaRepository productoJpaRepository, IProductoJpaMapper productoJpaMapper) {
+        return new ProductoRepositorioImpl(productoJpaRepository, productoJpaMapper);
+    }
+
+    @Bean
+    IProductoUseCase productoUseCase(IProductoRepositorio productoRepositorio) {
+        return new ProductoUseCaseImpl(productoRepositorio);
+    }
+    
+
     
 
 }
