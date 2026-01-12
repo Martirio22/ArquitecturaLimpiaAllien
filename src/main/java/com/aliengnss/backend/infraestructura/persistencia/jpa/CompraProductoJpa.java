@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -30,7 +30,7 @@ public class CompraProductoJpa implements Serializable {
     @PastOrPresent(message = "fechaIngreso no puede ser futura")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date fechaIngreso;
+    private LocalDateTime fechaIngreso;
 
     @NotNull(message = "idUsuario es obligatorio")
     @Positive(message = "idUsuario debe ser mayor que 0")
@@ -43,8 +43,9 @@ public class CompraProductoJpa implements Serializable {
 
     @PrePersist
     public void prePersist() {
-        if (this.fechaIngreso == null) {
-            this.fechaIngreso = new Date();
+        if (fechaIngreso == null) {
+            fechaIngreso = LocalDateTime.now();
         }
     }
+
 }

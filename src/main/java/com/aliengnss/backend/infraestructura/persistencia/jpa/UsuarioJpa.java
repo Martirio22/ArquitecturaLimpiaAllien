@@ -58,8 +58,7 @@ public class UsuarioJpa implements Serializable {
     private String rol;
 
     @NotNull(message = "esActivo es obligatorio")
-    @Pattern(regexp = "^[SN]$", message = "esActivo debe ser 'S' o 'N'")
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false)
     private Boolean esActivo;
 
     @PrePersist
