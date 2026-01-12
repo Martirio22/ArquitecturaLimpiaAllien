@@ -7,11 +7,11 @@ import com.aliengnss.backend.dominio.repositorios.IClienteRepositorio;
 import java.util.List;
 import java.util.Optional;
 
-public class ClienteUseCase implements IClienteUseCase {
+public class ClienteUseCaseImpl implements IClienteUseCase {
 
     private final IClienteRepositorio clienteRepositorio;
 
-    public ClienteUseCase(IClienteRepositorio clienteRepositorio) {
+    public ClienteUseCaseImpl(IClienteRepositorio clienteRepositorio) {
         this.clienteRepositorio = clienteRepositorio;
     }
 
