@@ -20,7 +20,7 @@ import com.aliengnss.backend.presentacion.mapeadores.IProductoDTOMapper;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/venta")
+@RequestMapping("/api/producto")
 public class ProductoController {
 	private final IProductoUseCase productoUseCase;
 	private final IProductoDTOMapper mapper;
