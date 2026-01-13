@@ -26,9 +26,9 @@ public class MovimientoJpa implements Serializable {
 	@Column(nullable = false)
 	private Long idCompraProducto;
 	@NotNull(message = " fechaMovimiento es obligatoria")
-    @PastOrPresent(message = "fechaMovimiento no puede ser futura")
-    @Column(nullable = false)
-    private LocalDateTime fechaMovimiento;
+	@PastOrPresent(message = "fechaMovimiento no puede ser futura")
+	@Column(nullable = false)
+	private LocalDateTime fechaMovimiento;
 	@Column(nullable = false)
 	private Long idUsuario;
 	@Column(nullable = false)

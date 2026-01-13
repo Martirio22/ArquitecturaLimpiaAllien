@@ -1,8 +1,8 @@
 package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Movimiento implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -15,8 +15,6 @@ public class Movimiento implements Serializable {
 	private final Long idUbicacionDestino;
 	private final String tipo;
 	private final String observaciones;
-
-	
 
 	public Movimiento(Long idMovimiento, Long idCompraProducto, LocalDate fechaMovimiento, Long idUsuario,
 			Long idUbicacionOrigen, Long idUbicacionDestino, String tipo, String observaciones) {
@@ -31,7 +29,7 @@ public class Movimiento implements Serializable {
 		this.observaciones = observaciones;
 	}
 
-	public Long getIdUbicacion() {
+	public Long getIdMovimiento() {
 		return idMovimiento;
 	}
 
@@ -62,5 +60,4 @@ public class Movimiento implements Serializable {
 	public String getObservaciones() {
 		return observaciones;
 	}
-
 }

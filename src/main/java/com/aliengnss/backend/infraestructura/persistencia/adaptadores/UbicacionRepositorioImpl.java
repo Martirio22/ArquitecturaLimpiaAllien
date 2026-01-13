@@ -9,15 +9,15 @@ import com.aliengnss.backend.dominio.entidades.Ubicacion;
 import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
 import com.aliengnss.backend.infraestructura.persistencia.jpa.UbicacionJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IUbicacionJpaMapper;
-import com.aliengnss.backend.infraestructura.repositorios.IUbicacionJpaRepositorio;
+import com.aliengnss.backend.infraestructura.repositorios.IUbicacionJpaRepository;
 
 
 @Repository
 public class UbicacionRepositorioImpl implements IUbicacionRepositorio {
-	private final IUbicacionJpaRepositorio repositorioJpa;
+	private final IUbicacionJpaRepository repositorioJpa;
 	private final IUbicacionJpaMapper entityMapper;
 
-	public UbicacionRepositorioImpl(IUbicacionJpaRepositorio repositorioJpa, IUbicacionJpaMapper entityMapper) {
+	public UbicacionRepositorioImpl(IUbicacionJpaRepository repositorioJpa, IUbicacionJpaMapper entityMapper) {
 
 		this.repositorioJpa = repositorioJpa;
 		this.entityMapper = entityMapper;
