@@ -12,7 +12,6 @@ import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimiento
 
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoJpaRepository;
 
-@Repository
 public class MovimientoRepositorioImpl implements IMovimientoRepositorio {
 	private final IMovimientoJpaRepository repositorioJpa;
 	private final IMovimientoJpaMapper entityMapper;

@@ -12,7 +12,6 @@ import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IUbicacionJ
 import com.aliengnss.backend.infraestructura.repositorios.IUbicacionJpaRepository;
 
 
-@Repository
 public class UbicacionRepositorioImpl implements IUbicacionRepositorio {
 	private final IUbicacionJpaRepository repositorioJpa;
 	private final IUbicacionJpaMapper entityMapper;

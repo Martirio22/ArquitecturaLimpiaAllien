@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoUseCase;
 import com.aliengnss.backend.presentacion.dto.req.ProductoRequestDto;
-import com.aliengnss.backend.presentacion.dto.req.VentaRequestDto;
 import com.aliengnss.backend.presentacion.dto.res.ProductoResponseDto;
-import com.aliengnss.backend.presentacion.dto.res.VentaResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IProductoDTOMapper;
 
 import jakarta.validation.Valid;
