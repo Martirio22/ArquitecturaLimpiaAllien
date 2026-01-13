@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class MovimientoDetalleRequestDto {
-	@NotNull
 	private Long idMovimientoDetalle;
 	@NotNull
 	private Long idMovimientoSeries;
