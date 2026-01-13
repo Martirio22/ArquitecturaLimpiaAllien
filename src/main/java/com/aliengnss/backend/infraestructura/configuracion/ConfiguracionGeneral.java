@@ -3,7 +3,23 @@ package com.aliengnss.backend.infraestructura.configuracion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoDetalleUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IUbicacionUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoDetalleUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.UbicacionUseCaseImpl;
+import com.aliengnss.backend.dominio.repositorios.IMovimientoDetalleRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IMovimientoRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.MovimientoDetalleRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.MovimientoRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.UbicacionRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoDetalleJpaMapper;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoJpaMapper;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IUbicacionJpaMapper;
+import com.aliengnss.backend.infraestructura.repositorios.IMovimientoDetalleJpaRepository;
+import com.aliengnss.backend.infraestructura.repositorios.IMovimientoJpaRepository;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IClienteUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleVentaUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoSeriesUseCase;
@@ -39,6 +55,7 @@ import com.aliengnss.backend.infraestructura.repositorios.IDetalleVentaJpaReposi
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoSeriesJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IProductoJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IProductoSerialJpaRepository;
+import com.aliengnss.backend.infraestructura.repositorios.IUbicacionJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoDetalleUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoUseCase;
@@ -62,51 +79,50 @@ import com.aliengnss.backend.infraestructura.repositorios.IUsuarioJpaRepository;
 @Configuration
 public class ConfiguracionGeneral {
 
-    @Bean
-    IClienteRepositorio clienteRepositorio(IClienteJpaRepository clienteJpaRepository, IClienteJpaMapper clienteJpaMapper) {
-        return new ClienteRepositorioImpl(clienteJpaRepository, clienteJpaMapper);
-    }
+	@Bean
+	IClienteRepositorio clienteRepositorio(IClienteJpaRepository clienteJpaRepository,
+			IClienteJpaMapper clienteJpaMapper) {
+		return new ClienteRepositorioImpl(clienteJpaRepository, clienteJpaMapper);
+	}
 
-    @Bean
-    IClienteUseCase clienteUseCase(IClienteRepositorio clienteRepositorio) {
-        return new ClienteUseCaseImpl(clienteRepositorio);
-    }
+	@Bean
+	IClienteUseCase clienteUseCase(IClienteRepositorio clienteRepositorio) {
+		return new ClienteUseCaseImpl(clienteRepositorio);
+	}
 
-    @Bean
-    IVentaRepositorio ventaRepositorio(IVentaJpaRepository ventaJpaRepository, IVentaJpaMapper ventaJpaMapper) {
-        return new VentaRepositorioImpl(ventaJpaRepository, ventaJpaMapper);
-    }
+	@Bean
+	IVentaRepositorio ventaRepositorio(IVentaJpaRepository ventaJpaRepository, IVentaJpaMapper ventaJpaMapper) {
+		return new VentaRepositorioImpl(ventaJpaRepository, ventaJpaMapper);
+	}
 
-    @Bean
-    IVentaUseCase ventaUseCase(IVentaRepositorio ventaRepositorio) {
-        return new VentaUseCaseImpl(ventaRepositorio);
-    }
+	@Bean
+	IVentaUseCase ventaUseCase(IVentaRepositorio ventaRepositorio) {
+		return new VentaUseCaseImpl(ventaRepositorio);
+	}
 
-    @Bean
-    IDetalleVentaRepositorio detalleVentaRepositorio(IDetalleVentaJpaRepository detalleVentaJpaRepository, IDetalleVentaJpaMapper detalleVentaJpaMapper) {
-        return new DetalleVentaRepositorioImpl(detalleVentaJpaRepository, detalleVentaJpaMapper);
-    }
+	@Bean
+	IDetalleVentaRepositorio detalleVentaRepositorio(IDetalleVentaJpaRepository detalleVentaJpaRepository,
+			IDetalleVentaJpaMapper detalleVentaJpaMapper) {
+		return new DetalleVentaRepositorioImpl(detalleVentaJpaRepository, detalleVentaJpaMapper);
+	}
 
-    @Bean
-    IDetalleVentaUseCase detalleVentaUseCase(IDetalleVentaRepositorio detalleVentaRepositorio) {
-        return new DetalleVentaUseCaseImpl(detalleVentaRepositorio);
-    }
+	@Bean
+	IDetalleVentaUseCase detalleVentaUseCase(IDetalleVentaRepositorio detalleVentaRepositorio) {
+		return new DetalleVentaUseCaseImpl(detalleVentaRepositorio);
+	}
 
-    
-    
-    
+	@Bean
+	IProductoRepositorio productoRepositorio(IProductoJpaRepository productoJpaRepository,
+			IProductoJpaMapper productoJpaMapper) {
+		return new ProductoRepositorioImpl(productoJpaRepository, productoJpaMapper);
+	}
 
-    @Bean
-    IProductoRepositorio productoRepositorio(IProductoJpaRepository productoJpaRepository, IProductoJpaMapper productoJpaMapper) {
-        return new ProductoRepositorioImpl(productoJpaRepository, productoJpaMapper);
-    }
-
-    @Bean
-    IProductoUseCase productoUseCase(IProductoRepositorio productoRepositorio) {
-        return new ProductoUseCaseImpl(productoRepositorio);
-    }
-    
-    @Bean
+	@Bean
+	IProductoUseCase productoUseCase(IProductoRepositorio productoRepositorio) {
+		return new ProductoUseCaseImpl(productoRepositorio);
+	}
+	
+	@Bean
     IProductoSerialRepositorio productoSerialRepositorio(IProductoSerialJpaRepository productoSerialJpaRepository, IProductoSerialJpaMapper productoSerialJpaMapper) {
     	return new ProductoSerialRepositorioImpl(productoSerialJpaRepository, productoSerialJpaMapper);
     }
@@ -125,45 +141,71 @@ public class ConfiguracionGeneral {
     IMovimientoSeriesUseCase movimientoSeriesUseCase(IMovimientoSeriesRepositorio movimientoSeriesRepositorio) {
     	return new MovimientoSeriesUseCaseImpl(movimientoSeriesRepositorio);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 	@Bean
-	IUsuarioRepositorio usuarioRepositorio(IUsuarioJpaRepository usuarioJpaRepository, IUsuarioJpaMapper usuarioJpaMapper) {
+	IUsuarioRepositorio usuarioRepositorio(IUsuarioJpaRepository usuarioJpaRepository,
+			IUsuarioJpaMapper usuarioJpaMapper) {
 		return new UsuarioRepositorioImpl(usuarioJpaRepository, usuarioJpaMapper);
 	}
-	
+
 	@Bean
 	IUsuarioUseCase usuarioUseCase(IUsuarioRepositorio usuarioRepositorio) {
 		return new UsuarioUseCaseImpl(usuarioRepositorio);
 	}
-	
+
 	@Bean
-	ICompraProductoRepositorio cpRepositorio(ICompraProductoJpaRepository cpJpaRepository, ICompraProductoJpaMapper cpJpaMapper) {
+	ICompraProductoRepositorio cpRepositorio(ICompraProductoJpaRepository cpJpaRepository,
+			ICompraProductoJpaMapper cpJpaMapper) {
 		return new CompraProductoRepositorioImpl(cpJpaRepository, cpJpaMapper);
 	}
-	
+
 	@Bean
 	ICompraProductoUseCase cpUseCase(ICompraProductoRepositorio cpRepositorio) {
 		return new CompraProductoUseCaseImpl(cpRepositorio);
 	}
-	
+
 	@Bean
-	ICompraProductoDetalleRepositorio cpdRepositorio(ICompraProductoDetalleJpaRepository cpdJpaRepository, ICompraProductoDetalleJpaMapper cpdJpaMapper) {
+	ICompraProductoDetalleRepositorio cpdRepositorio(ICompraProductoDetalleJpaRepository cpdJpaRepository,
+			ICompraProductoDetalleJpaMapper cpdJpaMapper) {
 		return new CompraProductoDetalleRepositorioImpl(cpdJpaRepository, cpdJpaMapper);
 	}
-	
+
 	@Bean
 	ICompraProductoDetalleUseCase cpdUseCase(ICompraProductoDetalleRepositorio cpdRepositorio) {
 		return new CompraProductoDetalleUseCaseImpl(cpdRepositorio);
+	}
+
+	@Bean
+	IUbicacionRepositorio UbicacionRepositorio(IUbicacionJpaRepository ubiJpaRepositorio,
+			IUbicacionJpaMapper ubiJpaMapper) {
+		return new UbicacionRepositorioImpl(ubiJpaRepositorio, ubiJpaMapper);
+	}
+
+	@Bean
+	IUbicacionUseCase UbicacionUseCase(IUbicacionRepositorio ubiRepositorio) {
+		return new UbicacionUseCaseImpl(ubiRepositorio);
+	}
+
+	@Bean
+	IMovimientoRepositorio MovimientoRepositorio(IMovimientoJpaRepository movimientoJpaRepositorio,
+			IMovimientoJpaMapper movimientoJpaMapper) {
+		return new MovimientoRepositorioImpl(movimientoJpaRepositorio, movimientoJpaMapper);
+	}
+
+	@Bean
+	IMovimientoUseCase MovimientoUseCase(IMovimientoRepositorio movimientoRepositorio) {
+		return new MovimientoUseCaseImpl(movimientoRepositorio);
+	}
+
+	@Bean
+	IMovimientoDetalleRepositorio MovimientoDetalleRepositorio(IMovimientoDetalleJpaRepository movDetJpaRepositorio,
+			IMovimientoDetalleJpaMapper movDetJpaMapper) {
+		return new MovimientoDetalleRepositorioImpl(movDetJpaRepositorio, movDetJpaMapper);
+	}
+
+	@Bean
+	IMovimientoDetalleUseCase MovimientoDetalleUseCase(IMovimientoDetalleRepositorio movDetRepositorio) {
+		return new MovimientoDetalleUseCaseImpl(movDetRepositorio);
 	}
 
 }
