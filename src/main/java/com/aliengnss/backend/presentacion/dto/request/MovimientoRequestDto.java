@@ -8,7 +8,6 @@ import lombok.Data;
 
 @Data
 public class MovimientoRequestDto {
-	@NotNull
 	private Long idMovimiento;
 	@NotNull
 	private Long idCompraProducto;

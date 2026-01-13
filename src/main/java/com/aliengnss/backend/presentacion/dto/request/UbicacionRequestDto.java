@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class UbicacionRequestDto {
-	@NotNull
 	private Long idUbicacion;
 	@NotNull
 	private Long idCompraProducto;
