@@ -14,11 +14,11 @@ public class MovimientoSeriesJpa implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private final Long idMovimientoSeries;
+	private Long idMovimientoSeries;
 	
 	@Column(nullable = false)
-	private final Long idMovimientoDetalle;
+	private Long idMovimientoDetalle;
 	
 	@Column(nullable = false)
-	private final Long idProductoSerial;
+	private Long idProductoSerial;
 }

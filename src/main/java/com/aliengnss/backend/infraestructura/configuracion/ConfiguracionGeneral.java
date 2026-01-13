@@ -6,27 +6,39 @@ import org.springframework.context.annotation.Configuration;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IClienteUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleVentaUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoSeriesUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoSerialUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.ClienteUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.DetalleVentaUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoSeriesUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.ProductoSerialUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.ProductoUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.VentaUseCaseImpl;
 import com.aliengnss.backend.dominio.repositorios.IClienteRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IDetalleVentaRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IMovimientoSeriesRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IProductoRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IProductoSerialRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ClienteRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.DetalleVentaRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.MovimientoSeriesRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ProductoRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ProductoSerialRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.VentaRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IClienteJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IDetalleVentaJpaMapper;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoSeriesJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IProductoJpaMapper;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IProductoSerialJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IClienteJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IDetalleVentaJpaRepository;
+import com.aliengnss.backend.infraestructura.repositorios.IMovimientoSeriesJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IProductoJpaRepository;
+import com.aliengnss.backend.infraestructura.repositorios.IProductoSerialJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoDetalleUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoUseCase;
@@ -81,6 +93,8 @@ public class ConfiguracionGeneral {
     }
 
     
+    
+    
 
     @Bean
     IProductoRepositorio productoRepositorio(IProductoJpaRepository productoJpaRepository, IProductoJpaMapper productoJpaMapper) {
@@ -91,6 +105,36 @@ public class ConfiguracionGeneral {
     IProductoUseCase productoUseCase(IProductoRepositorio productoRepositorio) {
         return new ProductoUseCaseImpl(productoRepositorio);
     }
+    
+    @Bean
+    IProductoSerialRepositorio productoSerialRepositorio(IProductoSerialJpaRepository productoSerialJpaRepository, IProductoSerialJpaMapper productoSerialJpaMapper) {
+    	return new ProductoSerialRepositorioImpl(productoSerialJpaRepository, productoSerialJpaMapper);
+    }
+    
+    @Bean
+    IProductoSerialUseCase productoSerialUseCase(IProductoSerialRepositorio productoSerialRepositorio) {
+    	return new ProductoSerialUseCaseImpl(productoSerialRepositorio);
+    }
+    
+    @Bean
+    IMovimientoSeriesRepositorio movimientoSeriesRepositorio(IMovimientoSeriesJpaRepository movimientoSeriesJpaRepository, IMovimientoSeriesJpaMapper movimientoSeriesJpaMapper) {
+    	return new MovimientoSeriesRepositorioImpl(movimientoSeriesJpaRepository, movimientoSeriesJpaMapper);
+    }
+    
+    @Bean
+    IMovimientoSeriesUseCase movimientoSeriesUseCase(IMovimientoSeriesRepositorio movimientoSeriesRepositorio) {
+    	return new MovimientoSeriesUseCaseImpl(movimientoSeriesRepositorio);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 	@Bean
 	IUsuarioRepositorio usuarioRepositorio(IUsuarioJpaRepository usuarioJpaRepository, IUsuarioJpaMapper usuarioJpaMapper) {

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class ProductoSerialRequestDto {
-	private Long idProdcutoSerial;
+	private Long idProductoSerial;
 	private Long idMovimientoSeries;
-	private Long idProdcuto;
+	private Long idProducto;
 	private Long idCompraProductoDetalle;
 	private String serial;
 	private Long idUbicacion;
