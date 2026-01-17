@@ -8,56 +8,57 @@ public class Movimiento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final Long idMovimiento;
-	private final Long idCompraProducto;
-	private final LocalDate fechaMovimiento;
-	private final Long idUsuario;
-	private final Long idUbicacionOrigen;
-	private final Long idUbicacionDestino;
+	private final LocalDateTime fechaMovimiento;
 	private final String tipo;
 	private final String observaciones;
-
-	public Movimiento(Long idMovimiento, Long idCompraProducto, LocalDate fechaMovimiento, Long idUsuario,
-			Long idUbicacionOrigen, Long idUbicacionDestino, String tipo, String observaciones) {
+	
+	private Usuario fkUsuario;
+	private Ubicacion fkUbicacionOrigen;
+	private Ubicacion fkUbicacionDestino;
+	
+	public Movimiento(Long idMovimiento, LocalDateTime fechaMovimiento, String tipo, String observaciones,
+			Usuario fkUsuario, Ubicacion fkUbicacionOrigen, Ubicacion fkUbicacionDestino) {
 		super();
 		this.idMovimiento = idMovimiento;
-		this.idCompraProducto = idCompraProducto;
 		this.fechaMovimiento = fechaMovimiento;
-		this.idUsuario = idUsuario;
-		this.idUbicacionOrigen = idUbicacionOrigen;
-		this.idUbicacionDestino = idUbicacionDestino;
 		this.tipo = tipo;
 		this.observaciones = observaciones;
+		this.fkUsuario = fkUsuario;
+		this.fkUbicacionOrigen = fkUbicacionOrigen;
+		this.fkUbicacionDestino = fkUbicacionDestino;
 	}
-
+	public Usuario getFkUsuario() {
+		return fkUsuario;
+	}
+	public void setFkUsuario(Usuario fkUsuario) {
+		this.fkUsuario = fkUsuario;
+	}
+	public Ubicacion getFkUbicacionOrigen() {
+		return fkUbicacionOrigen;
+	}
+	public void setFkUbicacionOrigen(Ubicacion fkUbicacionOrigen) {
+		this.fkUbicacionOrigen = fkUbicacionOrigen;
+	}
+	public Ubicacion getFkUbicacionDestino() {
+		return fkUbicacionDestino;
+	}
+	public void setFkUbicacionDestino(Ubicacion fkUbicacionDestino) {
+		this.fkUbicacionDestino = fkUbicacionDestino;
+	}
 	public Long getIdMovimiento() {
 		return idMovimiento;
 	}
-
-	public Long getIdCompraProducto() {
-		return idCompraProducto;
-	}
-
-	public LocalDate getFechaMovimiento() {
+	public LocalDateTime getFechaMovimiento() {
 		return fechaMovimiento;
 	}
-
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public Long getIdUbicacionOrigen() {
-		return idUbicacionOrigen;
-	}
-
-	public Long getIdUbicacionDestino() {
-		return idUbicacionDestino;
-	}
-
 	public String getTipo() {
 		return tipo;
 	}
-
 	public String getObservaciones() {
 		return observaciones;
 	}
+	
+	
+	
+	
 }

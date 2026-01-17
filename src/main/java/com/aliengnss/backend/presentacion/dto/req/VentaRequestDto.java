@@ -1,35 +1,34 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
+import com.aliengnss.backend.dominio.entidades.Cliente;
+import com.aliengnss.backend.dominio.entidades.Ubicacion;
+import com.aliengnss.backend.dominio.entidades.Usuario;
+
 @Data
 public class VentaRequestDto {
-    private  Long idVenta;
+    @Null
+    private Long idVenta;
+    @NotBlank
+    private String numeroFactura;
     @NotNull
-
-    private  String numeroFactura;
+    private LocalDateTime fechaVenta;
     @NotNull
-
-    private  LocalDateTime fechaVenta;
+    @DecimalMin(value = "0.0", inclusive = true)
+    private BigDecimal total;
+    @NotBlank
+    private String observaciones;
     @NotNull
-
-    private  Long idCliente;
+    private Cliente fkCliente;
     @NotNull
-
-    private  Long idUsuario;
-    @NotNull
-
-    private  Long idUbicacion;
-    @NotNull
-
-    private  BigDecimal total;
-    @NotNull
-
-    private  String observaciones;
+    private Usuario fkUsuario;
 }

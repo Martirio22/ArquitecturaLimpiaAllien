@@ -2,12 +2,12 @@ package com.aliengnss.backend.infraestructura.persistencia.mapeadores;
 
 import org.mapstruct.Mapper;
 
-import com.aliengnss.backend.dominio.entidades.MovimientoSeries;
-import com.aliengnss.backend.infraestructura.persistencia.jpa.MovimientoSeriesJpa;
+import com.aliengnss.backend.dominio.entidades.MovimientoDetalleSerial;
+import com.aliengnss.backend.infraestructura.persistencia.jpa.MovimientoDetalleSerialJpa;
 
 @Mapper(componentModel = "spring")
 
 public interface IMovimientoSeriesJpaMapper {
-	MovimientoSeries toDomain(MovimientoSeriesJpa entity);
-	MovimientoSeriesJpa toEntity(MovimientoSeries movimientoSeries);
+	MovimientoDetalleSerial toDomain(MovimientoDetalleSerialJpa entity);
+	MovimientoDetalleSerialJpa toEntity(MovimientoDetalleSerial movimientoSeries);
 }

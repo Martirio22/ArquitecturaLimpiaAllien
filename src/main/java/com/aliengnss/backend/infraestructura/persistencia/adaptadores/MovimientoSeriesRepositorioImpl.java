@@ -3,9 +3,9 @@ package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 import java.util.List;
 import java.util.Optional;
 
-import com.aliengnss.backend.dominio.entidades.MovimientoSeries;
+import com.aliengnss.backend.dominio.entidades.MovimientoDetalleSerial;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoSeriesRepositorio;
-import com.aliengnss.backend.infraestructura.persistencia.jpa.MovimientoSeriesJpa;
+import com.aliengnss.backend.infraestructura.persistencia.jpa.MovimientoDetalleSerialJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoSeriesJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoSeriesJpaRepository;
 
@@ -21,19 +21,19 @@ public class MovimientoSeriesRepositorioImpl implements IMovimientoSeriesReposit
 	}
 
 	@Override
-	public MovimientoSeries guardar(MovimientoSeries movimientoSeries) {
-		MovimientoSeriesJpa entity = mapper.toEntity(movimientoSeries);
-		MovimientoSeriesJpa guardar = movimientoSeriesJpaRepository.save(entity);
+	public MovimientoDetalleSerial guardar(MovimientoDetalleSerial movimientoSeries) {
+		MovimientoDetalleSerialJpa entity = mapper.toEntity(movimientoSeries);
+		MovimientoDetalleSerialJpa guardar = movimientoSeriesJpaRepository.save(entity);
 		return mapper.toDomain(guardar);
 	}
 
 	@Override
-	public Optional<MovimientoSeries> buscarPorId(Long idMovimientoSeries) {
+	public Optional<MovimientoDetalleSerial> buscarPorId(Long idMovimientoSeries) {
 		return movimientoSeriesJpaRepository.findById(idMovimientoSeries).map(mapper::toDomain);
 	}
 
 	@Override
-	public List<MovimientoSeries> listarTodos() {
+	public List<MovimientoDetalleSerial> listarTodos() {
 		return movimientoSeriesJpaRepository.findAll().stream().map(mapper::toDomain).toList();
 	}
 

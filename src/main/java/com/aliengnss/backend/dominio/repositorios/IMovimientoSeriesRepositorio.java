@@ -3,11 +3,11 @@ package com.aliengnss.backend.dominio.repositorios;
 import java.util.List;
 import java.util.Optional;
 
-import com.aliengnss.backend.dominio.entidades.MovimientoSeries;
+import com.aliengnss.backend.dominio.entidades.MovimientoDetalleSerial;
 
 public interface IMovimientoSeriesRepositorio {
-	MovimientoSeries guardar(MovimientoSeries movimientoSeries);
-    Optional<MovimientoSeries> buscarPorId(Long idMovimientoSeries);
-    List<MovimientoSeries> listarTodos();
+	MovimientoDetalleSerial guardar(MovimientoDetalleSerial movimientoSeries);
+    Optional<MovimientoDetalleSerial> buscarPorId(Long idMovimientoSeries);
+    List<MovimientoDetalleSerial> listarTodos();
     void eliminar(Long idMovimientoSeries);
 }

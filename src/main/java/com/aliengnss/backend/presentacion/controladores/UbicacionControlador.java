@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IUbicacionUseCase;
-import com.aliengnss.backend.presentacion.dto.request.UbicacionRequestDto;
-import com.aliengnss.backend.presentacion.dto.response.UbicacionResponseDto;
+import com.aliengnss.backend.presentacion.dto.req.UbicacionRequestDto;
+import com.aliengnss.backend.presentacion.dto.res.UbicacionResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IUbicacionDtoMapper;
 
 import jakarta.validation.Valid;

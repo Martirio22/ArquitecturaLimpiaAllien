@@ -1,15 +1,20 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
+import com.aliengnss.backend.dominio.entidades.Producto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
 public class ProductoSerialRequestDto {
+	@Null
 	private Long idProductoSerial;
-	private Long idMovimientoSeries;
-	private Long idProducto;
-	private Long idCompraProductoDetalle;
+	@NotBlank
 	private String serial;
-	private Long idUbicacion;
+	@NotBlank
 	private String estado;
-	private Long idDetalleVenta;
+	@NotNull
+    private Producto fkProducto;
 }

@@ -21,22 +21,8 @@ public class UbicacionJpa implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUbicacion;
-
-	@Column(nullable = false)
-	private Long idCompraProducto;
-	@Column(nullable = false)
-	private Long idVenta;
-	@Column(nullable = false)
-	private Long idDetalleVenta;
-	@Column(nullable = false)
-	private Long idMovimiento;
-	@NotBlank(message = "Nombre es obligatorio")
-	@Size(max = 75, message = "Nombre no debe exceder 75 caracteres")
-	@Column(nullable = false, length = 75)
 	private String nombre;
-	@Column(nullable = false, length = 255)
-	private String descripcion;
-	@Column(nullable = false, length = 40)
 	private String tipo;
+	private String descripcion;
 
 }
