@@ -17,37 +17,11 @@ public class ProductoJpa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProducto;
-
-    @Column(nullable = false)
-    private Long idCompraProductoDetalle;
-
-    @Column(nullable = false)
-    private Long idDetalleVenta;
-
-    @Column(nullable = false)
-    private Long idProductoSerial;
-
-    @Column(nullable = false)
-    private Long idMovimientoDetalle;
-
-    @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = true)
-    private String foto;
-
-    @Column(nullable = true)
-    private String descripcion;
-
-    @Column(nullable = false)
-    private BigDecimal precioVenta;
-
-    @Column(nullable = false)
-    private Boolean esConSerial;
-
-    @Column(nullable = false)
-    private BigDecimal porcentajeComision;
-
-    @Column(nullable = false)
-    private LocalDateTime fechaCreacion;
+	private String nombre;
+	private String foto;
+	private String descripcion;
+	private BigDecimal precioVenta;
+	private Boolean esConSerial;
+	private BigDecimal porcentajeComision;
+	private LocalDateTime fechaCreacion;
 }

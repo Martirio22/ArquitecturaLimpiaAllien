@@ -6,58 +6,39 @@ public class ProductoSerial implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private final Long idProdcutoSerial;
-	private final Long idMovimientoSeries;
-	private final Long idProdcuto;
-	private final Long idCompraProductoDetalle;
+	private final Long idProductoSerial;
 	private final String serial;
-	private final Long idUbicacion;
 	private final String estado;
-	private final Long idDetalleVenta;
 	
-	public ProductoSerial(Long idProdcutoSerial, Long idMovimientoSeries, Long idProdcuto, Long idCompraProductoDetalle,
-			String serial, Long idUbicacion, String estado, Long idDetalleVenta) {
+    private Producto fkProducto;
+
+	public ProductoSerial(Long idProductoSerial, String serial, String estado, Producto fkProducto) {
 		super();
-		this.idProdcutoSerial = idProdcutoSerial;
-		this.idMovimientoSeries = idMovimientoSeries;
-		this.idProdcuto = idProdcuto;
-		this.idCompraProductoDetalle = idCompraProductoDetalle;
+		this.idProductoSerial = idProductoSerial;
 		this.serial = serial;
-		this.idUbicacion = idUbicacion;
 		this.estado = estado;
-		this.idDetalleVenta = idDetalleVenta;
-	}
-	
-	public Long getIdProdcutoSerial() {
-		return idProdcutoSerial;
+		this.fkProducto = fkProducto;
 	}
 
-	public Long getIdMovimientoSeries() {
-		return idMovimientoSeries;
+	public Producto getFkProducto() {
+		return fkProducto;
 	}
 
-	public Long getIdProdcuto() {
-		return idProdcuto;
+	public void setFkProducto(Producto fkProducto) {
+		this.fkProducto = fkProducto;
 	}
 
-	public Long getIdCompraProductoDetalle() {
-		return idCompraProductoDetalle;
+	public Long getIdProductoSerial() {
+		return idProductoSerial;
 	}
 
 	public String getSerial() {
 		return serial;
 	}
 
-	public Long getIdUbicacion() {
-		return idUbicacion;
-	}
-
 	public String getEstado() {
 		return estado;
 	}
 
-	public Long getIdDetalleVenta() {
-		return idDetalleVenta;
-	}
-
+	
 }

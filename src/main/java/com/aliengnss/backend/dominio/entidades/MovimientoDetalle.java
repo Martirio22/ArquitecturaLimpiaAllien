@@ -6,41 +6,41 @@ public class MovimientoDetalle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final Long idMovimientoDetalle;
-	private final int idMovimientoSeries;
-	private final int idMovimiento;
-	private final int idProducto;
 	private final int cantidad;
+	
+	private Movimiento fkMovimiento;
+	private Producto fkProducto;
 
-	private MovimientoDetalle(Long idMovimientoDetalle, int idMovimientoSeries, int idMovimiento, int idProducto,
-			int cantidad) {
+	public MovimientoDetalle(Long idMovimientoDetalle, int cantidad, Movimiento fkMovimiento, Producto fkProducto) {
 		super();
 		this.idMovimientoDetalle = idMovimientoDetalle;
-		this.idMovimientoSeries = idMovimientoSeries;
-		this.idMovimiento = idMovimiento;
-		this.idProducto = idProducto;
 		this.cantidad = cantidad;
+		this.fkMovimiento = fkMovimiento;
+		this.fkProducto = fkProducto;
+	}
+
+	public Movimiento getFkMovimiento() {
+		return fkMovimiento;
+	}
+
+	public void setFkMovimiento(Movimiento fkMovimiento) {
+		this.fkMovimiento = fkMovimiento;
+	}
+
+	public Producto getFkProducto() {
+		return fkProducto;
+	}
+
+	public void setFkProducto(Producto fkProducto) {
+		this.fkProducto = fkProducto;
 	}
 
 	public Long getIdMovimientoDetalle() {
 		return idMovimientoDetalle;
 	}
 
-	public int getIdMovimientoSeries() {
-		return idMovimientoSeries;
-	}
-
-	public int getIdMovimiento() {
-		return idMovimiento;
-	}
-
-	public int getIdProducto() {
-		return idProducto;
-	}
-
 	public int getCantidad() {
 		return cantidad;
 	}
 	
-	
-
 }

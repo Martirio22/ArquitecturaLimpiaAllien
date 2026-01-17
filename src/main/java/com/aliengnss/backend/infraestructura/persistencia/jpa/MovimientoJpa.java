@@ -1,17 +1,20 @@
 package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
+import com.aliengnss.backend.dominio.entidades.Ubicacion;
+import com.aliengnss.backend.dominio.entidades.Usuario;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 
 @Data
@@ -19,39 +22,25 @@ import lombok.Data;
 @Table(name = "Movimiento")
 public class MovimientoJpa implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idMovimiento;
+	private LocalDateTime fechaMovimiento;
+	private String tipo;
+	private String observaciones;
+	
+	@ManyToOne
+	@JoinColumn(name = "idUsuario")
+	private UsuarioJpa fkUsuario;
+	@ManyToOne(fetch = FetchType.EAGER)
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idMovimiento;
+    @JoinColumn(name = "idUbicacionOrigen")
+    private UbicacionJpa fkUbicacionOrigen;
 
-    @Column(nullable = false)
-    private int idCompraProducto;
+	@ManyToOne(fetch = FetchType.EAGER)
 
-    @NotNull(message = "fechaMovimiento es obligatoria")
-    @PastOrPresent(message = "fechaMovimiento no puede ser futura")
-    @Column(nullable = false)
-    private LocalDateTime fechaMovimiento;
-
-    @Column(nullable = false)
-    private int idUsuario;
-
-    @Column(nullable = false)
-    private int idUbicacionOrigen;
-
-    @Column(nullable = false)
-    private int idUbicacionDestino;
-
-    @Column(nullable = false, length = 50)
-    private String tipo;
-
-    @Column(nullable = false, length = 255)
-    private String observaciones;
-
-    @PrePersist
-    public void prePersist() {
-        if (this.fechaMovimiento == null) {
-            this.fechaMovimiento = LocalDateTime.now();
-        }
-    }
+    @JoinColumn(name = "idUbicacionDestino")
+    private UbicacionJpa fkUbicacionDestino;
+	
 }

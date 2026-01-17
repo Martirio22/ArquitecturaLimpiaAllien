@@ -1,67 +1,64 @@
 package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Movimiento implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private final Long idMovimiento;
-    private final int idCompraProducto;
-    private final LocalDateTime fechaMovimiento;
-    private final int idUsuario;
-    private final int idUbicacionOrigen;
-    private final int idUbicacionDestino;
-    private final String tipo;
-    private final String observaciones;
-
-    public Movimiento(Long idMovimiento,
-                      int idCompraProducto,
-                      LocalDateTime fechaMovimiento,
-                      int idUsuario,
-                      int idUbicacionOrigen,
-                      int idUbicacionDestino,
-                      String tipo,
-                      String observaciones) {
-        this.idMovimiento = idMovimiento;
-        this.idCompraProducto = idCompraProducto;
-        this.fechaMovimiento = fechaMovimiento;
-        this.idUsuario = idUsuario;
-        this.idUbicacionOrigen = idUbicacionOrigen;
-        this.idUbicacionDestino = idUbicacionDestino;
-        this.tipo = tipo;
-        this.observaciones = observaciones;
-    }
-
-    public Long getIdMovimiento() {
-        return idMovimiento;
-    }
-
-    public int getIdCompraProducto() {
-        return idCompraProducto;
-    }
-
-    public LocalDateTime getFechaMovimiento() {
-        return fechaMovimiento;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public int getIdUbicacionOrigen() {
-        return idUbicacionOrigen;
-    }
-
-    public int getIdUbicacionDestino() {
-        return idUbicacionDestino;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
+	private final Long idMovimiento;
+	private final LocalDateTime fechaMovimiento;
+	private final String tipo;
+	private final String observaciones;
+	
+	private Usuario fkUsuario;
+	private Ubicacion fkUbicacionOrigen;
+	private Ubicacion fkUbicacionDestino;
+	
+	public Movimiento(Long idMovimiento, LocalDateTime fechaMovimiento, String tipo, String observaciones,
+			Usuario fkUsuario, Ubicacion fkUbicacionOrigen, Ubicacion fkUbicacionDestino) {
+		super();
+		this.idMovimiento = idMovimiento;
+		this.fechaMovimiento = fechaMovimiento;
+		this.tipo = tipo;
+		this.observaciones = observaciones;
+		this.fkUsuario = fkUsuario;
+		this.fkUbicacionOrigen = fkUbicacionOrigen;
+		this.fkUbicacionDestino = fkUbicacionDestino;
+	}
+	public Usuario getFkUsuario() {
+		return fkUsuario;
+	}
+	public void setFkUsuario(Usuario fkUsuario) {
+		this.fkUsuario = fkUsuario;
+	}
+	public Ubicacion getFkUbicacionOrigen() {
+		return fkUbicacionOrigen;
+	}
+	public void setFkUbicacionOrigen(Ubicacion fkUbicacionOrigen) {
+		this.fkUbicacionOrigen = fkUbicacionOrigen;
+	}
+	public Ubicacion getFkUbicacionDestino() {
+		return fkUbicacionDestino;
+	}
+	public void setFkUbicacionDestino(Ubicacion fkUbicacionDestino) {
+		this.fkUbicacionDestino = fkUbicacionDestino;
+	}
+	public Long getIdMovimiento() {
+		return idMovimiento;
+	}
+	public LocalDateTime getFechaMovimiento() {
+		return fechaMovimiento;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public String getObservaciones() {
+		return observaciones;
+	}
+	
+	
+	
+	
 }

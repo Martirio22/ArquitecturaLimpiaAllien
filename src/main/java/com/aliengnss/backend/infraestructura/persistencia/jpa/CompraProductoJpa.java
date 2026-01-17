@@ -7,6 +7,8 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.aliengnss.backend.dominio.entidades.Usuario;
+
 @Data
 @Entity
 @Table(
@@ -20,32 +22,16 @@ public class CompraProductoJpa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCompraProducto;
-
-    @NotNull(message = "idCompraProductoDetalle es obligatorio")
-    @Positive(message = "idCompraProductoDetalle debe ser mayor que 0")
-    @Column(nullable = false)
-    private Long idCompraProductoDetalle;
-
-    @NotNull(message = "fechaIngreso es obligatoria")
-    @PastOrPresent(message = "fechaIngreso no puede ser futura")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
     private LocalDateTime fechaIngreso;
-
-    @NotNull(message = "idUsuario es obligatorio")
-    @Positive(message = "idUsuario debe ser mayor que 0")
-    @Column(nullable = false)
-    private Long idUsuario;
-
-    @Size(max = 500, message = "observaciones no puede exceder 500 caracteres")
-    @Column(length = 500)
     private String observaciones;
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private UsuarioJpa fkUsuario;
 
-    @PrePersist
-    public void prePersist() {
-        if (fechaIngreso == null) {
-            fechaIngreso = LocalDateTime.now();
-        }
-    }
-
+    
+    
+    
+    
+    
+    
 }

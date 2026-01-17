@@ -5,7 +5,13 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.aliengnss.backend.dominio.entidades.Cliente;
+import com.aliengnss.backend.dominio.entidades.Ubicacion;
+import com.aliengnss.backend.dominio.entidades.Usuario;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -17,44 +23,16 @@ public class VentaJpa implements Serializable{
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idVenta;
-
-	@Size(max = 50, message = "el número de factura no puede exceder 50caracteres")
-    @Column(length = 50, nullable = false)
+	private Long idVenta;
     private String numeroFactura;
-	
-	@NotNull(message = "fechaVenta es obligatoria")
-    @PastOrPresent(message = "fechaVenta no puede ser futura")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
-    private Date fechaVenta;
-
-	@NotNull(message = "idCliente es obligatorio")
-    @Positive(message = "idCliente debe ser mayor que 0")
-    @Column(nullable = false)
-    private Integer idCliente;
-	
-	@NotNull(message = "idUsuario es obligatorio")
-    @Positive(message = "idUsuario debe ser mayor que 0")
-    @Column(nullable = false)
-    private Integer idUsuario;
-	
-	@NotNull(message = "idUbicacion es obligatorio")
-    @Positive(message = "idUbicacion debe ser mayor que 0")
-    @Column(nullable = false)
-    private Integer idUbicacion;
-
-    @Column(precision = 14, scale = 2, nullable = false)
+    private LocalDateTime fechaVenta;
     private BigDecimal total;
-
-    @Size(max = 500, message = "observaciones no puede exceder 500 caracteres")
-    @Column(length = 500)
     private String observaciones;
     
-    @PrePersist
-    public void prePersist() {
-        if (this.fechaVenta == null) {
-            this.fechaVenta = new Date();
-        }
-    }
+    @ManyToOne
+    @JoinColumn(name = "idCliente")
+    private ClienteJpa fkCliente;
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private UsuarioJpa fkUsuario;
 }
