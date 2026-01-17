@@ -33,11 +33,13 @@ public class MovimientoJpa implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idUsuario")
 	private UsuarioJpa fkUsuario;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(name = "idUbicacionOrigen")
     private UbicacionJpa fkUbicacionOrigen;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(name = "idUbicacionDestino")
     private UbicacionJpa fkUbicacionDestino;
 	

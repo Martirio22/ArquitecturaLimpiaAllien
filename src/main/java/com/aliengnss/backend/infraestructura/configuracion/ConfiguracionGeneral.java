@@ -205,9 +205,18 @@ public class ConfiguracionGeneral {
 	}
 
 	@Bean
-	IMovimientoUseCase MovimientoUseCase(IMovimientoRepositorio movimientoRepositorio) {
-		return new MovimientoUseCaseImpl(movimientoRepositorio);
+	IMovimientoUseCase MovimientoUseCase(
+	        IMovimientoRepositorio movimientoRepositorio,
+	        IUbicacionRepositorio ubicacionRepositorio,
+	        IUsuarioRepositorio usuarioRepositorio
+	) {
+	    return new MovimientoUseCaseImpl(
+	            movimientoRepositorio,
+	            ubicacionRepositorio,
+	            usuarioRepositorio
+	    );
 	}
+
 
 	@Bean
 	IMovimientoDetalleRepositorio MovimientoDetalleRepositorio(IMovimientoDetalleJpaRepository movDetJpaRepositorio,

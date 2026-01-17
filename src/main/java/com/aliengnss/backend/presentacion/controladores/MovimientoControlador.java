@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
+import com.aliengnss.backend.dominio.entidades.Movimiento;
 import com.aliengnss.backend.presentacion.dto.req.MovimientoRequestDto;
 import com.aliengnss.backend.presentacion.dto.res.MovimientoResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IMovimientoDtoMapper;
@@ -35,8 +36,10 @@ public class MovimientoControlador {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public MovimientoResponseDto crear(@Valid @RequestBody MovimientoRequestDto request) {
-		return mapper.toResponseDTO(MovimientoUseCase.crear(mapper.toDomain(request)));
+	    Movimiento movimiento = MovimientoUseCase.crear(request);
+	    return mapper.toResponseDTO(movimiento);
 	}
+
 
 	@GetMapping
 	public List<MovimientoResponseDto> listar() {
