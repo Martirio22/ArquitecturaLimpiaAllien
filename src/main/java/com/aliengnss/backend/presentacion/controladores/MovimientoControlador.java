@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
-import com.aliengnss.backend.presentacion.dto.request.MovimientoRequestDto;
-import com.aliengnss.backend.presentacion.dto.response.MovimientoResponseDto;
+import com.aliengnss.backend.presentacion.dto.req.MovimientoRequestDto;
+import com.aliengnss.backend.presentacion.dto.res.MovimientoResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IMovimientoDtoMapper;
 
 import jakarta.validation.Valid;

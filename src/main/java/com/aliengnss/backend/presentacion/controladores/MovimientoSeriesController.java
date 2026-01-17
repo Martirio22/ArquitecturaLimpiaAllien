@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoSeriesUseCase;
-import com.aliengnss.backend.presentacion.dto.req.MovimientoSeriesRequestDto;
-import com.aliengnss.backend.presentacion.dto.res.MovimientoSeriesResponseDto;
+import com.aliengnss.backend.presentacion.dto.req.MovimientoDetalleSerialRequestDto;
+import com.aliengnss.backend.presentacion.dto.res.MovimientoDetalleSerialResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IMovimientoSeriesDTOMapper;
 
 import jakarta.validation.Valid;
@@ -30,13 +30,13 @@ public class MovimientoSeriesController {
 	}
 	
 	@GetMapping
-	public List<MovimientoSeriesResponseDto> listar() {
+	public List<MovimientoDetalleSerialResponseDto> listar() {
 		return movimientoSeriesUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public MovimientoSeriesResponseDto guardar(@Valid @RequestBody MovimientoSeriesRequestDto movimientoSeriesDto) {
+	public MovimientoDetalleSerialResponseDto guardar(@Valid @RequestBody MovimientoDetalleSerialRequestDto movimientoSeriesDto) {
 		return mapper.toResponseDto(movimientoSeriesUseCase.guardar(mapper.toDomain(movimientoSeriesDto)));
 	}
 	

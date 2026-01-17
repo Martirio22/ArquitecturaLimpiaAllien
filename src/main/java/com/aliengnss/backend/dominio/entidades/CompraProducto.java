@@ -7,40 +7,41 @@ public class CompraProducto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final Long idCompraProducto;
-    private final Long idCompraProductoDetalle;
     private final LocalDateTime fechaIngreso;
-    private final Long idUsuario;
     private final String observaciones;
+    
+    private Usuario fkUsuario;
+    
+    public CompraProducto(Long idCompraProducto, LocalDateTime fechaIngreso, String observaciones, Usuario fkUsuario) {
+		super();
+		this.idCompraProducto = idCompraProducto;
+		this.fechaIngreso = fechaIngreso;
+		this.observaciones = observaciones;
+		this.fkUsuario = fkUsuario;
+	}
+    
+    public Usuario getFkUsuario() {
+		return fkUsuario;
+	}
 
-    public CompraProducto(Long idCompraProducto,
-                          Long idCompraProductoDetalle,
-                          LocalDateTime fechaIngreso,
-                          Long idUsuario,
-                          String observaciones) {
-        this.idCompraProducto = idCompraProducto;
-        this.idCompraProductoDetalle = idCompraProductoDetalle;
-        this.fechaIngreso = fechaIngreso;
-        this.idUsuario = idUsuario;
-        this.observaciones = observaciones;
-    }
+	public void setFkUsuario(Usuario fkUsuario) {
+		this.fkUsuario = fkUsuario;
+	}
 
-    public Long getIdCompraProducto() {
-        return idCompraProducto;
-    }
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
-    public Long getIdCompraProductoDetalle() {
-        return idCompraProductoDetalle;
-    }
+	public Long getIdCompraProducto() {
+		return idCompraProducto;
+	}
 
-    public LocalDateTime getFechaIngreso() {
-        return fechaIngreso;
-    }
+	public LocalDateTime getFechaIngreso() {
+		return fechaIngreso;
+	}
 
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
+	public String getObservaciones() {
+		return observaciones;
+	}
+    
 }

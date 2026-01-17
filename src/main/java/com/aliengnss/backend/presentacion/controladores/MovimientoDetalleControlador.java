@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoDetalleUseCase;
-import com.aliengnss.backend.presentacion.dto.request.MovimientoDetalleRequestDto;
-import com.aliengnss.backend.presentacion.dto.response.MovimientoDetalleResponseDto;
+import com.aliengnss.backend.presentacion.dto.req.MovimientoDetalleRequestDto;
+import com.aliengnss.backend.presentacion.dto.res.MovimientoDetalleResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IMovimientoDetalleDtoMapper;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/movimientodetalle")
+@RequestMapping("/api/movimientoDetalle")
 public class MovimientoDetalleControlador {
 	private final IMovimientoDetalleUseCase MovimientoDetalleUseCase;
 	private final IMovimientoDetalleDtoMapper mapper;

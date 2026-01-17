@@ -8,10 +8,6 @@ import lombok.Data;
 @Data
 public class ProductoResponseDto {
 	private Long idProducto;
-	private Long idCompraProductoDetalle;
-	private Long idDetalleVenta;
-	private Long idProductoSerial;
-	private Long idMovimientoDetalle;
 	private String nombre;
 	private String foto;
 	private String descripcion;

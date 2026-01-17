@@ -1,31 +1,54 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
+import java.util.Date;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 
 @Data
 public class UsuarioRequestDTO {
-
+	
 	private Long idUsuario;
-	@NotNull
-    private Long idCompraProducto;
-	@NotNull
-    private Long idVenta;
-	@NotNull
-    private Long idMovimiento;
-	@NotBlank
+
+    @NotBlank
     private String primerNombre;
-	@NotBlank
+
+    @NotBlank
     private String segundoNombre;
-	@NotBlank
+
+    @NotBlank
     private String primerApellido;
-	@NotBlank
+
+    @NotBlank
     private String segundoApellido;
-	@NotBlank
+
+    @NotBlank
     private String nombreUsuario;
-	@NotBlank
+
+    @NotBlank
+    @Email
+    private String correoElectronico;
+
+    @NotBlank
+    private String cedula;
+
+    @NotBlank
+    private String clave;
+
+    @Min(0)
+    private int intentosActual;
+
+    @NotNull
+    @PastOrPresent
+    private Date ultimoAcceso;
+
+    @NotBlank
     private String rol;
-	@NotNull
+
+    @NotNull
     private Boolean esActivo;
 }

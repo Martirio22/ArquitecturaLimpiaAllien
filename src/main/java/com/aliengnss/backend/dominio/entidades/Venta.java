@@ -10,59 +10,64 @@ public class Venta implements Serializable {
     private final Long idVenta;
     private final String numeroFactura;
     private final LocalDateTime fechaVenta;
-    private final Long idCliente;
-    private final Long idUsuario;
-    private final Long idUbicacion;
     private final BigDecimal total;
     private final String observaciones;
+    
+    private Cliente fkCliente;
+    private Usuario fkUsuario;
+    
+    public Venta(Long idVenta, String numeroFactura, LocalDateTime fechaVenta, BigDecimal total, String observaciones,
+			Cliente fkCliente, Usuario fkUsuario) {
+		super();
+		this.idVenta = idVenta;
+		this.numeroFactura = numeroFactura;
+		this.fechaVenta = fechaVenta;
+		this.total = total;
+		this.observaciones = observaciones;
+		this.fkCliente = fkCliente;
+		this.fkUsuario = fkUsuario;
+	}
+    
+    public Cliente getFkCliente() {
+		return fkCliente;
+	}
 
-    public Venta(Long idVenta,
-                 String numeroFactura,
-                 LocalDateTime fechaVenta,
-                 Long idCliente,
-                 Long idUsuario,
-                 Long idUbicacion,
-                 BigDecimal total,
-                 String observaciones) {
-        this.idVenta = idVenta;
-        this.numeroFactura = numeroFactura;
-        this.fechaVenta = fechaVenta;
-        this.idCliente = idCliente;
-        this.idUsuario = idUsuario;
-        this.idUbicacion = idUbicacion;
-        this.total = total;
-        this.observaciones = observaciones;
-    }
+	public void setFkCliente(Cliente fkCliente) {
+		this.fkCliente = fkCliente;
+	}
 
-    public Long getIdVenta() {
-        return idVenta;
-    }
+	public Usuario getFkUsuario() {
+		return fkUsuario;
+	}
 
-    public String getNumeroFactura() {
-        return numeroFactura;
-    }
+	public void setFkUsuario(Usuario fkUsuario) {
+		this.fkUsuario = fkUsuario;
+	}
 
-    public LocalDateTime getFechaVenta() {
-        return fechaVenta;
-    }
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
-    public Long getIdCliente() {
-        return idCliente;
-    }
+	public Long getIdVenta() {
+		return idVenta;
+	}
 
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
+	public String getNumeroFactura() {
+		return numeroFactura;
+	}
 
-    public Long getIdUbicacion() {
-        return idUbicacion;
-    }
+	public LocalDateTime getFechaVenta() {
+		return fechaVenta;
+	}
 
-    public BigDecimal getTotal() {
-        return total;
-    }
+	public BigDecimal getTotal() {
+		return total;
+	}
 
-    public String getObservaciones() {
-        return observaciones;
-    }
+	public String getObservaciones() {
+		return observaciones;
+	}
+	
+
+    
 }

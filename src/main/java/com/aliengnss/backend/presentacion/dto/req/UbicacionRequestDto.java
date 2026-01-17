@@ -1,24 +1,18 @@
-package com.aliengnss.backend.presentacion.dto.request;
+package com.aliengnss.backend.presentacion.dto.req;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
 public class UbicacionRequestDto {
+	@Null
 	private Long idUbicacion;
-	@NotNull
-	private Long idCompraProducto;
-	@NotNull
-	private Long idVenta;
-	@NotNull
-	private Long idDetalleVenta;
-	@NotNull
-	private Long idMovimiento;
 	@NotBlank
 	private String nombre;
 	@NotBlank
-	private String descripcion;
-	@NotBlank
 	private String tipo;
+	@NotBlank
+	private String descripcion;
 }
