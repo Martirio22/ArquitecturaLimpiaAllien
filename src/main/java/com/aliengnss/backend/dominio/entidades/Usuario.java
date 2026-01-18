@@ -1,80 +1,102 @@
 package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Usuario implements Serializable {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-
+    
     private final Long idUsuario;
-    private final int idCompraProducto;
-    private final int idVenta;
-    private final int idMovimiento;
     private final String primerNombre;
     private final String segundoNombre;
     private final String primerApellido;
     private final String segundoApellido;
     private final String nombreUsuario;
+    private final String correoElectronico;
+    private final String cedula;
+    private final String clave;
+    private final int intentosActual;
+    private final LocalDateTime ultimoAcceso;
     private final String rol;
-    private final Character esActivo;
+    private final Boolean esActivo;
 
-    public Usuario(Long idUsuario, int idCompraProducto, int idVenta, int idMovimiento, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String nombreUsuario, String rol, Character esActivo) {
-        this.idUsuario = idUsuario;
-        this.idCompraProducto = idCompraProducto;
-        this.idVenta = idVenta;
-        this.idMovimiento = idMovimiento;
-        this.primerNombre = primerNombre;
-        this.segundoNombre = segundoNombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.nombreUsuario = nombreUsuario;
-        this.rol = rol;
-        this.esActivo = esActivo;
-    }
+    public Usuario(Long idUsuario, String primerNombre, String segundoNombre, String primerApellido,
+			String segundoApellido, String nombreUsuario, String correoElectronico, String cedula, String clave,
+			int intentosActual, LocalDateTime ultimoAcceso, String rol, Boolean esActivo) {
+		super();
+		this.idUsuario = idUsuario;
+		this.primerNombre = primerNombre;
+		this.segundoNombre = segundoNombre;
+		this.primerApellido = primerApellido;
+		this.segundoApellido = segundoApellido;
+		this.nombreUsuario = nombreUsuario;
+		this.correoElectronico = correoElectronico;
+		this.cedula = cedula;
+		this.clave = clave;
+		this.intentosActual = intentosActual;
+		this.ultimoAcceso = ultimoAcceso;
+		this.rol = rol;
+		this.esActivo = esActivo;
+	}
+    
+    public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
 
-    public int getIdCompraProducto() {
-        return idCompraProducto;
-    }
+	public String getPrimerNombre() {
+		return primerNombre;
+	}
 
-    public int getIdVenta() {
-        return idVenta;
-    }
+	public String getSegundoNombre() {
+		return segundoNombre;
+	}
 
-    public int getIdMovimiento() {
-        return idMovimiento;
-    }
+	public String getPrimerApellido() {
+		return primerApellido;
+	}
 
-    public String getPrimerNombre() {
-        return primerNombre;
-    }
+	public String getSegundoApellido() {
+		return segundoApellido;
+	}
 
-    public String getSegundoNombre() {
-        return segundoNombre;
-    }
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
 
-    public String getPrimerApellido() {
-        return primerApellido;
-    }
+	public String getCorreoElectronico() {
+		return correoElectronico;
+	}
 
-    public String getSegundoApellido() {
-        return segundoApellido;
-    }
+	public String getCedula() {
+		return cedula;
+	}
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
+	public String getClave() {
+		return clave;
+	}
 
-    public String getRol() {
-        return rol;
-    }
+	public int getIntentosActual() {
+		return intentosActual;
+	}
 
-    public Character getEsActivo() {
-        return esActivo;
-    }
+	public LocalDateTime getUltimoAcceso() {
+		return ultimoAcceso;
+	}
+
+	public String getRol() {
+		return rol;
+	}
+
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+    
 }
