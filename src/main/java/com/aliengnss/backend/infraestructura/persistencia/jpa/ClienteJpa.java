@@ -23,7 +23,7 @@ public class ClienteJpa implements Serializable {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCliente;
+    private Long idCliente;
 
 
 

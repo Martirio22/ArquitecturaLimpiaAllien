@@ -15,8 +15,9 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/cliente")
 public class ClienteController {
-   private final IClienteUseCase clienteUseCase;
-   private final IClienteDTOMapper mapper;
+
+    private final IClienteUseCase clienteUseCase;
+    private final IClienteDTOMapper mapper;
 
     public ClienteController(IClienteUseCase clienteUseCase, IClienteDTOMapper mapper) {
         this.clienteUseCase = clienteUseCase;
@@ -25,7 +26,15 @@ public class ClienteController {
 
     @GetMapping
     public List<ClienteResponseDto> listar() {
-        return clienteUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
+        return clienteUseCase.listarTodos()
+                .stream()
+                .map(mapper::toResponseDto)
+                .toList();
+    }
+
+    @GetMapping("/{idCliente}")
+    public ClienteResponseDto buscarPorId(@PathVariable Long idCliente) {
+        return mapper.toResponseDto(clienteUseCase.buscarPorId(idCliente));
     }
 
     @PostMapping
@@ -33,4 +42,12 @@ public class ClienteController {
     public ClienteResponseDto guardar(@Valid @RequestBody ClienteRequestDto clienteDto) {
         return mapper.toResponseDto(clienteUseCase.guardar(mapper.toDomain(clienteDto)));
     }
+
+
+    @DeleteMapping("/{idCliente}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminar(@PathVariable Long idCliente) {
+        clienteUseCase.eliminar(idCliente);
+    }
+
 }
