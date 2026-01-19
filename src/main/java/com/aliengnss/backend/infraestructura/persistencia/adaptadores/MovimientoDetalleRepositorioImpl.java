@@ -12,7 +12,6 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.ProductoJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoDetalleJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoDetalleJpaRepository;
 
-@Repository
 public class MovimientoDetalleRepositorioImpl implements IMovimientoDetalleRepositorio {
 
     private final IMovimientoDetalleJpaRepository repoJpa;

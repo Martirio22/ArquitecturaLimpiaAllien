@@ -10,8 +10,7 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoUseCase;
 import com.aliengnss.backend.dominio.entidades.CompraProducto;
 import com.aliengnss.backend.dominio.repositorios.ICompraProductoRepositorio;
 
-@Service
-@Transactional
+
 public class CompraProductoUseCaseImpl implements ICompraProductoUseCase {
 
     private final ICompraProductoRepositorio repo;

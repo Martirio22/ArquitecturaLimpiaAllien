@@ -9,8 +9,7 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.IClienteUseCase;
 import com.aliengnss.backend.dominio.entidades.Cliente;
 import com.aliengnss.backend.dominio.repositorios.IClienteRepositorio;
 
-@Service
-@Transactional
+
 public class ClienteUseCaseImpl implements IClienteUseCase {
 
     private final IClienteRepositorio repo;

@@ -9,7 +9,7 @@ import com.aliengnss.backend.dominio.entidades.Ubicacion;
 import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
 
 
-@Service
+
 public class UbicacionUseCaseImpl implements IUbicacionUseCase {
 	private final IUbicacionRepositorio repositorio;
 

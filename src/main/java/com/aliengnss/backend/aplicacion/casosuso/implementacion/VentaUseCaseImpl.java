@@ -11,8 +11,7 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaUseCase;
 import com.aliengnss.backend.dominio.entidades.Venta;
 import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
 
-@Service
-@Transactional
+
 public class VentaUseCaseImpl implements IVentaUseCase {
 
     private final IVentaRepositorio repo;

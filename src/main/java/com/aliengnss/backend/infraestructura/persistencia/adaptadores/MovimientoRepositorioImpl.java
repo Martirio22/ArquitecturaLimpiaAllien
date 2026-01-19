@@ -14,7 +14,6 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.UsuarioJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoJpaRepository;
 
-@Repository
 public class MovimientoRepositorioImpl implements IMovimientoRepositorio {
 
     private final IMovimientoJpaRepository repoJpa;

@@ -14,7 +14,7 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.UsuarioJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 
-@Repository
+
 public class VentaRepositorioImpl implements IVentaRepositorio {
 
     private final IVentaJpaRepository ventaJpaRepository;

@@ -11,8 +11,7 @@ import com.aliengnss.backend.dominio.repositorios.ICompraProductoDetalleReposito
 
 import jakarta.transaction.Transactional;
 
-@Service
-@Transactional
+
 public class CompraProductoDetalleUseCaseImpl implements ICompraProductoDetalleUseCase {
 
     private final ICompraProductoDetalleRepositorio repo;

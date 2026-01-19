@@ -10,8 +10,7 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
 import com.aliengnss.backend.dominio.entidades.Movimiento;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoRepositorio;
 
-@Service
-@Transactional
+
 public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 
     private final IMovimientoRepositorio repo;

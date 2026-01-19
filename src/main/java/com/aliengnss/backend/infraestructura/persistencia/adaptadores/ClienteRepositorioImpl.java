@@ -11,7 +11,7 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.ClienteJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IClienteJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IClienteJpaRepository;
 
-@Repository
+
 public class ClienteRepositorioImpl implements IClienteRepositorio {
 
     private final IClienteJpaRepository clienteJpaRepository;

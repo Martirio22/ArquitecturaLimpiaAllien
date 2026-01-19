@@ -13,7 +13,6 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.ProductoSerialJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoSeriesJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoSeriesJpaRepository;
 
-@Repository
 public class MovimientoSeriesRepositorioImpl implements IMovimientoSeriesRepositorio {
 
     private final IMovimientoSeriesJpaRepository repoJpa;

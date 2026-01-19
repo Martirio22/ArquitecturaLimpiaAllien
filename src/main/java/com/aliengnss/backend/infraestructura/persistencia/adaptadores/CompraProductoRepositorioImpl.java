@@ -12,7 +12,7 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.CompraProductoJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.ICompraProductoJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.ICompraProductoJpaRepository;
 
-@Repository
+
 public class CompraProductoRepositorioImpl implements ICompraProductoRepositorio {
 
     private final ICompraProductoJpaRepository repoJpa;
