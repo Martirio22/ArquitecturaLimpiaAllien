@@ -7,11 +7,9 @@ import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import com.aliengnss.backend.dominio.entidades.Cliente;
-import com.aliengnss.backend.dominio.entidades.Ubicacion;
 import com.aliengnss.backend.dominio.entidades.Usuario;
 
 @Data

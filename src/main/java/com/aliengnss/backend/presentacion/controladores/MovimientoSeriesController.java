@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,42 +54,4 @@ public class MovimientoSeriesController {
         useCase.eliminar(idMovimientoDetalleSerial);
     }
 
-    // Búsquedas
-    @GetMapping("/buscar/movimiento-detalle/{idMovimientoDetalle}")
-    public List<MovimientoDetalleSerialResponseDto> buscarPorMovimientoDetalle(@PathVariable Long idMovimientoDetalle) {
-        return useCase.buscarPorMovimientoDetalleId(idMovimientoDetalle)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/producto-serial/{idProductoSerial}")
-    public List<MovimientoDetalleSerialResponseDto> buscarPorProductoSerial(@PathVariable Long idProductoSerial) {
-        return useCase.buscarPorProductoSerialId(idProductoSerial)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/movimiento-detalle-producto-serial")
-    public MovimientoDetalleSerialResponseDto buscarPorMovimientoDetalleYProductoSerial(@RequestParam Long idMovimientoDetalle,
-                                                                                @RequestParam Long idProductoSerial) {
-        return mapper.toResponseDto(useCase.buscarPorMovimientoDetalleIdYProductoSerialId(idMovimientoDetalle, idProductoSerial));
-    }
-
-    @GetMapping("/existe")
-    public boolean existe(@RequestParam Long idMovimientoDetalle, @RequestParam Long idProductoSerial) {
-        return useCase.existePorMovimientoDetalleIdYProductoSerialId(idMovimientoDetalle, idProductoSerial);
-    }
-
-    @DeleteMapping("/eliminar-por-movimiento-detalle/{idMovimientoDetalle}")
-    public long eliminarPorMovimientoDetalle(@PathVariable Long idMovimientoDetalle) {
-        return useCase.eliminarPorMovimientoDetalleId(idMovimientoDetalle);
-    }
-
-    @GetMapping("/contar/movimiento-detalle/{idMovimientoDetalle}")
-    public long contarPorMovimientoDetalle(@PathVariable Long idMovimientoDetalle) {
-        return useCase.contarPorMovimientoDetalleId(idMovimientoDetalle);
-    }
-
-    @GetMapping("/contar/producto-serial/{idProductoSerial}")
-    public long contarPorProductoSerial(@PathVariable Long idProductoSerial) {
-        return useCase.contarPorProductoSerialId(idProductoSerial);
-    }
 }

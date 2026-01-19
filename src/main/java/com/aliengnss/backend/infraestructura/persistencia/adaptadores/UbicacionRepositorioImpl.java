@@ -3,8 +3,6 @@ package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
 import com.aliengnss.backend.dominio.entidades.Ubicacion;
 import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
 import com.aliengnss.backend.infraestructura.persistencia.jpa.UbicacionJpa;

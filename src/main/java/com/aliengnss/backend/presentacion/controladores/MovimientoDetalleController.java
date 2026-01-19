@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,50 +54,5 @@ public class MovimientoDetalleController {
         useCase.eliminar(idMovimientoDetalle);
     }
 
-    // Búsquedas
-    @GetMapping("/buscar/movimiento/{idMovimiento}")
-    public List<MovimientoDetalleResponseDto> buscarPorMovimiento(@PathVariable Long idMovimiento) {
-        return useCase.buscarPorMovimientoId(idMovimiento).stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/producto/{idProducto}")
-    public List<MovimientoDetalleResponseDto> buscarPorProducto(@PathVariable Long idProducto) {
-        return useCase.buscarPorProductoId(idProducto).stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/movimiento-producto")
-    public MovimientoDetalleResponseDto buscarPorMovimientoYProducto(@RequestParam Long idMovimiento,
-            @RequestParam Long idProducto) {
-        return mapper.toResponseDto(useCase.buscarPorMovimientoIdYProductoId(idMovimiento, idProducto));
-    }
-
-    @GetMapping("/existe")
-    public boolean existe(@RequestParam Long idMovimiento, @RequestParam Long idProducto) {
-        return useCase.existePorMovimientoIdYProductoId(idMovimiento, idProducto);
-    }
-
-    @GetMapping("/contar/movimiento/{idMovimiento}")
-    public long contarPorMovimiento(@PathVariable Long idMovimiento) {
-        return useCase.contarPorMovimientoId(idMovimiento);
-    }
-
-    @GetMapping("/contar/producto/{idProducto}")
-    public long contarPorProducto(@PathVariable Long idProducto) {
-        return useCase.contarPorProductoId(idProducto);
-    }
-
-    @GetMapping("/buscar/movimiento-cantidad-mayor")
-    public List<MovimientoDetalleResponseDto> buscarMovimientoCantidadMayor(@RequestParam Long idMovimiento,
-            @RequestParam int cantidad) {
-        return useCase.buscarPorMovimientoIdYCantidadMayorQue(idMovimiento, cantidad)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/movimiento-cantidad-entre")
-    public List<MovimientoDetalleResponseDto> buscarMovimientoCantidadEntre(@RequestParam Long idMovimiento,
-            @RequestParam int min,
-            @RequestParam int max) {
-        return useCase.buscarPorMovimientoIdYCantidadEntre(idMovimiento, min, max)
-                .stream().map(mapper::toResponseDto).toList();
-    }
+    
 }

@@ -1,7 +1,9 @@
 package com.aliengnss.backend.presentacion.controladores;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,4 +54,49 @@ public class InventarioMovimientoController {
 		cpUseCase.eliminar(idInventarioMovimiento);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/producto/{idProducto}/tipo/{tipo}")
+	public ResponseEntity<List<InventarioMovimientoResponseDTO>>
+    buscarPorProductoYTipo(
+            @PathVariable Long idProducto,
+            @PathVariable String tipo) {
+
+        return ResponseEntity.ok(
+                cpUseCase.buscarPorProductoYTipo(idProducto, tipo)
+                        .stream()
+                        .map(mapper::toResponseDto)
+                        .toList()
+        );
+    }
+	
+	@GetMapping("/ubicacion/{idUbicacion}/tipo/{tipo}")
+	public ResponseEntity<List<InventarioMovimientoResponseDTO>>
+    buscarPorUbicacionTipoYFechas(
+            @PathVariable Long idUbicacion,
+            @PathVariable String tipo,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                    LocalDateTime inicio,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                    LocalDateTime fin) {
+
+        return ResponseEntity.ok(
+                cpUseCase.buscarPorUbicacionTipoYFecha(
+                                idUbicacion, tipo, inicio, fin)
+                        .stream()
+                        .map(mapper::toResponseDto)
+                        .toList()
+        );
+    }
+	
+	@GetMapping("/serial/{serial}")
+	public ResponseEntity<List<InventarioMovimientoResponseDTO>>
+    buscarPorSerial(@PathVariable String serial) {
+
+return ResponseEntity.ok(
+        cpUseCase.buscarMovimientoPorSerial(serial)
+                .stream()
+                .map(mapper::toResponseDto)
+                .toList()
+);
+}
 }

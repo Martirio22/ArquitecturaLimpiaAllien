@@ -9,4 +9,6 @@ public interface IProductoUseCase {
 	Producto buscarPorId(Long idProducto);
 	List<Producto> listarTodos();
 	void eliminar(Long idProducto);
+	
+	List<Producto> buscarPorSerial(boolean esConSerial);
 }

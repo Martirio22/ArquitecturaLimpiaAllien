@@ -1,26 +1,57 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
 import com.aliengnss.backend.dominio.entidades.Movimiento;
+import com.aliengnss.backend.dominio.entidades.Ubicacion;
+import com.aliengnss.backend.dominio.entidades.Usuario;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IUsuarioRepositorio;
+import com.aliengnss.backend.presentacion.dto.req.MovimientoRequestDto;
 
 
 public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 
     private final IMovimientoRepositorio repo;
+    private final IUbicacionRepositorio ubicacionRepositorio;
+    private final IUsuarioRepositorio usuarioRepositorio;
+    
+    
 
-    public MovimientoUseCaseImpl(IMovimientoRepositorio repo) {
-        this.repo = repo;
-    }
+	public MovimientoUseCaseImpl(IMovimientoRepositorio repo, IUbicacionRepositorio ubicacionRepositorio,
+			IUsuarioRepositorio usuarioRepositorio) {
+		super();
+		this.repo = repo;
+		this.ubicacionRepositorio = ubicacionRepositorio;
+		this.usuarioRepositorio = usuarioRepositorio;
+	}
 
-    @Override
-    public Movimiento guardar(Movimiento movimiento) {
+	@Override
+    public Movimiento crear(MovimientoRequestDto dto) {
+
+        Ubicacion origen = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionOrigen())
+                .orElseThrow(() -> new RuntimeException("Ubicación origen no existe"));
+
+        Ubicacion destino = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionDestino())
+                .orElseThrow(() -> new RuntimeException("Ubicación destino no existe"));
+
+        Usuario usuario = usuarioRepositorio.buscarPorId(dto.getFkUsuario().getIdUsuario())
+                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+
+        Movimiento movimiento = new Movimiento(
+                null,
+                dto.getFechaMovimiento(),
+                dto.getTipo(),
+                dto.getObservaciones(),
+                usuario,
+                origen,
+                destino
+        );
+
         return repo.guardar(movimiento);
     }
 
@@ -42,63 +73,5 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
         repo.eliminar(idMovimiento);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorTipo(String tipo) {
-        return repo.buscarPorTipo(tipo);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorUsuarioId(Long idUsuario) {
-        return repo.buscarPorUsuarioId(idUsuario);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorRangoFechas(LocalDateTime desde, LocalDateTime hasta) {
-        return repo.buscarPorRangoFechas(desde, hasta);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorTipoYRangoFechas(String tipo, LocalDateTime desde, LocalDateTime hasta) {
-        return repo.buscarPorTipoYRangoFechas(tipo, desde, hasta);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorUsuarioIdYRangoFechas(Long idUsuario, LocalDateTime desde, LocalDateTime hasta) {
-        return repo.buscarPorUsuarioIdYRangoFechas(idUsuario, desde, hasta);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorUbicacionOrigenId(Long idUbicacionOrigen) {
-        return repo.buscarPorUbicacionOrigenId(idUbicacionOrigen);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorUbicacionDestinoId(Long idUbicacionDestino) {
-        return repo.buscarPorUbicacionDestinoId(idUbicacionDestino);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorUbicacionOrigenIdYDestinoId(Long idUbicacionOrigen, Long idUbicacionDestino) {
-        return repo.buscarPorUbicacionOrigenIdYDestinoId(idUbicacionOrigen, idUbicacionDestino);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorObservaciones(String texto) {
-        return repo.buscarPorObservaciones(texto);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Movimiento> buscarPorUsuarioIdTipoYRangoFechas(Long idUsuario, String tipo, LocalDateTime desde, LocalDateTime hasta) {
-        return repo.buscarPorUsuarioIdTipoYRangoFechas(idUsuario, tipo, desde, hasta);
-    }
+   
 }

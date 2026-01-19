@@ -2,9 +2,6 @@ package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import java.io.Serializable;
 
-import com.aliengnss.backend.dominio.entidades.DetalleVenta;
-import com.aliengnss.backend.dominio.entidades.ProductoSerial;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

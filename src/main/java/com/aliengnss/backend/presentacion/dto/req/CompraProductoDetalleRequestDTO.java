@@ -7,9 +7,6 @@ import com.aliengnss.backend.dominio.entidades.Producto;
 import com.aliengnss.backend.dominio.entidades.Ubicacion;
 
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Data;

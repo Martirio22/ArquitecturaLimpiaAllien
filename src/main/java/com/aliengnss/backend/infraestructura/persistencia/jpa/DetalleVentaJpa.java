@@ -2,13 +2,8 @@ package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import com.aliengnss.backend.dominio.entidades.Producto;
-import com.aliengnss.backend.dominio.entidades.Ubicacion;
-import com.aliengnss.backend.dominio.entidades.Venta;
 
 @Entity
 @Table(name = "DetalleVenta")

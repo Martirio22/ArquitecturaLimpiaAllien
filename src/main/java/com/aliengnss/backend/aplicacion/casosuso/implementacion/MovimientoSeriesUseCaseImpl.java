@@ -2,7 +2,6 @@ package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoSeriesUseCase;
@@ -41,45 +40,4 @@ public class MovimientoSeriesUseCaseImpl implements IMovimientoSeriesUseCase {
         repo.eliminar(idMovimientoDetalleSerial);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<MovimientoDetalleSerial> buscarPorMovimientoDetalleId(Long idMovimientoDetalle) {
-        return repo.buscarPorMovimientoDetalleId(idMovimientoDetalle);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<MovimientoDetalleSerial> buscarPorProductoSerialId(Long idProductoSerial) {
-        return repo.buscarPorProductoSerialId(idProductoSerial);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public MovimientoDetalleSerial buscarPorMovimientoDetalleIdYProductoSerialId(Long idMovimientoDetalle, Long idProductoSerial) {
-        return repo.buscarPorMovimientoDetalleIdYProductoSerialId(idMovimientoDetalle, idProductoSerial)
-                .orElseThrow(() -> new RuntimeException("No encontrado para movimientoDetalle/productoSerial"));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean existePorMovimientoDetalleIdYProductoSerialId(Long idMovimientoDetalle, Long idProductoSerial) {
-        return repo.existePorMovimientoDetalleIdYProductoSerialId(idMovimientoDetalle, idProductoSerial);
-    }
-
-    @Override
-    public long eliminarPorMovimientoDetalleId(Long idMovimientoDetalle) {
-        return repo.eliminarPorMovimientoDetalleId(idMovimientoDetalle);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public long contarPorMovimientoDetalleId(Long idMovimientoDetalle) {
-        return repo.contarPorMovimientoDetalleId(idMovimientoDetalle);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public long contarPorProductoSerialId(Long idProductoSerial) {
-        return repo.contarPorProductoSerialId(idProductoSerial);
-    }
 }

@@ -2,8 +2,6 @@ package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IUbicacionUseCase;
 import com.aliengnss.backend.dominio.entidades.Ubicacion;
 import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;

@@ -1,13 +1,10 @@
 package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import com.aliengnss.backend.dominio.entidades.Usuario;
 
 @Data
 @Entity

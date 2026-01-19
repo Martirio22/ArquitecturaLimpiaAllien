@@ -1,6 +1,5 @@
 package com.aliengnss.backend.presentacion.controladores;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,10 +31,6 @@ public class CompraProductoDetalleController {
         this.useCase = useCase;
         this.mapper = mapper;
     }
-
-    // =========================
-    // CRUD
-    // =========================
 
     @GetMapping
     public List<CompraProductoDetalleResponseDTO> listar() {
@@ -69,46 +63,4 @@ public class CompraProductoDetalleController {
         useCase.eliminar(idCompraProductoDetalle);
     }
 
-    // =========================
-    // BÚSQUEDAS
-    // =========================
-
-    @GetMapping("/buscar/compra/{idCompraProducto}")
-    public List<CompraProductoDetalleResponseDTO> buscarPorCompra(
-            @PathVariable Long idCompraProducto) {
-        return useCase.buscarPorCompraProductoId(idCompraProducto)
-                .stream()
-                .map(mapper::toResponseDto)
-                .toList();
-    }
-
-    @GetMapping("/buscar/compra-producto")
-    public CompraProductoDetalleResponseDTO buscarPorCompraYProducto(
-            @RequestParam Long idCompraProducto,
-            @RequestParam Long idProducto) {
-        return mapper.toResponseDto(
-                useCase.buscarPorCompraProductoIdYProductoId(idCompraProducto, idProducto)
-        );
-    }
-
-    @GetMapping("/buscar/compra-cantidad-mayor")
-    public List<CompraProductoDetalleResponseDTO> buscarPorCantidadMayor(
-            @RequestParam Long idCompraProducto,
-            @RequestParam int cantidad) {
-        return useCase.buscarPorCompraProductoIdYCantidadMayor(idCompraProducto, cantidad)
-                .stream()
-                .map(mapper::toResponseDto)
-                .toList();
-    }
-
-    @GetMapping("/buscar/compra-costo-entre")
-    public List<CompraProductoDetalleResponseDTO> buscarPorCostoEntre(
-            @RequestParam Long idCompraProducto,
-            @RequestParam BigDecimal min,
-            @RequestParam BigDecimal max) {
-        return useCase.buscarPorCompraProductoIdYCostoEntre(idCompraProducto, min, max)
-                .stream()
-                .map(mapper::toResponseDto)
-                .toList();
-    }
 }

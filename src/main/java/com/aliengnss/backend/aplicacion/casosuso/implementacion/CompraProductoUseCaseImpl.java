@@ -1,9 +1,7 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoUseCase;
@@ -42,29 +40,4 @@ public class CompraProductoUseCaseImpl implements ICompraProductoUseCase {
         repo.eliminar(idCompraProducto);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<CompraProducto> buscarPorUsuarioId(Long idUsuario) {
-        return repo.buscarPorUsuarioId(idUsuario);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CompraProducto> buscarPorFechaEntre(LocalDateTime desde, LocalDateTime hasta) {
-        return repo.buscarPorFechaEntre(desde, hasta);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CompraProducto> buscarPorTexto(String texto) {
-        return repo.buscarPorTexto(texto);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CompraProducto> buscarPorUsuarioIdYFechaEntre(Long idUsuario,
-                                                             LocalDateTime desde,
-                                                             LocalDateTime hasta) {
-        return repo.buscarPorUsuarioIdYFechaEntre(idUsuario, desde, hasta);
-    }
 }

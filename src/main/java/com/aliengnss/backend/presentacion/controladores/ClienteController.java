@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,72 +54,4 @@ public class ClienteController {
         clienteUseCase.eliminar(idCliente);
     }
 
-    // =========================
-    // BUSQUEDAS (3 básicas)
-    // =========================
-
-    @GetMapping("/buscar/documento/{documento}")
-    public ClienteResponseDto buscarPorDocumento(@PathVariable String documento) {
-        return mapper.toResponseDto(clienteUseCase.buscarPorDocumento(documento));
-    }
-
-    @GetMapping("/buscar/email/{email}")
-    public ClienteResponseDto buscarPorEmail(@PathVariable String email) {
-        return mapper.toResponseDto(clienteUseCase.buscarPorEmail(email));
-    }
-
-    @GetMapping("/buscar/telefono/{telefono}")
-    public ClienteResponseDto buscarPorTelefono(@PathVariable String telefono) {
-        return mapper.toResponseDto(clienteUseCase.buscarPorTelefono(telefono));
-    }
-
-    // =========================
-    // BUSQUEDAS (7 compuestas)
-    // =========================
-
-    @GetMapping("/buscar/nombre")
-    public List<ClienteResponseDto> buscarPorPrimerNombre(@RequestParam String primerNombre) {
-        return clienteUseCase.buscarPorPrimerNombre(primerNombre)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/apellido")
-    public List<ClienteResponseDto> buscarPorPrimerApellido(@RequestParam String primerApellido) {
-        return clienteUseCase.buscarPorPrimerApellido(primerApellido)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/nombre-apellido")
-    public List<ClienteResponseDto> buscarPorNombreYApellido(@RequestParam String primerNombre,
-                                                            @RequestParam String primerApellido) {
-        return clienteUseCase.buscarPorNombreYApellido(primerNombre, primerApellido)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/documento-apellido")
-    public List<ClienteResponseDto> buscarPorDocumentoYApellido(@RequestParam String documento,
-                                                               @RequestParam String primerApellido) {
-        return clienteUseCase.buscarPorDocumentoYApellido(documento, primerApellido)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/telefono-documento")
-    public List<ClienteResponseDto> buscarPorTelefonoYDocumento(@RequestParam String telefono,
-                                                               @RequestParam String documento) {
-        return clienteUseCase.buscarPorTelefonoYDocumento(telefono, documento)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/email-documento")
-    public List<ClienteResponseDto> buscarPorEmailYDocumento(@RequestParam String email,
-                                                            @RequestParam String documento) {
-        return clienteUseCase.buscarPorEmailYDocumento(email, documento)
-                .stream().map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/texto")
-    public List<ClienteResponseDto> buscarPorTexto(@RequestParam String texto) {
-        return clienteUseCase.buscarPorNombreOApellidoODocumento(texto)
-                .stream().map(mapper::toResponseDto).toList();
-    }
 }

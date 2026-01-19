@@ -1,7 +1,6 @@
 package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class InventarioMovimiento implements Serializable {

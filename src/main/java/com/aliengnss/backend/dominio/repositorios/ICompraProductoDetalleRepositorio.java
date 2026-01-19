@@ -1,6 +1,5 @@
 package com.aliengnss.backend.dominio.repositorios;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +12,4 @@ public interface ICompraProductoDetalleRepositorio {
     List<CompraProductoDetalle> listarTodos();
     void eliminar(Long idCompraProductoDetalle);
 
-    List<CompraProductoDetalle> buscarPorCompraProductoId(Long idCompraProducto);
-    Optional<CompraProductoDetalle> buscarPorCompraProductoIdYProductoId(Long idCompraProducto, Long idProducto);
-
-    List<CompraProductoDetalle> buscarPorCompraProductoIdYCantidadMayor(Long idCompraProducto, int cantidad);
-    List<CompraProductoDetalle> buscarPorCompraProductoIdYCostoEntre(Long idCompraProducto, BigDecimal min, BigDecimal max);
-}
+    }

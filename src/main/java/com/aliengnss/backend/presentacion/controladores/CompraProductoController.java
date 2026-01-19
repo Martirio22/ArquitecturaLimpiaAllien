@@ -1,6 +1,5 @@
 package com.aliengnss.backend.presentacion.controladores;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,17 +54,4 @@ public class CompraProductoController {
         useCase.eliminar(id);
     }
 
-    @GetMapping("/buscar/usuario/{idUsuario}")
-    public List<CompraProductoResponseDTO> buscarPorUsuario(@PathVariable Long idUsuario) {
-        return useCase.buscarPorUsuarioId(idUsuario).stream()
-                .map(mapper::toResponseDto).toList();
-    }
-
-    @GetMapping("/buscar/fecha")
-    public List<CompraProductoResponseDTO> buscarPorFecha(
-            @RequestParam LocalDateTime desde,
-            @RequestParam LocalDateTime hasta) {
-        return useCase.buscarPorFechaEntre(desde, hasta).stream()
-                .map(mapper::toResponseDto).toList();
-    }
 }

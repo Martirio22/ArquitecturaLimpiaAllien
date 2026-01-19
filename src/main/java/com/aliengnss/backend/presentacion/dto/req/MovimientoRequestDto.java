@@ -1,10 +1,7 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.aliengnss.backend.dominio.entidades.Ubicacion;
 import com.aliengnss.backend.dominio.entidades.Usuario;
 
 import jakarta.validation.constraints.NotBlank;

@@ -3,7 +3,6 @@ package com.aliengnss.backend.presentacion.dto.req;
 import com.aliengnss.backend.dominio.entidades.Movimiento;
 import com.aliengnss.backend.dominio.entidades.Producto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Data;

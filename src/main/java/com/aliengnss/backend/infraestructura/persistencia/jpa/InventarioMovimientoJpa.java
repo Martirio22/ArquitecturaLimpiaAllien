@@ -3,10 +3,6 @@ package com.aliengnss.backend.infraestructura.persistencia.jpa;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.aliengnss.backend.dominio.entidades.Producto;
-import com.aliengnss.backend.dominio.entidades.ProductoSerial;
-import com.aliengnss.backend.dominio.entidades.Ubicacion;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

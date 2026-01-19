@@ -34,4 +34,10 @@ public class ProductoUseCaseImpl implements IProductoUseCase {
 		productoRepositorio.eliminar(idProducto);
 	}
 
+	@Override
+	public List<Producto> buscarPorSerial(boolean esConSerial) {
+		return productoRepositorio.buscarPorSerial(esConSerial);
+	}
+
+	
 }

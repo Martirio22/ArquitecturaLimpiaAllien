@@ -11,15 +11,4 @@ public interface IMovimientoSeriesUseCase {
     List<MovimientoDetalleSerial> listarTodos();
     void eliminar(Long idMovimientoDetalleSerial);
 
-    List<MovimientoDetalleSerial> buscarPorMovimientoDetalleId(Long idMovimientoDetalle);
-    List<MovimientoDetalleSerial> buscarPorProductoSerialId(Long idProductoSerial);
-
-    MovimientoDetalleSerial buscarPorMovimientoDetalleIdYProductoSerialId(Long idMovimientoDetalle, Long idProductoSerial);
-
-    boolean existePorMovimientoDetalleIdYProductoSerialId(Long idMovimientoDetalle, Long idProductoSerial);
-
-    long eliminarPorMovimientoDetalleId(Long idMovimientoDetalle);
-
-    long contarPorMovimientoDetalleId(Long idMovimientoDetalle);
-    long contarPorProductoSerialId(Long idProductoSerial);
 }

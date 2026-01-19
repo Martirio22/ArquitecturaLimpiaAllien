@@ -205,11 +205,15 @@ public class ConfiguracionGeneral {
 	}
 
 	@Bean
-	IMovimientoUseCase movimientoUseCase(
-		IMovimientoRepositorio movimientoRepositorio
+	IMovimientoUseCase MovimientoUseCase(
+	        IMovimientoRepositorio repo,
+	        IUbicacionRepositorio ubicacionRepositorio,
+	        IUsuarioRepositorio usuarioRepositorio
 	) {
 	    return new MovimientoUseCaseImpl(
-		    movimientoRepositorio
+	            repo,
+	            ubicacionRepositorio,
+	            usuarioRepositorio
 	    );
 	}
 

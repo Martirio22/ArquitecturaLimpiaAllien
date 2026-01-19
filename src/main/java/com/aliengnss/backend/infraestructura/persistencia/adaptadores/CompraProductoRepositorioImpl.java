@@ -1,10 +1,7 @@
 package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.stereotype.Repository;
 
 import com.aliengnss.backend.dominio.entidades.CompraProducto;
 import com.aliengnss.backend.dominio.repositorios.ICompraProductoRepositorio;
@@ -45,29 +42,4 @@ public class CompraProductoRepositorioImpl implements ICompraProductoRepositorio
         repoJpa.deleteById(idCompraProducto);
     }
 
-    @Override
-    public List<CompraProducto> buscarPorUsuarioId(Long idUsuario) {
-        return repoJpa.findByFkUsuario_IdUsuario(idUsuario)
-                .stream().map(mapper::toDomain).toList();
-    }
-
-    @Override
-    public List<CompraProducto> buscarPorFechaEntre(LocalDateTime desde, LocalDateTime hasta) {
-        return repoJpa.findByFechaIngresoBetween(desde, hasta)
-                .stream().map(mapper::toDomain).toList();
-    }
-
-    @Override
-    public List<CompraProducto> buscarPorTexto(String texto) {
-        return repoJpa.findByObservacionesContainingIgnoreCase(texto)
-                .stream().map(mapper::toDomain).toList();
-    }
-
-    @Override
-    public List<CompraProducto> buscarPorUsuarioIdYFechaEntre(Long idUsuario,
-                                                             LocalDateTime desde,
-                                                             LocalDateTime hasta) {
-        return repoJpa.findByFkUsuario_IdUsuarioAndFechaIngresoBetween(idUsuario, desde, hasta)
-                .stream().map(mapper::toDomain).toList();
-    }
 }
