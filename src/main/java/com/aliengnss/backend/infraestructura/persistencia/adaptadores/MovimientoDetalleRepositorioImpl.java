@@ -1,49 +1,77 @@
 package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
 import com.aliengnss.backend.dominio.entidades.MovimientoDetalle;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoDetalleRepositorio;
-import com.aliengnss.backend.infraestructura.persistencia.jpa.MovimientoDetalleJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoDetalleJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoDetalleJpaRepository;
 
 public class MovimientoDetalleRepositorioImpl implements IMovimientoDetalleRepositorio {
-	private final IMovimientoDetalleJpaRepository repositorioJpa;
-	private final IMovimientoDetalleJpaMapper entityMapper;
 
-	public MovimientoDetalleRepositorioImpl(IMovimientoDetalleJpaRepository repositorioJpa, IMovimientoDetalleJpaMapper entityMapper) {
+    private final IMovimientoDetalleJpaRepository repoJpa;
+    private final IMovimientoDetalleJpaMapper mapper;
 
-		this.repositorioJpa = repositorioJpa;
-		this.entityMapper = entityMapper;
-	}
+    public MovimientoDetalleRepositorioImpl(IMovimientoDetalleJpaRepository repoJpa,
+                                            IMovimientoDetalleJpaMapper mapper) {
+        this.repoJpa = repoJpa;
+        this.mapper = mapper;
+    }
 
-	@Override
-	public MovimientoDetalle guardar(MovimientoDetalle movimientoDetalle) {
-		MovimientoDetalleJpa entity = entityMapper.toEntity(movimientoDetalle);
-		MovimientoDetalleJpa guardado = repositorioJpa.save(entity);
+    @Override
+    public MovimientoDetalle guardar(MovimientoDetalle movimientoDetalle) {
+        return mapper.toDomain(repoJpa.save(mapper.toEntity(movimientoDetalle)));
+    }
 
-		return entityMapper.toDomain(guardado);
-	}
+    @Override
+    public Optional<MovimientoDetalle> buscarPorId(Long idMovimientoDetalle) {
+        return repoJpa.findById(idMovimientoDetalle).map(mapper::toDomain);
+    }
 
-	@Override
-	public Optional<MovimientoDetalle> buscarPorId(Long id) {
+    @Override
+    public List<MovimientoDetalle> listarTodos() {
+        return repoJpa.findAll().stream().map(mapper::toDomain).toList();
+    }
 
-		return repositorioJpa.findById(id).map(entityMapper::toDomain);
-	}
+    @Override
+    public void eliminar(Long idMovimientoDetalle) {
+        repoJpa.deleteById(idMovimientoDetalle);
+    }
 
-	@Override
-	public List<MovimientoDetalle> listarTodos() {
-		// TODO Auto-generated method stub
-		return repositorioJpa.findAll().stream().map(entityMapper::toDomain).toList();
-	}
+    // nuevos
+    @Override
+    public List<MovimientoDetalle> movimientosDeProductoEnRango(Long idProducto, LocalDateTime inicio, LocalDateTime fin) {
+        return repoJpa.movimientosDeProductoEnRango(idProducto, inicio, fin)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
 
-	@Override
-	public void eliminar(Long id) {
-		repositorioJpa.deleteById(id);
+    @Override
+    public List<MovimientoDetalle> movimientosDesdeUbicacionEnRango(Long idUbicacionOrigen, LocalDateTime inicio, LocalDateTime fin) {
+        return repoJpa.movimientosDesdeUbicacionEnRango(idUbicacionOrigen, inicio, fin)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
 
-	}
+    @Override
+    public List<MovimientoDetalle> movimientosHaciaUbicacionEnRango(Long idUbicacionDestino, LocalDateTime inicio, LocalDateTime fin) {
+        return repoJpa.movimientosHaciaUbicacionEnRango(idUbicacionDestino, inicio, fin)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    // opcional
+    @Override
+    public List<MovimientoDetalle> detallesDeMovimiento(Long idMovimiento) {
+        return repoJpa.detallesDeMovimiento(idMovimiento)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+    
 }

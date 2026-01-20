@@ -10,4 +10,6 @@ public interface IUsuarioUseCase {
 	Usuario buscarPorId(Long idUsuario);
 	List<Usuario> listarTodos();
 	void eliminar(Long idUsuario);
+	
+	List<Usuario> buscarPorNombres(String nombre);
 }

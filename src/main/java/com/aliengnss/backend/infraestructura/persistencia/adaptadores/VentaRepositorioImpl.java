@@ -1,13 +1,13 @@
 package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.aliengnss.backend.dominio.entidades.Venta;
 import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
-import com.aliengnss.backend.infraestructura.persistencia.jpa.VentaJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 
-import java.util.List;
-import java.util.Optional;
 
 public class VentaRepositorioImpl implements IVentaRepositorio {
 
@@ -21,9 +21,7 @@ public class VentaRepositorioImpl implements IVentaRepositorio {
 
     @Override
     public Venta guardar(Venta venta) {
-        VentaJpa entity = mapper.toEntity(venta);
-        VentaJpa guardar = ventaJpaRepository.save(entity);
-        return mapper.toDomain(guardar);
+        return mapper.toDomain(ventaJpaRepository.save(mapper.toEntity(venta)));
     }
 
     @Override
@@ -40,4 +38,5 @@ public class VentaRepositorioImpl implements IVentaRepositorio {
     public void eliminar(Long idVenta) {
         ventaJpaRepository.deleteById(idVenta);
     }
+
 }

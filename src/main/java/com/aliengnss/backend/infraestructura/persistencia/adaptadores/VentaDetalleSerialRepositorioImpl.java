@@ -1,5 +1,6 @@
 package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,4 +45,16 @@ public class VentaDetalleSerialRepositorioImpl implements IVentaDetalleSerialRep
 		cpJpaRepository.deleteById(idVentaDetalleSerial);
 		
 	}
+
+
+	@Override
+	public List<VentaDetalleSerial> ventasPorClienteConSerial(Long idCliente, LocalDateTime fechaInicio,
+			LocalDateTime fechaFin) {
+		return cpJpaRepository.ventasPorClienteConSerial(idCliente, fechaInicio, fechaFin)
+				.stream()
+				.map(entityMapper::toDomain)
+				.toList();
+	}
+	
+	
 }

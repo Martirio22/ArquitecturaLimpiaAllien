@@ -1,11 +1,7 @@
 package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import com.aliengnss.backend.dominio.entidades.Ubicacion;
-import com.aliengnss.backend.dominio.entidades.Usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

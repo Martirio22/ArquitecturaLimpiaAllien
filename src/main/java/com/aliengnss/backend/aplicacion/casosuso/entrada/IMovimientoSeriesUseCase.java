@@ -5,8 +5,10 @@ import java.util.List;
 import com.aliengnss.backend.dominio.entidades.MovimientoDetalleSerial;
 
 public interface IMovimientoSeriesUseCase {
-	MovimientoDetalleSerial guardar(MovimientoDetalleSerial movimientoSeries);
-	MovimientoDetalleSerial buscarPorId(Long idMovimientoSeries);
-	List<MovimientoDetalleSerial> listarTodos();
-	void eliminar(Long idMovimientoSeries);
+
+    MovimientoDetalleSerial guardar(MovimientoDetalleSerial entity);
+    MovimientoDetalleSerial buscarPorId(Long idMovimientoDetalleSerial);
+    List<MovimientoDetalleSerial> listarTodos();
+    void eliminar(Long idMovimientoDetalleSerial);
+
 }

@@ -3,48 +3,42 @@ package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
 import com.aliengnss.backend.dominio.entidades.Movimiento;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoRepositorio;
 import com.aliengnss.backend.infraestructura.persistencia.jpa.MovimientoJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoJpaMapper;
-
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoJpaRepository;
 
 public class MovimientoRepositorioImpl implements IMovimientoRepositorio {
-	private final IMovimientoJpaRepository repositorioJpa;
-	private final IMovimientoJpaMapper entityMapper;
 
-	public MovimientoRepositorioImpl(IMovimientoJpaRepository repositorioJpa, IMovimientoJpaMapper entityMapper) {
+    private final IMovimientoJpaRepository repoJpa;
+    private final IMovimientoJpaMapper mapper;
 
-		this.repositorioJpa = repositorioJpa;
-		this.entityMapper = entityMapper;
-	}
+    public MovimientoRepositorioImpl(IMovimientoJpaRepository repoJpa, IMovimientoJpaMapper mapper) {
+        this.repoJpa = repoJpa;
+        this.mapper = mapper;
+    }
 
-	@Override
-	public Movimiento guardar(Movimiento movimiento) {
-		MovimientoJpa entity = entityMapper.toEntity(movimiento);
-		MovimientoJpa guardado = repositorioJpa.save(entity);
+    @Override
+    public Movimiento guardar(Movimiento movimiento) {
+        MovimientoJpa saved = repoJpa.save(mapper.toEntity(movimiento));
+        return mapper.toDomain(saved);
+    }
 
-		return entityMapper.toDomain(guardado);
-	}
+    @Override
+    public Optional<Movimiento> buscarPorId(Long idMovimiento) {
+        return repoJpa.findById(idMovimiento).map(mapper::toDomain);
+    }
 
-	@Override
-	public Optional<Movimiento> buscarPorId(Long id) {
+    @Override
+    public List<Movimiento> listarTodos() {
+        return repoJpa.findAll().stream().map(mapper::toDomain).toList();
+    }
 
-		return repositorioJpa.findById(id).map(entityMapper::toDomain);
-	}
+    @Override
+    public void eliminar(Long idMovimiento) {
+        repoJpa.deleteById(idMovimiento);
+    }
 
-	@Override
-	public List<Movimiento> listarTodos() {
-		// TODO Auto-generated method stub
-		return repositorioJpa.findAll().stream().map(entityMapper::toDomain).toList();
-	}
-
-	@Override
-	public void eliminar(Long id) {
-		repositorioJpa.deleteById(id);
-
-	}
+    
 }

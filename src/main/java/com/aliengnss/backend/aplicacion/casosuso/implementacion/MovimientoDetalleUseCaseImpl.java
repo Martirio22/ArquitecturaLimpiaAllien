@@ -1,44 +1,66 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoDetalleUseCase;
 import com.aliengnss.backend.dominio.entidades.MovimientoDetalle;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoDetalleRepositorio;
 
-@Service
+
 public class MovimientoDetalleUseCaseImpl implements IMovimientoDetalleUseCase {
-	private final IMovimientoDetalleRepositorio repositorio;
 
-	public MovimientoDetalleUseCaseImpl(IMovimientoDetalleRepositorio repositorio) {
+    private final IMovimientoDetalleRepositorio repo;
 
-		this.repositorio = repositorio;
-	}
+    public MovimientoDetalleUseCaseImpl(IMovimientoDetalleRepositorio repo) {
+        this.repo = repo;
+    }
 
-	@Override
-	public MovimientoDetalle crear(MovimientoDetalle movimientoDetalle) {
-		// TODO Auto-generated method stub
-		return repositorio.guardar(movimientoDetalle);
-	}
+    @Override
+    public MovimientoDetalle guardar(MovimientoDetalle movimientoDetalle) {
+        return repo.guardar(movimientoDetalle);
+    }
 
-	@Override
-	public MovimientoDetalle obtenerPorId(Long id) {
-		// TODO Auto-generated method stub
-		return repositorio.buscarPorId(id).orElseThrow(() -> new RuntimeException("MovimientoDetalle no encontrado"));
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public MovimientoDetalle buscarPorId(Long idMovimientoDetalle) {
+        return repo.buscarPorId(idMovimientoDetalle)
+                .orElseThrow(() -> new RuntimeException("MovimientoDetalle no encontrado: " + idMovimientoDetalle));
+    }
 
-	@Override
-	public List<MovimientoDetalle> Listar() {
-		// TODO Auto-generated method stub
-		return repositorio.listarTodos();
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<MovimientoDetalle> listarTodos() {
+        return repo.listarTodos();
+    }
 
-	@Override
-	public void eliminar(Long id) {
-		repositorio.eliminar(id);
+    @Override
+    public void eliminar(Long idMovimientoDetalle) {
+        repo.eliminar(idMovimientoDetalle);
+    }
 
-	}
+    // nuevos
+    @Override
+    public List<MovimientoDetalle> movimientosDeProductoEnRango(Long idProducto, LocalDateTime inicio, LocalDateTime fin) {
+        return repo.movimientosDeProductoEnRango(idProducto, inicio, fin);
+    }
 
+    @Override
+    public List<MovimientoDetalle> movimientosDesdeUbicacionEnRango(Long idUbicacionOrigen, LocalDateTime inicio, LocalDateTime fin) {
+        return repo.movimientosDesdeUbicacionEnRango(idUbicacionOrigen, inicio, fin);
+    }
+
+    @Override
+    public List<MovimientoDetalle> movimientosHaciaUbicacionEnRango(Long idUbicacionDestino, LocalDateTime inicio, LocalDateTime fin) {
+        return repo.movimientosHaciaUbicacionEnRango(idUbicacionDestino, inicio, fin);
+    }
+
+    // opcional
+    @Override
+    public List<MovimientoDetalle> detallesDeMovimiento(Long idMovimiento) {
+        return repo.detallesDeMovimiento(idMovimiento);
+    }
+    
 }

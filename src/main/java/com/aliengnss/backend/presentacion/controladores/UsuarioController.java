@@ -40,4 +40,13 @@ public class UsuarioController {
 		usuarioUseCase.eliminar(idUsuario);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/usuario/{nombre}")
+	public ResponseEntity<List<UsuarioResponseDTO>> buscarPorNombres(@PathVariable String nombre){
+		List<UsuarioResponseDTO> lista = usuarioUseCase.buscarPorNombres(nombre)
+				.stream()
+				.map(mapper::toResponseDto)
+				.toList();
+		return ResponseEntity.ok(lista);
+	}
 }

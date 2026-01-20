@@ -1,7 +1,6 @@
 package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,7 +9,10 @@ import java.util.Date;
 @Data
 @Entity
 @Table(
-        name = "Usuario"
+        name = "Usuario",
+        		uniqueConstraints = {
+                        @UniqueConstraint(name = "uk_usuario_correoElectronico", columnNames = "correoElectronico"),
+                        @UniqueConstraint(name = "uk_usuario_cedula", columnNames = "cedula")}
 )
 public class UsuarioJpa implements Serializable {
 

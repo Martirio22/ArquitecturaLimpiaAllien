@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,4 +50,28 @@ public class UbicacionControlador {
 		UbicacionUseCase.eliminar(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/tipo/{tipo}")
+    public List<UbicacionResponseDto> porTipo(@PathVariable String tipo) {
+        return UbicacionUseCase.buscarPorTipo(tipo).stream()
+                .map(mapper::toResponseDTO)
+                .toList();
+    }
+
+    @GetMapping("/nombre")
+    public List<UbicacionResponseDto> porNombre(@RequestParam String nombre) {
+        return UbicacionUseCase.buscarPorNombre(nombre).stream()
+                .map(mapper::toResponseDTO)
+                .toList();
+    }
+
+    @GetMapping("/tipo/{tipo}/nombre")
+    public List<UbicacionResponseDto> porTipoYNombre(
+            @PathVariable String tipo,
+            @RequestParam String nombre) {
+
+        return UbicacionUseCase.buscarPorTipoYNombre(tipo, nombre).stream()
+                .map(mapper::toResponseDTO)
+                .toList();
+    }
 }

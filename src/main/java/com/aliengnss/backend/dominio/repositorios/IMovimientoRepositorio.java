@@ -6,11 +6,10 @@ import java.util.Optional;
 import com.aliengnss.backend.dominio.entidades.Movimiento;
 
 public interface IMovimientoRepositorio {
-	Movimiento guardar(Movimiento movimiento);
 
-	Optional<Movimiento> buscarPorId(Long id);
+    Movimiento guardar(Movimiento movimiento);
+    Optional<Movimiento> buscarPorId(Long idMovimiento);
+    List<Movimiento> listarTodos();
+    void eliminar(Long idMovimiento);
 
-	List<Movimiento> listarTodos();
-
-	void eliminar(Long id);
-}
+    }

@@ -2,7 +2,6 @@ package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Usuario implements Serializable {
     /**

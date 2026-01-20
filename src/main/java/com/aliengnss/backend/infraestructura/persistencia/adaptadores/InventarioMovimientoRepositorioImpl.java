@@ -1,5 +1,6 @@
 package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,4 +45,31 @@ public class InventarioMovimientoRepositorioImpl implements IInventarioMovimient
 		
 	}
 
+	@Override
+	public List<InventarioMovimiento> buscarPorProductoYTipo(Long idProducto, String tipo) {
+		return cpJpaRepository.buscarPorProductoYTipo(idProducto, tipo)
+				.stream()
+				.map(entityMapper::toDomain)
+				.toList();
+	}
+
+	@Override
+	public List<InventarioMovimiento> buscarPorUbicacionTipoYFecha(Long idUbicacion, String tipo,
+			LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+		return cpJpaRepository.buscarPorUbicacionTipoYFecha(idUbicacion, tipo, fechaInicio, fechaFin)
+				.stream()
+				.map(entityMapper::toDomain)
+				.toList();
+	}
+
+	@Override
+	public List<InventarioMovimiento> buscarMovimientoPorSerial(String serial) {
+		return cpJpaRepository.buscarMovimientoPorSerial(serial)
+				.stream()
+				.map(entityMapper::toDomain)
+				.toList();
+	}
+
+	
+	
 }

@@ -12,4 +12,9 @@ public interface IUbicacionUseCase {
 	List<Ubicacion> Listar();
 
 	void eliminar(Long id);
+	
+	// NUEVOS:
+    List<Ubicacion> buscarPorTipo(String tipo);
+    List<Ubicacion> buscarPorNombre(String nombre);
+    List<Ubicacion> buscarPorTipoYNombre(String tipo, String nombre);
 }

@@ -35,5 +35,10 @@ public class UsuarioUseCaseImpl implements IUsuarioUseCase{
 		usuarioRepositorio.eliminar(idUsuario);
 	}
 
+	@Override
+	public List<Usuario> buscarPorNombres(String nombre) {
+		return usuarioRepositorio.buscarPorNombres(nombre);
+	}
+
 	
 }

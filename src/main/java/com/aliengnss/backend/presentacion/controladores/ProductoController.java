@@ -3,7 +3,9 @@ package com.aliengnss.backend.presentacion.controladores;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,4 +40,13 @@ public class ProductoController {
 	public ProductoResponseDto guardar(@Valid @RequestBody ProductoRequestDto productoDto) {
         return mapper.toResponseDto(productoUseCase.guardar(mapper.toDomain(productoDto)));
     }
+	
+	@GetMapping("/serial/{esConSerial}")
+	public ResponseEntity<List<ProductoResponseDto>> buscarPorSerial(@PathVariable boolean esConSerial){
+		List<ProductoResponseDto> lista = productoUseCase.buscarPorSerial(esConSerial)
+				.stream()
+				.map(mapper::toResponseDto)
+				.toList();
+		return ResponseEntity.ok(lista);
+	}
 }

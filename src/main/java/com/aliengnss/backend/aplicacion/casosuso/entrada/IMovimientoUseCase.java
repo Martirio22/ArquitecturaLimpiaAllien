@@ -6,11 +6,10 @@ import com.aliengnss.backend.dominio.entidades.Movimiento;
 import com.aliengnss.backend.presentacion.dto.req.MovimientoRequestDto;
 
 public interface IMovimientoUseCase {
+
 	Movimiento crear(MovimientoRequestDto dto);
+    Movimiento buscarPorId(Long idMovimiento);
+    List<Movimiento> listarTodos();
+    void eliminar(Long idMovimiento);
 
-	Movimiento obtenerPorId(Long id);
-
-	List<Movimiento> Listar();
-
-	void eliminar(Long id);
-}
+    }

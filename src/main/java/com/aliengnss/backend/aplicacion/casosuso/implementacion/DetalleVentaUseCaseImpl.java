@@ -4,6 +4,7 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleVentaUseCase;
 import com.aliengnss.backend.dominio.entidades.DetalleVenta;
 import com.aliengnss.backend.dominio.repositorios.IDetalleVentaRepositorio;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class DetalleVentaUseCaseImpl implements IDetalleVentaUseCase {
@@ -33,4 +34,10 @@ public class DetalleVentaUseCaseImpl implements IDetalleVentaUseCase {
     public void eliminar(Long idDetalleVenta) {
         detalleVentaRepositorio.eliminar(idDetalleVenta);
     }
+
+	@Override
+	public List<DetalleVenta> ventasPorProductoUbicacionYFecha(Long idProducto, Long idUbicacion,
+			LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+		return detalleVentaRepositorio.ventasPorProductoUbicacionYFecha(idProducto, idUbicacion, fechaInicio, fechaFin);
+	}
 }

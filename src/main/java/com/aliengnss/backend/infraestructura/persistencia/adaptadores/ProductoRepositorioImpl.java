@@ -41,4 +41,13 @@ public class ProductoRepositorioImpl implements IProductoRepositorio {
 		productoJpaRepository.deleteById(idProducto);
 	}
 
+	@Override
+	public List<Producto> buscarPorSerial(boolean esConSerial) {
+		return productoJpaRepository.buscarPorSerial(esConSerial)
+				.stream()
+				.map(mapper::toDomain)
+				.toList();
+	}
+
+	
 }

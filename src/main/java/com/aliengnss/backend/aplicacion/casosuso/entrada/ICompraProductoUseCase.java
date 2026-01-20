@@ -6,8 +6,9 @@ import com.aliengnss.backend.dominio.entidades.CompraProducto;
 
 public interface ICompraProductoUseCase {
 
-	CompraProducto guardar(CompraProducto compraproducto);
-	CompraProducto buscarPorId(Long idCompraProducto);
-	List<CompraProducto> listarTodos();
-	void eliminar(Long idCompraProducto);
-}
+    CompraProducto guardar(CompraProducto compra);
+    CompraProducto buscarPorId(Long idCompraProducto);
+    List<CompraProducto> listarTodos();
+    void eliminar(Long idCompraProducto);
+
+    }

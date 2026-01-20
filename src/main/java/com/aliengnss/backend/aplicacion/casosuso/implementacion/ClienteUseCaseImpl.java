@@ -1,37 +1,43 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IClienteUseCase;
 import com.aliengnss.backend.dominio.entidades.Cliente;
 import com.aliengnss.backend.dominio.repositorios.IClienteRepositorio;
 
-import java.util.List;
-import java.util.Optional;
 
 public class ClienteUseCaseImpl implements IClienteUseCase {
 
-    private final IClienteRepositorio clienteRepositorio;
+    private final IClienteRepositorio repo;
 
-    public ClienteUseCaseImpl(IClienteRepositorio clienteRepositorio) {
-        this.clienteRepositorio = clienteRepositorio;
+    public ClienteUseCaseImpl(IClienteRepositorio repo) {
+        this.repo = repo;
     }
 
     @Override
     public Cliente guardar(Cliente cliente) {
-        return clienteRepositorio.guardar(cliente);
+        return repo.guardar(cliente);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Cliente buscarPorId(Long idCliente) {
-        return clienteRepositorio.buscarPorId(idCliente).orElseThrow(() -> new RuntimeException("No existe el cliente con el id " + idCliente));
+        return repo.buscarPorId(idCliente)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado: " + idCliente));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Cliente> listarTodos() {
-        return clienteRepositorio.listarTodos();
+        return repo.listarTodos();
     }
 
     @Override
     public void eliminar(Long idCliente) {
-        clienteRepositorio.eliminar(idCliente);
+        repo.eliminar(idCliente);
     }
+
 }

@@ -2,7 +2,7 @@ package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
 import com.aliengnss.backend.dominio.entidades.Movimiento;
@@ -13,18 +13,19 @@ import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IUsuarioRepositorio;
 import com.aliengnss.backend.presentacion.dto.req.MovimientoRequestDto;
 
-@Service
+
 public class MovimientoUseCaseImpl implements IMovimientoUseCase {
-	private final IMovimientoRepositorio movimientoRepositorio;
+
+    private final IMovimientoRepositorio repo;
     private final IUbicacionRepositorio ubicacionRepositorio;
     private final IUsuarioRepositorio usuarioRepositorio;
+    
+    
 
-	
-
-	public MovimientoUseCaseImpl(IMovimientoRepositorio movimientoRepositorio,
-			IUbicacionRepositorio ubicacionRepositorio, IUsuarioRepositorio usuarioRepositorio) {
+	public MovimientoUseCaseImpl(IMovimientoRepositorio repo, IUbicacionRepositorio ubicacionRepositorio,
+			IUsuarioRepositorio usuarioRepositorio) {
 		super();
-		this.movimientoRepositorio = movimientoRepositorio;
+		this.repo = repo;
 		this.ubicacionRepositorio = ubicacionRepositorio;
 		this.usuarioRepositorio = usuarioRepositorio;
 	}
@@ -51,26 +52,26 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
                 destino
         );
 
-        return movimientoRepositorio.guardar(movimiento);
+        return repo.guardar(movimiento);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Movimiento buscarPorId(Long idMovimiento) {
+        return repo.buscarPorId(idMovimiento)
+                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado: " + idMovimiento));
+    }
 
-	@Override
-	public Movimiento obtenerPorId(Long id) {
-		// TODO Auto-generated method stub
-		return movimientoRepositorio.buscarPorId(id)
-				.orElseThrow(()-> new RuntimeException("Movimiento no encontrado"));
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<Movimiento> listarTodos() {
+        return repo.listarTodos();
+    }
 
-	@Override
-	public List<Movimiento> Listar() {
-		// TODO Auto-generated method stub
-		return movimientoRepositorio.listarTodos();
-	}
+    @Override
+    public void eliminar(Long idMovimiento) {
+        repo.eliminar(idMovimiento);
+    }
 
-	@Override
-	public void eliminar(Long id) {
-		movimientoRepositorio.eliminar(id);
-
-	}
+   
 }

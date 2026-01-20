@@ -2,8 +2,6 @@ package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import java.io.Serializable;
 
-import com.aliengnss.backend.dominio.entidades.Producto;
-
 import jakarta.persistence.*;
 import lombok.Data;
 

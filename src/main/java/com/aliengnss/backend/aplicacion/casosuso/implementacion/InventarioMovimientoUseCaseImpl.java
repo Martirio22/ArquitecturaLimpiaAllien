@@ -1,5 +1,6 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IInventarioMovimientoUseCase;
@@ -35,4 +36,21 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 		cpRepositorio.eliminar(idInventarioMovimiento);
 	}
 
+	@Override
+	public List<InventarioMovimiento> buscarPorProductoYTipo(Long idProducto, String tipo) {
+		return cpRepositorio.buscarPorProductoYTipo(idProducto, tipo);
+	}
+
+	@Override
+	public List<InventarioMovimiento> buscarPorUbicacionTipoYFecha(Long idUbicacion, String tipo,
+			LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+		return cpRepositorio.buscarPorUbicacionTipoYFecha(idUbicacion, tipo, fechaInicio, fechaFin);
+	}
+
+	@Override
+	public List<InventarioMovimiento> buscarMovimientoPorSerial(String serial) {
+		return cpRepositorio.buscarMovimientoPorSerial(serial);
+	}
+
+	
 }

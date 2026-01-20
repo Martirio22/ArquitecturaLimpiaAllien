@@ -1,5 +1,6 @@
 package com.aliengnss.backend.presentacion.controladores;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,10 +34,6 @@ public class VentaDetalleSerialController {
 		this.cpUseCase = cpUseCase;
 		this.mapper = mapper;
 	}
-
-	
-	
-
 	
 	@GetMapping
     public List<VentaDetalleSerialResponseDTO> listar() {
@@ -47,10 +45,24 @@ public class VentaDetalleSerialController {
     public VentaDetalleSerialResponseDTO guardar(@Valid @RequestBody VentaDetalleSerialRequestDTO ventaDetalleSerialDto) {
         return mapper.toResponseDto(cpUseCase.guardar(mapper.toDomain(ventaDetalleSerialDto)));
     }
-    
-	@DeleteMapping("/{idCompraProducto}")
+
+	@DeleteMapping("/{idVentaDetalleSerial}")
 	public ResponseEntity<Void> eliminar(@PathVariable Long idVentaDetalleSerial){
-		cpUseCase.eliminar(idVentaDetalleSerial);
-		return ResponseEntity.noContent().build();
+	    cpUseCase.eliminar(idVentaDetalleSerial);
+	    return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/cliente/{idCliente}")
+	public ResponseEntity<List<VentaDetalleSerialResponseDTO>> ventasPorClienteConSerial(
+	        @PathVariable Long idCliente,
+	        @RequestParam LocalDateTime fechaInicio,
+	        @RequestParam LocalDateTime fechaFin) {
+
+	    List<VentaDetalleSerialResponseDTO> lista = cpUseCase.ventasPorClienteConSerial(idCliente, fechaInicio, fechaFin)
+	            .stream()
+	            .map(mapper::toResponseDto)
+	            .toList();
+	    return ResponseEntity.ok(lista);
+	}
+
 }

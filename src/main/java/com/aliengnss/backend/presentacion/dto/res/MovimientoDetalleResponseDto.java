@@ -1,7 +1,5 @@
 package com.aliengnss.backend.presentacion.dto.res;
 
-import java.sql.Date;
-
 import com.aliengnss.backend.dominio.entidades.Movimiento;
 import com.aliengnss.backend.dominio.entidades.Producto;
 

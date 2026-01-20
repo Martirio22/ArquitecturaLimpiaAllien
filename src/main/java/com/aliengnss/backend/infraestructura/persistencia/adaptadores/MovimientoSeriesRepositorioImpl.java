@@ -10,36 +10,35 @@ import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimiento
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoSeriesJpaRepository;
 
 public class MovimientoSeriesRepositorioImpl implements IMovimientoSeriesRepositorio {
-	
-	private final IMovimientoSeriesJpaRepository movimientoSeriesJpaRepository;
-	private final IMovimientoSeriesJpaMapper mapper;
-	
-	public MovimientoSeriesRepositorioImpl(IMovimientoSeriesJpaRepository movimientoSeriesJpaRepository,
-			IMovimientoSeriesJpaMapper mapper) {
-		this.movimientoSeriesJpaRepository = movimientoSeriesJpaRepository;
-		this.mapper = mapper;
-	}
 
-	@Override
-	public MovimientoDetalleSerial guardar(MovimientoDetalleSerial movimientoSeries) {
-		MovimientoDetalleSerialJpa entity = mapper.toEntity(movimientoSeries);
-		MovimientoDetalleSerialJpa guardar = movimientoSeriesJpaRepository.save(entity);
-		return mapper.toDomain(guardar);
-	}
+    private final IMovimientoSeriesJpaRepository repoJpa;
+    private final IMovimientoSeriesJpaMapper mapper;
 
-	@Override
-	public Optional<MovimientoDetalleSerial> buscarPorId(Long idMovimientoSeries) {
-		return movimientoSeriesJpaRepository.findById(idMovimientoSeries).map(mapper::toDomain);
-	}
+    public MovimientoSeriesRepositorioImpl(IMovimientoSeriesJpaRepository repoJpa,
+                                          IMovimientoSeriesJpaMapper mapper) {
+        this.repoJpa = repoJpa;
+        this.mapper = mapper;
+    }
 
-	@Override
-	public List<MovimientoDetalleSerial> listarTodos() {
-		return movimientoSeriesJpaRepository.findAll().stream().map(mapper::toDomain).toList();
-	}
+    @Override
+    public MovimientoDetalleSerial guardar(MovimientoDetalleSerial entity) {
+        MovimientoDetalleSerialJpa saved = repoJpa.save(mapper.toEntity(entity));
+        return mapper.toDomain(saved);
+    }
 
-	@Override
-	public void eliminar(Long idMovimientoSeries) {
-		movimientoSeriesJpaRepository.deleteById(idMovimientoSeries);
-	}
+    @Override
+    public Optional<MovimientoDetalleSerial> buscarPorId(Long idMovimientoDetalleSerial) {
+        return repoJpa.findById(idMovimientoDetalleSerial).map(mapper::toDomain);
+    }
+
+    @Override
+    public List<MovimientoDetalleSerial> listarTodos() {
+        return repoJpa.findAll().stream().map(mapper::toDomain).toList();
+    }
+
+    @Override
+    public void eliminar(Long idMovimientoDetalleSerial) {
+        repoJpa.deleteById(idMovimientoDetalleSerial);
+    }
 
 }

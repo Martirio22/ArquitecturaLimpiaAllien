@@ -10,5 +10,5 @@ import com.aliengnss.backend.presentacion.dto.res.MovimientoDetalleResponseDto;
 public interface IMovimientoDetalleDtoMapper {
 	MovimientoDetalle toDomain(MovimientoDetalleRequestDto dto);
 
-	MovimientoDetalleResponseDto toResponseDTO(MovimientoDetalle movimientoDetalle);
+	MovimientoDetalleResponseDto toResponseDto(MovimientoDetalle movimientoDetalle);
 }

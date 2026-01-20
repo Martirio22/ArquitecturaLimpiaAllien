@@ -9,6 +9,7 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.ClienteJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IClienteJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IClienteJpaRepository;
 
+
 public class ClienteRepositorioImpl implements IClienteRepositorio {
 
     private final IClienteJpaRepository clienteJpaRepository;
@@ -22,8 +23,8 @@ public class ClienteRepositorioImpl implements IClienteRepositorio {
     @Override
     public Cliente guardar(Cliente cliente) {
         ClienteJpa entity = mapper.toEntity(cliente);
-        ClienteJpa guardar = clienteJpaRepository.save(entity);
-        return mapper.toDomain(guardar);
+        ClienteJpa guardado = clienteJpaRepository.save(entity);
+        return mapper.toDomain(guardado);
     }
 
     @Override
@@ -33,11 +34,12 @@ public class ClienteRepositorioImpl implements IClienteRepositorio {
 
     @Override
     public List<Cliente> listarTodos() {
-       return clienteJpaRepository.findAll().stream().map(mapper::toDomain).toList();
+        return clienteJpaRepository.findAll().stream().map(mapper::toDomain).toList();
     }
 
     @Override
     public void eliminar(Long idCliente) {
         clienteJpaRepository.deleteById(idCliente);
     }
+
 }

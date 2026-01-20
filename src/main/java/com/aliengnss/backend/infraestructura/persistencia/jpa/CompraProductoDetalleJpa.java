@@ -1,15 +1,10 @@
 package com.aliengnss.backend.infraestructura.persistencia.jpa;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import com.aliengnss.backend.dominio.entidades.CompraProducto;
-import com.aliengnss.backend.dominio.entidades.Producto;
-import com.aliengnss.backend.dominio.entidades.Ubicacion;
 
 @Data
 @Entity

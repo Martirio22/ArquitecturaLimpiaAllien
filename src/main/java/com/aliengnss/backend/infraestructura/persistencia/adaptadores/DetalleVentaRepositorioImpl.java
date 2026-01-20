@@ -6,6 +6,7 @@ import com.aliengnss.backend.infraestructura.persistencia.jpa.DetalleVentaJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IDetalleVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IDetalleVentaJpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,4 +41,15 @@ public class DetalleVentaRepositorioImpl implements IDetalleVentaRepositorio {
     public void eliminar(Long idDetalleVenta) {
         detalleVentaJpaRepository.deleteById(idDetalleVenta);
     }
+
+	@Override
+	public List<DetalleVenta> ventasPorProductoUbicacionYFecha(Long idProducto, Long idUbicacion,
+			LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+		return detalleVentaJpaRepository.ventasPorProductoUbicacionYFecha(idProducto, idUbicacion, fechaInicio, fechaFin)
+				.stream()
+				.map(mapper::toDomain)
+				.toList();
+	}
+    
+    
 }
