@@ -3,6 +3,7 @@ package com.aliengnss.backend.presentacion.controladores;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.aliengnss.backend.presentacion.mapeadores.ICompraProductoDetalleDtoMa
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/compra-producto-detalle")
+@RequestMapping("/api/compraProductoDetalle")
 public class CompraProductoDetalleController {
 
     private final ICompraProductoDetalleUseCase useCase;
@@ -61,6 +62,18 @@ public class CompraProductoDetalleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long idCompraProductoDetalle) {
         useCase.eliminar(idCompraProductoDetalle);
+    }
+
+
+    @GetMapping("/usuario/{idUsuario}/producto/{idProducto}")
+    public ResponseEntity<List<CompraProductoDetalleResponseDTO>> buscarPorComprasUsuarioYProducto(
+    		@PathVariable Long idUsuario,
+            @PathVariable Long idProducto) {
+        List<CompraProductoDetalleResponseDTO> lista = useCase.buscarPorComprasUsuarioYProducto(idUsuario, idProducto)
+                .stream()
+                .map(mapper::toResponseDto)
+                .toList();
+        return ResponseEntity.ok(lista);
     }
 
 }

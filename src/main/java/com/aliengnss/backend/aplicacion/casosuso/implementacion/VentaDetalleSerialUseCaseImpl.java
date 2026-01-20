@@ -1,5 +1,6 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaDetalleSerialUseCase;
@@ -36,4 +37,11 @@ public class VentaDetalleSerialUseCaseImpl implements IVentaDetalleSerialUseCase
 		cpRepositorio.eliminar(idVentaDetalleSerial);
 	}
 
+	@Override
+	public List<VentaDetalleSerial> ventasPorClienteConSerial(Long idCliente, LocalDateTime fechaInicio,
+			LocalDateTime fechaFin) {
+		return cpRepositorio.ventasPorClienteConSerial(idCliente, fechaInicio, fechaFin);
+	}
+
+	
 }

@@ -20,7 +20,7 @@ import com.aliengnss.backend.presentacion.mapeadores.IMovimientoSeriesDTOMapper;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/movimiento-series")
+@RequestMapping("/api/movimientoSeries")
 public class MovimientoSeriesController {
 
     private final IMovimientoSeriesUseCase useCase;

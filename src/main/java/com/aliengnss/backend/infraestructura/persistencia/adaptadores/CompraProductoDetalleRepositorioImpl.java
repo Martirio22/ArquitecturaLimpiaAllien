@@ -42,4 +42,13 @@ public class CompraProductoDetalleRepositorioImpl implements ICompraProductoDeta
         repo.deleteById(id);
     }
 
+	@Override
+	public List<CompraProductoDetalle> buscarPorComprasUsuarioYProducto(Long idUsuario, Long idProducto) {
+		return repo.buscarPorComprasUsuarioYProducto(idUsuario, idProducto)
+				.stream()
+				.map(mapper::toDomain)
+				.toList();
+	}
+
+    
 }

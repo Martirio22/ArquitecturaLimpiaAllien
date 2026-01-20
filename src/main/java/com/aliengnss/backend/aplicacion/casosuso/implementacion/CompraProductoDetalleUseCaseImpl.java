@@ -38,4 +38,10 @@ public class CompraProductoDetalleUseCaseImpl implements ICompraProductoDetalleU
         repo.eliminar(id);
     }
 
+	@Override
+	public List<CompraProductoDetalle> buscarPorComprasUsuarioYProducto(Long idUsuario, Long idProducto) {
+		return repo.buscarPorComprasUsuarioYProducto(idUsuario, idProducto);
+	}
+
+    
 }

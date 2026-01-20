@@ -10,5 +10,10 @@ public interface ICompraProductoDetalleUseCase {
     CompraProductoDetalle buscarPorId(Long idCompraProductoDetalle);
     List<CompraProductoDetalle> listarTodos();
     void eliminar(Long idCompraProductoDetalle);
+    
+    List<CompraProductoDetalle> buscarPorComprasUsuarioYProducto(
+		    Long idUsuario,
+		    Long idProducto
+		);
 
     }

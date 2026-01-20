@@ -20,7 +20,7 @@ import com.aliengnss.backend.presentacion.mapeadores.ICompraProductoDtoMapper;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/compra-producto")
+@RequestMapping("/api/compraProducto")
 public class CompraProductoController {
 
     private final ICompraProductoUseCase useCase;
