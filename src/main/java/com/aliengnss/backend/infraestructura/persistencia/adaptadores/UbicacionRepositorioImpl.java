@@ -45,4 +45,26 @@ public class UbicacionRepositorioImpl implements IUbicacionRepositorio {
 		repositorioJpa.deleteById(id);
 
 	}
+	
+	// nuevos
+		@Override
+		public List<Ubicacion> buscarPorTipo(String tipo) {
+		    return repositorioJpa.buscarPorTipo(tipo).stream()
+		            .map(entityMapper::toDomain)
+		            .toList();
+		}
+
+		@Override
+		public List<Ubicacion> buscarPorNombre(String nombre) {
+		    return repositorioJpa.buscarPorNombre(nombre).stream()
+		            .map(entityMapper::toDomain)
+		            .toList();
+		}
+
+		@Override
+		public List<Ubicacion> buscarPorTipoYNombre(String tipo, String nombre) {
+		    return repositorioJpa.buscarPorTipoYNombre(tipo, nombre).stream()
+		            .map(entityMapper::toDomain)
+		            .toList();
+		}
 }

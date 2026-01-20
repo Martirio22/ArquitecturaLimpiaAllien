@@ -1,5 +1,6 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +41,26 @@ public class MovimientoDetalleUseCaseImpl implements IMovimientoDetalleUseCase {
         repo.eliminar(idMovimientoDetalle);
     }
 
+    // nuevos
+    @Override
+    public List<MovimientoDetalle> movimientosDeProductoEnRango(Long idProducto, LocalDateTime inicio, LocalDateTime fin) {
+        return repo.movimientosDeProductoEnRango(idProducto, inicio, fin);
+    }
+
+    @Override
+    public List<MovimientoDetalle> movimientosDesdeUbicacionEnRango(Long idUbicacionOrigen, LocalDateTime inicio, LocalDateTime fin) {
+        return repo.movimientosDesdeUbicacionEnRango(idUbicacionOrigen, inicio, fin);
+    }
+
+    @Override
+    public List<MovimientoDetalle> movimientosHaciaUbicacionEnRango(Long idUbicacionDestino, LocalDateTime inicio, LocalDateTime fin) {
+        return repo.movimientosHaciaUbicacionEnRango(idUbicacionDestino, inicio, fin);
+    }
+
+    // opcional
+    @Override
+    public List<MovimientoDetalle> detallesDeMovimiento(Long idMovimiento) {
+        return repo.detallesDeMovimiento(idMovimiento);
+    }
     
 }

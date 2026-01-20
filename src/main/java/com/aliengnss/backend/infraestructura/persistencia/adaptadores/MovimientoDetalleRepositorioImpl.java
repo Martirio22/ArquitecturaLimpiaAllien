@@ -1,5 +1,6 @@
 package com.aliengnss.backend.infraestructura.persistencia.adaptadores;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +40,38 @@ public class MovimientoDetalleRepositorioImpl implements IMovimientoDetalleRepos
         repoJpa.deleteById(idMovimientoDetalle);
     }
 
+    // nuevos
+    @Override
+    public List<MovimientoDetalle> movimientosDeProductoEnRango(Long idProducto, LocalDateTime inicio, LocalDateTime fin) {
+        return repoJpa.movimientosDeProductoEnRango(idProducto, inicio, fin)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<MovimientoDetalle> movimientosDesdeUbicacionEnRango(Long idUbicacionOrigen, LocalDateTime inicio, LocalDateTime fin) {
+        return repoJpa.movimientosDesdeUbicacionEnRango(idUbicacionOrigen, inicio, fin)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<MovimientoDetalle> movimientosHaciaUbicacionEnRango(Long idUbicacionDestino, LocalDateTime inicio, LocalDateTime fin) {
+        return repoJpa.movimientosHaciaUbicacionEnRango(idUbicacionDestino, inicio, fin)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
+    // opcional
+    @Override
+    public List<MovimientoDetalle> detallesDeMovimiento(Long idMovimiento) {
+        return repoJpa.detallesDeMovimiento(idMovimiento)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
     
 }

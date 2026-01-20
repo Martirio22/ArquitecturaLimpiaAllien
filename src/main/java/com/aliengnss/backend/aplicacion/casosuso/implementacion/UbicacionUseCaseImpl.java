@@ -6,15 +6,13 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.IUbicacionUseCase;
 import com.aliengnss.backend.dominio.entidades.Ubicacion;
 import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
 
-
-
 public class UbicacionUseCaseImpl implements IUbicacionUseCase {
 	private final IUbicacionRepositorio repositorio;
 
 	public UbicacionUseCaseImpl(IUbicacionRepositorio repositorio) {
 		this.repositorio = repositorio;
 	}
-	
+
 	@Override
 	public Ubicacion crear(Ubicacion ubicacion) {
 		// TODO Auto-generated method stub
@@ -24,8 +22,7 @@ public class UbicacionUseCaseImpl implements IUbicacionUseCase {
 	@Override
 	public Ubicacion obtenerPorId(Long id) {
 		// TODO Auto-generated method stub
-		return repositorio.buscarPorId(id)
-				.orElseThrow(()-> new RuntimeException("Ubicacion no encontrado"));
+		return repositorio.buscarPorId(id).orElseThrow(() -> new RuntimeException("Ubicacion no encontrado"));
 	}
 
 	@Override
@@ -40,6 +37,20 @@ public class UbicacionUseCaseImpl implements IUbicacionUseCase {
 
 	}
 
-	
+	// nuevos
+	@Override
+	public List<Ubicacion> buscarPorTipo(String tipo) {
+		return repositorio.buscarPorTipo(tipo);
+	}
+
+	@Override
+	public List<Ubicacion> buscarPorNombre(String nombre) {
+		return repositorio.buscarPorNombre(nombre);
+	}
+
+	@Override
+	public List<Ubicacion> buscarPorTipoYNombre(String tipo, String nombre) {
+		return repositorio.buscarPorTipoYNombre(tipo, nombre);
+	}
 
 }
