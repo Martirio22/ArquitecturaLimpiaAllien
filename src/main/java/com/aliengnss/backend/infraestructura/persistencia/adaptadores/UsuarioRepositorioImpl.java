@@ -40,7 +40,7 @@ public class UsuarioRepositorioImpl implements IUsuarioRepositorio{
 	
 	@Override
 	public void eliminar(Long idUsuario) {
-		usuarioJpaRepository.deleteById(idUsuario);
+		usuarioJpaRepository.alternarEstado(idUsuario);
 	}
 
 	@Override
@@ -51,5 +51,9 @@ public class UsuarioRepositorioImpl implements IUsuarioRepositorio{
 				.toList();
 	}
 
+	@Override
+	public Optional<Usuario> buscarPorCorreo(String correoElectronico) {
+	    return usuarioJpaRepository.findByCorreoElectronico(correoElectronico).map(entityMapper::toDomain);
+	}
 	
 }

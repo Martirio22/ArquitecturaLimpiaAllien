@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
 	private final IUsuarioUseCase usuarioUseCase;
@@ -33,6 +34,11 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioResponseDTO guardar(@Valid @RequestBody UsuarioRequestDTO usuarioDto) {
         return mapper.toResponseDto(usuarioUseCase.guardar(mapper.toDomain(usuarioDto)));
+    }
+    @PutMapping("/{id}")
+    public UsuarioResponseDTO actualizar(@PathVariable Long id, @Valid @RequestBody UsuarioRequestDTO dto) {
+        dto.setIdUsuario(id);
+        return mapper.toResponseDto(usuarioUseCase.guardar(mapper.toDomain(dto)));
     }
     
 	@DeleteMapping("/{idUsuario}")

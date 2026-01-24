@@ -8,6 +8,7 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoDetalleU
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleVentaUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IInventarioMovimientoUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.ILoginUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoDetalleUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoSeriesUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
@@ -22,6 +23,7 @@ import com.aliengnss.backend.aplicacion.casosuso.implementacion.CompraProductoDe
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.CompraProductoUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.DetalleVentaUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.InventarioMovimientoUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.LoginUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoDetalleUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoSeriesUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoUseCaseImpl;
@@ -91,6 +93,11 @@ import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 @Configuration
 public class ConfiguracionGeneral {
 
+	@Bean
+	ILoginUseCase loginUseCase(IUsuarioRepositorio usuarioRepositorio) {
+	    return new LoginUseCaseImpl(usuarioRepositorio);
+	}
+	
 	@Bean
 	IClienteRepositorio clienteRepositorio(IClienteJpaRepository clienteJpaRepository,
 			IClienteJpaMapper clienteJpaMapper) {
