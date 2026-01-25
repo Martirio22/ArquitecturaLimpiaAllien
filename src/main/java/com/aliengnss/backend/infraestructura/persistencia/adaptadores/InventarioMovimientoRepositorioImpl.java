@@ -70,6 +70,11 @@ public class InventarioMovimientoRepositorioImpl implements IInventarioMovimient
 				.toList();
 	}
 
+	@Override
+	public Integer obtenerStockPorProductoYUbicacion(Long idProducto, Long idUbicacion) {
+		return cpJpaRepository.obtenerStockPorProductoYUbicacion(idProducto, idUbicacion);
+	}
+
 	
 	
 }

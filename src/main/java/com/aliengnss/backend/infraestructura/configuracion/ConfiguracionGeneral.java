@@ -126,8 +126,15 @@ public class ConfiguracionGeneral {
 	}
 
 	@Bean
-	IDetalleVentaUseCase detalleVentaUseCase(IDetalleVentaRepositorio detalleVentaRepositorio) {
-		return new DetalleVentaUseCaseImpl(detalleVentaRepositorio);
+	IDetalleVentaUseCase detalleVentaUseCase(
+	        IDetalleVentaRepositorio detalleVentaRepositorio, 
+	        IProductoRepositorio productoRepositorio, 
+	        IVentaRepositorio ventaRepositorio) { 
+	    return new DetalleVentaUseCaseImpl(
+	        detalleVentaRepositorio, 
+	        productoRepositorio, 
+	        ventaRepositorio
+	    );
 	}
 
 	@Bean

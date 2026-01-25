@@ -20,6 +20,6 @@ public class CompraProductoRequestDTO {
     private String observaciones;
     
 	@NotNull
-    private Usuario fkUsuario;
+    private UsuarioRequestDTO fkUsuario;
 
 }

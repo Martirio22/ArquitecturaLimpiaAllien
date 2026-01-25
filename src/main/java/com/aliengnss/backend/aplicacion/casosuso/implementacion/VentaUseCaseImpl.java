@@ -1,5 +1,6 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,32 @@ public class VentaUseCaseImpl implements IVentaUseCase {
     }
 
     @Override
+    @Transactional
     public Venta guardar(Venta venta) {
-        return repo.guardar(venta);
+    	LocalDateTime fechaActual = LocalDateTime.now();
+        
+        String nuevoNumero = generarProximoNumeroFactura();
+        
+        Venta ventaParaGuardar = new Venta(
+                null, 
+                nuevoNumero, 
+                fechaActual, 
+                venta.getTotal(), 
+                venta.getObservaciones(), 
+                venta.getFkCliente(), 
+                venta.getFkUsuario()
+            );
+        return repo.guardar(ventaParaGuardar);
+    }
+    private String generarProximoNumeroFactura() {
+        return repo.listarTodos().stream()
+            .map(Venta::getNumeroFactura)
+            .max(String::compareTo)
+            .map(ultimo -> {
+                int num = Integer.parseInt(ultimo.split("-")[1]) + 1;
+                return String.format("VNT-%04d", num);
+            })
+            .orElse("VNT-0001");
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.aliengnss.backend.dominio.entidades.CompraProducto;
 import com.aliengnss.backend.presentacion.dto.req.CompraProductoRequestDTO;
 import com.aliengnss.backend.presentacion.dto.res.CompraProductoResponseDTO;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { IUsuarioDtoMapper.class })
 public interface ICompraProductoDtoMapper {
 
 	CompraProducto toDomain(CompraProductoRequestDTO dto);
