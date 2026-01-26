@@ -3,10 +3,12 @@ package com.aliengnss.backend.presentacion.controladores;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,6 +23,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/cliente")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClienteController {
 
     private final IClienteUseCase clienteUseCase;
@@ -53,5 +56,13 @@ public class ClienteController {
     public void eliminar(@PathVariable Long idCliente) {
         clienteUseCase.eliminar(idCliente);
     }
+    
+    @PutMapping("/{idCliente}")
+    public ClienteResponseDto actualizar(@PathVariable Long idCliente,
+                                         @Valid @RequestBody ClienteRequestDto clienteDto) {
+        clienteDto.setIdCliente(idCliente);
+        return mapper.toResponseDto(clienteUseCase.guardar(mapper.toDomain(clienteDto)));
+    }
+
 
 }

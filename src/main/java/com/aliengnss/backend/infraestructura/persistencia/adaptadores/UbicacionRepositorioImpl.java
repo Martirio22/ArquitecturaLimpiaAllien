@@ -45,4 +45,15 @@ public class UbicacionRepositorioImpl implements IUbicacionRepositorio {
 		repositorioJpa.deleteById(id);
 
 	}
+	@Override
+	public Optional<Ubicacion> buscarPorNombreExacto(String nombre) {
+	    return repositorioJpa.buscarPorNombreExacto(nombre)
+	            .map(entityMapper::toDomain);
+	}
+
+	
+
+	  
+
+		
 }

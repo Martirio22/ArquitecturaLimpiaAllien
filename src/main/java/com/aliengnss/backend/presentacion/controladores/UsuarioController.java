@@ -18,40 +18,39 @@ public class UsuarioController {
 
 	private final IUsuarioUseCase usuarioUseCase;
 	private final IUsuarioDtoMapper mapper;
-	
+
 	public UsuarioController(IUsuarioUseCase usuarioUseCase, IUsuarioDtoMapper mapper) {
-		
+
 		this.usuarioUseCase = usuarioUseCase;
 		this.mapper = mapper;
 	}
-	
-	@GetMapping
-    public List<UsuarioResponseDTO> listar() {
-        return usuarioUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
-    }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UsuarioResponseDTO guardar(@Valid @RequestBody UsuarioRequestDTO usuarioDto) {
-        return mapper.toResponseDto(usuarioUseCase.guardar(mapper.toDomain(usuarioDto)));
-    }
-    @PutMapping("/{id}")
-    public UsuarioResponseDTO actualizar(@PathVariable Long id, @Valid @RequestBody UsuarioRequestDTO dto) {
-        dto.setIdUsuario(id);
-        return mapper.toResponseDto(usuarioUseCase.guardar(mapper.toDomain(dto)));
-    }
-    
+	@GetMapping
+	public List<UsuarioResponseDTO> listar() {
+		return usuarioUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
+	}
+
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public UsuarioResponseDTO guardar(@Valid @RequestBody UsuarioRequestDTO usuarioDto) {
+		return mapper.toResponseDto(usuarioUseCase.guardar(mapper.toDomain(usuarioDto)));
+	}
+
+	@PutMapping("/{id}")
+	public UsuarioResponseDTO actualizar(@PathVariable Long id, @Valid @RequestBody UsuarioRequestDTO dto) {
+		dto.setIdUsuario(id);
+		return mapper.toResponseDto(usuarioUseCase.guardar(mapper.toDomain(dto)));
+	}
+
 	@DeleteMapping("/{idUsuario}")
-	public ResponseEntity<Void> eliminar(@PathVariable Long idUsuario){
+	public ResponseEntity<Void> eliminar(@PathVariable Long idUsuario) {
 		usuarioUseCase.eliminar(idUsuario);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("/usuario/{nombre}")
-	public ResponseEntity<List<UsuarioResponseDTO>> buscarPorNombres(@PathVariable String nombre){
-		List<UsuarioResponseDTO> lista = usuarioUseCase.buscarPorNombres(nombre)
-				.stream()
-				.map(mapper::toResponseDto)
+	public ResponseEntity<List<UsuarioResponseDTO>> buscarPorNombres(@PathVariable String nombre) {
+		List<UsuarioResponseDTO> lista = usuarioUseCase.buscarPorNombres(nombre).stream().map(mapper::toResponseDto)
 				.toList();
 		return ResponseEntity.ok(lista);
 	}

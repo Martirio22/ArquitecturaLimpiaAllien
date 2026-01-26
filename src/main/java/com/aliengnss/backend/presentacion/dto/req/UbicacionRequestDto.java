@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class UbicacionRequestDto {
-	@Null
 	private Long idUbicacion;
 	@NotBlank
 	private String nombre;

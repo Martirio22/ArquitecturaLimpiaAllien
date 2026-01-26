@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class VentaDetalleSerialRequestDTO {
 
-	@Null
 	private  Long idVentaDetalleSerial;
 	@NotNull
 	private DetalleVenta fkDetalleVenta;
