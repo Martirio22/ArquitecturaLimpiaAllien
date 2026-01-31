@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class ProductoSerialRequestDto {
-	@Null
+	//@Null
 	private Long idProductoSerial;
 	@NotBlank
 	private String serial;
