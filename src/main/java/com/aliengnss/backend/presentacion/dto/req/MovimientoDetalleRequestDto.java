@@ -1,20 +1,16 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
-import com.aliengnss.backend.dominio.entidades.Movimiento;
-import com.aliengnss.backend.dominio.entidades.Producto;
-
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
 public class MovimientoDetalleRequestDto {
-	@Null
-	private Long idMovimientoDetalle;
-	@NotNull
-	private int cantidad;
-	@NotNull
-	private Movimiento fkMovimiento;
-	@NotNull
-	private Producto fkProducto;
+    
+    @NotNull(message = "El ID del producto es requerido")
+    private Long idProducto;
+    
+    @NotNull(message = "La cantidad es requerida")
+    @Min(value = 1, message = "La cantidad debe ser al menos 1")
+    private Integer cantidad;
 }

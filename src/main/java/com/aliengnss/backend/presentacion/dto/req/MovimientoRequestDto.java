@@ -1,6 +1,7 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -31,4 +32,7 @@ public class MovimientoRequestDto {
 
     @NotNull(message = "La ubicación destino es requerida")
     private Long idUbicacionDestino;
+
+    @NotNull(message = "El movimiento debe tener al menos un producto")
+    private List<MovimientoDetalleRequestDto> detalles;
 }

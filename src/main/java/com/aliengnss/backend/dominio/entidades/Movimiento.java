@@ -2,6 +2,8 @@ package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Movimiento implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,8 +15,10 @@ public class Movimiento implements Serializable {
     private final Usuario fkUsuario;
     private final Ubicacion fkUbicacionOrigen;
     private final Ubicacion fkUbicacionDestino;
+    // ✅ Nuevo campo agregado
+    private final List<MovimientoDetalle> detalles; 
     
-    // Constructor privado
+    // Constructor privado actualizado
     private Movimiento(Builder builder) {
         this.idMovimiento = builder.idMovimiento;
         this.fechaMovimiento = builder.fechaMovimiento;
@@ -23,12 +27,14 @@ public class Movimiento implements Serializable {
         this.fkUsuario = builder.fkUsuario;
         this.fkUbicacionOrigen = builder.fkUbicacionOrigen;
         this.fkUbicacionDestino = builder.fkUbicacionDestino;
+        // ✅ Inicialización de detalles
+        this.detalles = builder.detalles != null ? builder.detalles : new ArrayList<>();
     }
     
-    // Constructor público para mantener compatibilidad
+    // Constructor público actualizado para mantener compatibilidad
     public Movimiento(Long idMovimiento, LocalDateTime fechaMovimiento, String tipo, 
-                     String observaciones, Usuario fkUsuario, 
-                     Ubicacion fkUbicacionOrigen, Ubicacion fkUbicacionDestino) {
+                      String observaciones, Usuario fkUsuario, 
+                      Ubicacion fkUbicacionOrigen, Ubicacion fkUbicacionDestino) {
         this.idMovimiento = idMovimiento;
         this.fechaMovimiento = fechaMovimiento;
         this.tipo = tipo;
@@ -36,6 +42,7 @@ public class Movimiento implements Serializable {
         this.fkUsuario = fkUsuario;
         this.fkUbicacionOrigen = fkUbicacionOrigen;
         this.fkUbicacionDestino = fkUbicacionDestino;
+        this.detalles = new ArrayList<>(); // ✅ Default vacío
     }
     
     // Método para crear un builder desde la instancia actual
@@ -47,7 +54,8 @@ public class Movimiento implements Serializable {
             .observaciones(this.observaciones)
             .fkUsuario(this.fkUsuario)
             .fkUbicacionOrigen(this.fkUbicacionOrigen)
-            .fkUbicacionDestino(this.fkUbicacionDestino);
+            .fkUbicacionDestino(this.fkUbicacionDestino)
+            .detalles(this.detalles); // ✅ Pasa los detalles al builder
     }
     
     // Getters
@@ -58,6 +66,8 @@ public class Movimiento implements Serializable {
     public Usuario getFkUsuario() { return fkUsuario; }
     public Ubicacion getFkUbicacionOrigen() { return fkUbicacionOrigen; }
     public Ubicacion getFkUbicacionDestino() { return fkUbicacionDestino; }
+    // ✅ Getter para detalles
+    public List<MovimientoDetalle> getDetalles() { return detalles; }
     
     // Builder estático
     public static Builder builder() {
@@ -72,6 +82,8 @@ public class Movimiento implements Serializable {
         private Usuario fkUsuario;
         private Ubicacion fkUbicacionOrigen;
         private Ubicacion fkUbicacionDestino;
+        // ✅ Campo detalles en el builder
+        private List<MovimientoDetalle> detalles; 
         
         public Builder idMovimiento(Long idMovimiento) {
             this.idMovimiento = idMovimiento;
@@ -105,6 +117,12 @@ public class Movimiento implements Serializable {
         
         public Builder fkUbicacionDestino(Ubicacion fkUbicacionDestino) {
             this.fkUbicacionDestino = fkUbicacionDestino;
+            return this;
+        }
+
+        // ✅ Método para agregar detalles en el builder
+        public Builder detalles(List<MovimientoDetalle> detalles) {
+            this.detalles = detalles;
             return this;
         }
         
