@@ -2,35 +2,33 @@ package com.aliengnss.backend.presentacion.dto.req;
 
 import java.time.LocalDateTime;
 
-import com.aliengnss.backend.dominio.entidades.Usuario;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MovimientoRequestDto {
 
-	
-	@Null
     private Long idMovimiento;
 
-    @NotNull
+    @NotNull(message = "La fecha del movimiento es requerida")
     private LocalDateTime fechaMovimiento;
 
-    @NotBlank
+    @NotBlank(message = "El tipo de movimiento es requerido")
     private String tipo;
 
-    @NotBlank
     private String observaciones;
 
-    @NotNull
-    private Usuario fkUsuario;
+    // ✅ Cambiar de Usuario a Long
+    @NotNull(message = "El usuario es requerido")
+    private Long idUsuario;
 
-    @NotNull
+    @NotNull(message = "La ubicación origen es requerida")
     private Long idUbicacionOrigen;
 
-    @NotNull
+    @NotNull(message = "La ubicación destino es requerida")
     private Long idUbicacionDestino;
 }

@@ -31,29 +31,30 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 	}
 
 	@Override
-    public Movimiento crear(MovimientoRequestDto dto) {
+public Movimiento crear(MovimientoRequestDto dto) {
 
-        Ubicacion origen = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionOrigen())
-                .orElseThrow(() -> new RuntimeException("Ubicación origen no existe"));
+    Ubicacion origen = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionOrigen())
+            .orElseThrow(() -> new RuntimeException("Ubicación origen no existe"));
 
-        Ubicacion destino = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionDestino())
-                .orElseThrow(() -> new RuntimeException("Ubicación destino no existe"));
+    Ubicacion destino = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionDestino())
+            .orElseThrow(() -> new RuntimeException("Ubicación destino no existe"));
 
-        Usuario usuario = usuarioRepositorio.buscarPorId(dto.getFkUsuario().getIdUsuario())
-                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+    // ✅ Buscar el usuario por ID
+    Usuario usuario = usuarioRepositorio.buscarPorId(dto.getIdUsuario())
+            .orElseThrow(() -> new RuntimeException("Usuario no existe"));
 
-        Movimiento movimiento = new Movimiento(
-                null,
-                dto.getFechaMovimiento(),
-                dto.getTipo(),
-                dto.getObservaciones(),
-                usuario,
-                origen,
-                destino
-        );
+    Movimiento movimiento = new Movimiento(
+            dto.getIdMovimiento(), // Ahora puede venir del DTO
+            dto.getFechaMovimiento(),
+            dto.getTipo(),
+            dto.getObservaciones(),
+            usuario,
+            origen,
+            destino
+    );
 
-        return repo.guardar(movimiento);
-    }
+    return repo.guardar(movimiento);
+}
 
     @Override
     @Transactional(readOnly = true)
@@ -71,6 +72,11 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
     @Override
     public void eliminar(Long idMovimiento) {
         repo.eliminar(idMovimiento);
+    }
+
+    @Override
+    public Movimiento actualizar(Movimiento movimiento) {
+        return repo.guardar(movimiento);
     }
 
    

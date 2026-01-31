@@ -3,10 +3,13 @@ package com.aliengnss.backend.presentacion.controladores;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,6 +25,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/movimiento")
+@CrossOrigin(origins = "*")
 public class MovimientoController {
 
     private final IMovimientoUseCase useCase;
@@ -34,10 +38,10 @@ public class MovimientoController {
 
     // CRUD
     @GetMapping
-	public List<MovimientoResponseDto> listar() {
-		return useCase.listarTodos().stream().map(mapper::toResponseDTO).toList();
+    public List<MovimientoResponseDto> listar() {
+        return useCase.listarTodos().stream().map(mapper::toResponseDTO).toList();
 
-	}
+    }
 
     @GetMapping("/{idMovimiento}")
     public MovimientoResponseDto buscarPorId(@PathVariable Long idMovimiento) {
@@ -45,11 +49,22 @@ public class MovimientoController {
     }
 
     @PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public MovimientoResponseDto crear(@Valid @RequestBody MovimientoRequestDto request) {
-	    Movimiento movimiento = useCase.crear(request);
-	    return mapper.toResponseDTO(movimiento);
-	}
+    @ResponseStatus(HttpStatus.CREATED)
+    public MovimientoResponseDto crear(@Valid @RequestBody MovimientoRequestDto request) {
+        Movimiento movimiento = useCase.crear(request);
+        return mapper.toResponseDTO(movimiento);
+    }
+
+    @PutMapping("/{idMovimiento}")
+    public ResponseEntity<MovimientoResponseDto> actualizar(
+            @PathVariable Long idMovimiento,
+            @Valid @RequestBody MovimientoRequestDto movimientoDto) {
+
+        useCase.buscarPorId(idMovimiento);
+        movimientoDto.setIdMovimiento(idMovimiento);
+        var actualizado = useCase.crear(movimientoDto);
+        return ResponseEntity.ok(mapper.toResponseDTO(actualizado));
+    }
 
     @DeleteMapping("/{idMovimiento}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -57,5 +72,4 @@ public class MovimientoController {
         useCase.eliminar(idMovimiento);
     }
 
-    
 }
