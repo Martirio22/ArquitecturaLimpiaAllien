@@ -17,6 +17,12 @@ public class ProductoRequestDto {
 
     @NotBlank
     private String nombre;
+    
+    @NotBlank
+    private String marca;
+    
+    @NotBlank
+    private String tipo;
 
     @NotBlank
     private String foto;
