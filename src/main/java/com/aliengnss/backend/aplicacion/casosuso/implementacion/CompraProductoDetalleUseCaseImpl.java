@@ -19,6 +19,7 @@ public class CompraProductoDetalleUseCaseImpl implements ICompraProductoDetalleU
 
     @Override
     public CompraProductoDetalle guardar(CompraProductoDetalle detalle) {
+    	
         return repo.guardar(detalle);
     }
 

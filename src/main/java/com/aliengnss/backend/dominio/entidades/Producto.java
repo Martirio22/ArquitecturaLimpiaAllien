@@ -9,17 +9,23 @@ public class Producto implements Serializable {
 	
 	private final Long idProducto;
 	private final String nombre;
+	private final String marca;
+	private final String tipo;
 	private final String foto;
 	private final String descripcion;
 	private final BigDecimal precioVenta;
 	private final Boolean esConSerial;
 	private final BigDecimal porcentajeComision;
 	private final LocalDateTime fechaCreacion;
-	public Producto(Long idProducto, String nombre, String foto, String descripcion, BigDecimal precioVenta,
-			Boolean esConSerial, BigDecimal porcentajeComision, LocalDateTime fechaCreacion) {
-		super();
+	
+	
+	public Producto(Long idProducto, String nombre, String marca, String tipo, String foto, String descripcion,
+			BigDecimal precioVenta, Boolean esConSerial, BigDecimal porcentajeComision, LocalDateTime fechaCreacion) {
+		
 		this.idProducto = idProducto;
 		this.nombre = nombre;
+		this.marca = marca;
+		this.tipo = tipo;
 		this.foto = foto;
 		this.descripcion = descripcion;
 		this.precioVenta = precioVenta;
@@ -51,6 +57,11 @@ public class Producto implements Serializable {
 	public LocalDateTime getFechaCreacion() {
 		return fechaCreacion;
 	}
-	
+	public String getMarca() {
+		return marca;
+	}
+	public String getTipo() {
+		return tipo;
+	}
 	
 }
