@@ -3,10 +3,12 @@ package com.aliengnss.backend.presentacion.controladores;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,10 +33,12 @@ public class ClienteController {
         this.mapper = mapper;
     }
 
-    // CRUD
     @GetMapping
     public List<ClienteResponseDto> listar() {
-        return clienteUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
+        return clienteUseCase.listarTodos()
+                .stream()
+                .map(mapper::toResponseDto)
+                .toList();
     }
 
     @GetMapping("/{idCliente}")
@@ -48,10 +52,24 @@ public class ClienteController {
         return mapper.toResponseDto(clienteUseCase.guardar(mapper.toDomain(clienteDto)));
     }
 
+    @PutMapping("/{idCliente}")
+    public ResponseEntity<ClienteResponseDto> actualizar(
+            @PathVariable Long idCliente,
+            @Valid @RequestBody ClienteRequestDto clienteDto
+    ) {
+        // valida que exista (si no existe, tu usecase debería lanzar excepción -> 404 via Handler)
+        clienteUseCase.buscarPorId(idCliente);
+
+        // importante: setear el id que viene por URL
+        clienteDto.setIdCliente(idCliente);
+
+        var actualizado = clienteUseCase.guardar(mapper.toDomain(clienteDto));
+        return ResponseEntity.ok(mapper.toResponseDto(actualizado));
+    }
+
     @DeleteMapping("/{idCliente}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long idCliente) {
         clienteUseCase.eliminar(idCliente);
     }
-
 }

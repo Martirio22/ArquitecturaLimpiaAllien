@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,9 +27,9 @@ public class UbicacionControlador {
 	private final IUbicacionUseCase UbicacionUseCase;
 	private final IUbicacionDtoMapper mapper;
 
-	private UbicacionControlador(IUbicacionUseCase UbicacionUseCase, IUbicacionDtoMapper mapper) {
-		super();
-		this.UbicacionUseCase = UbicacionUseCase;
+
+	public UbicacionControlador(IUbicacionUseCase ubicacionUseCase, IUbicacionDtoMapper mapper) {
+		UbicacionUseCase = ubicacionUseCase;
 		this.mapper = mapper;
 	}
 
@@ -43,10 +44,29 @@ public class UbicacionControlador {
 		return UbicacionUseCase.Listar().stream().map(mapper::toResponseDTO).toList();
 
 	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-		UbicacionUseCase.eliminar(id);
-		return ResponseEntity.noContent().build();
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UbicacionResponseDto> obtenerPorId(@PathVariable Long id) {
+		var ubicacion = UbicacionUseCase.obtenerPorId(id);
+		return ResponseEntity.ok(mapper.toResponseDTO(ubicacion));
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<UbicacionResponseDto> actualizar (
+			@PathVariable Long id,
+			@Valid @RequestBody UbicacionRequestDto ubiacionDto
+	) {
+		UbicacionUseCase.obtenerPorId(id);
+		ubiacionDto.setIdUbicacion(id);
+		var actualizado = UbicacionUseCase.crear(mapper.toDomain(ubiacionDto));
+		return ResponseEntity.ok(mapper.toResponseDTO(actualizado));
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void eliminar(@PathVariable Long id) {
+		UbicacionUseCase.eliminar(id);
+	}
+	
+	
 }
