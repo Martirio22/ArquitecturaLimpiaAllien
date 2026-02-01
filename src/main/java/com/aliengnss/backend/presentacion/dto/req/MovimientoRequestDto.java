@@ -26,7 +26,7 @@ public class MovimientoRequestDto {
     private String observaciones;
 
     @NotNull
-    private Usuario fkUsuario;
+    private Long idUsuario;
 
     @NotNull
     private Long idUbicacionOrigen;

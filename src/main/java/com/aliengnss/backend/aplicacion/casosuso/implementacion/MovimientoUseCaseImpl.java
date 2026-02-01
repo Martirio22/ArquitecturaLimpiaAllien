@@ -39,7 +39,7 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
         Ubicacion destino = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionDestino())
                 .orElseThrow(() -> new RuntimeException("Ubicación destino no existe"));
 
-        Usuario usuario = usuarioRepositorio.buscarPorId(dto.getFkUsuario().getIdUsuario())
+        Usuario usuario = usuarioRepositorio.buscarPorId(dto.getIdUsuario())
                 .orElseThrow(() -> new RuntimeException("Usuario no existe"));
 
         Movimiento movimiento = new Movimiento(
@@ -54,6 +54,35 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 
         return repo.guardar(movimiento);
     }
+	// com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoUseCaseImpl
+	@Override
+	@Transactional
+	public Movimiento actualizar(Long id, MovimientoRequestDto dto) {
+	    // 1. Verificar que existe
+	    repo.buscarPorId(id).orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+
+	    // 2. Buscar las nuevas entidades (igual que en el método crear)
+	    Ubicacion origen = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionOrigen())
+	            .orElseThrow(() -> new RuntimeException("Ubicación origen no existe"));
+	    Ubicacion destino = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionDestino())
+	            .orElseThrow(() -> new RuntimeException("Ubicación destino no existe"));
+	    Usuario usuario = usuarioRepositorio.buscarPorId(dto.getIdUsuario())
+	            .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+
+	    // 3. Crear el objeto de dominio con el ID existente para que JPA sepa que es UPDATE
+	    Movimiento movimientoActualizado = new Movimiento(
+	            id,
+	            dto.getFechaMovimiento(),
+	            dto.getTipo(),
+	            dto.getObservaciones(),
+	            usuario,
+	            origen,
+	            destino
+	    );
+
+	    return repo.guardar(movimientoActualizado);
+	}
+	
 
     @Override
     @Transactional(readOnly = true)
