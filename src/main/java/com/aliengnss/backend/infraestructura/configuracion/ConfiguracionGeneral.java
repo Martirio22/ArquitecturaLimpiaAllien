@@ -95,9 +95,9 @@ public class ConfiguracionGeneral {
 
 	@Bean
 	ILoginUseCase loginUseCase(IUsuarioRepositorio usuarioRepositorio) {
-	    return new LoginUseCaseImpl(usuarioRepositorio);
+		return new LoginUseCaseImpl(usuarioRepositorio);
 	}
-	
+
 	@Bean
 	IClienteRepositorio clienteRepositorio(IClienteJpaRepository clienteJpaRepository,
 			IClienteJpaMapper clienteJpaMapper) {
@@ -126,8 +126,14 @@ public class ConfiguracionGeneral {
 	}
 
 	@Bean
-	IDetalleVentaUseCase detalleVentaUseCase(IDetalleVentaRepositorio detalleVentaRepositorio) {
-		return new DetalleVentaUseCaseImpl(detalleVentaRepositorio);
+	IDetalleVentaUseCase detalleVentaUseCase(
+			IDetalleVentaRepositorio detalleVentaRepositorio,
+			IProductoRepositorio productoRepositorio,
+			IVentaRepositorio ventaRepositorio) {
+		return new DetalleVentaUseCaseImpl(
+				detalleVentaRepositorio,
+				productoRepositorio,
+				ventaRepositorio);
 	}
 
 	@Bean
@@ -140,26 +146,29 @@ public class ConfiguracionGeneral {
 	IProductoUseCase productoUseCase(IProductoRepositorio productoRepositorio) {
 		return new ProductoUseCaseImpl(productoRepositorio);
 	}
-	
+
 	@Bean
-    IProductoSerialRepositorio productoSerialRepositorio(IProductoSerialJpaRepository productoSerialJpaRepository, IProductoSerialJpaMapper productoSerialJpaMapper) {
-    	return new ProductoSerialRepositorioImpl(productoSerialJpaRepository, productoSerialJpaMapper);
-    }
-    
-    @Bean
-    IProductoSerialUseCase productoSerialUseCase(IProductoSerialRepositorio productoSerialRepositorio) {
-    	return new ProductoSerialUseCaseImpl(productoSerialRepositorio);
-    }
-    
-    @Bean
-    IMovimientoSeriesRepositorio movimientoSeriesRepositorio(IMovimientoSeriesJpaRepository movimientoSeriesJpaRepository, IMovimientoSeriesJpaMapper movimientoSeriesJpaMapper) {
-    	return new MovimientoSeriesRepositorioImpl(movimientoSeriesJpaRepository, movimientoSeriesJpaMapper);
-    }
-    
-    @Bean
-    IMovimientoSeriesUseCase movimientoSeriesUseCase(IMovimientoSeriesRepositorio movimientoSeriesRepositorio) {
-    	return new MovimientoSeriesUseCaseImpl(movimientoSeriesRepositorio);
-    }
+	IProductoSerialRepositorio productoSerialRepositorio(IProductoSerialJpaRepository productoSerialJpaRepository,
+			IProductoSerialJpaMapper productoSerialJpaMapper) {
+		return new ProductoSerialRepositorioImpl(productoSerialJpaRepository, productoSerialJpaMapper);
+	}
+
+	@Bean
+	IProductoSerialUseCase productoSerialUseCase(IProductoSerialRepositorio productoSerialRepositorio) {
+		return new ProductoSerialUseCaseImpl(productoSerialRepositorio);
+	}
+
+	@Bean
+	IMovimientoSeriesRepositorio movimientoSeriesRepositorio(
+			IMovimientoSeriesJpaRepository movimientoSeriesJpaRepository,
+			IMovimientoSeriesJpaMapper movimientoSeriesJpaMapper) {
+		return new MovimientoSeriesRepositorioImpl(movimientoSeriesJpaRepository, movimientoSeriesJpaMapper);
+	}
+
+	@Bean
+	IMovimientoSeriesUseCase movimientoSeriesUseCase(IMovimientoSeriesRepositorio movimientoSeriesRepositorio) {
+		return new MovimientoSeriesUseCaseImpl(movimientoSeriesRepositorio);
+	}
 
 	@Bean
 	IUsuarioRepositorio usuarioRepositorio(IUsuarioJpaRepository usuarioJpaRepository,
@@ -212,18 +221,20 @@ public class ConfiguracionGeneral {
 	}
 
 	@Bean
-	IMovimientoUseCase MovimientoUseCase(
-	        IMovimientoRepositorio repo,
-	        IUbicacionRepositorio ubicacionRepositorio,
-	        IUsuarioRepositorio usuarioRepositorio
+	IMovimientoUseCase movimientoUseCase(
+			IMovimientoRepositorio repo,
+			IUbicacionRepositorio ubicacionRepositorio,
+			IUsuarioRepositorio usuarioRepositorio,
+			IProductoRepositorio productoRepositorio, // Inyectar
+			IMovimientoDetalleRepositorio detalleRepo // Inyectar
 	) {
-	    return new MovimientoUseCaseImpl(
-	            repo,
-	            ubicacionRepositorio,
-	            usuarioRepositorio
-	    );
+		return new MovimientoUseCaseImpl(
+				repo,
+				ubicacionRepositorio,
+				usuarioRepositorio,
+				productoRepositorio,
+				detalleRepo);
 	}
-
 
 	@Bean
 	IMovimientoDetalleRepositorio MovimientoDetalleRepositorio(IMovimientoDetalleJpaRepository movDetJpaRepositorio,
@@ -235,9 +246,10 @@ public class ConfiguracionGeneral {
 	IMovimientoDetalleUseCase MovimientoDetalleUseCase(IMovimientoDetalleRepositorio movDetRepositorio) {
 		return new MovimientoDetalleUseCaseImpl(movDetRepositorio);
 	}
-	
+
 	@Bean
-	IVentaDetalleSerialRepositorio ventaDetalleSerialRepositorio(IVentaDetalleSerialJpaRepository ventaDetalleSerialJpaRepository,
+	IVentaDetalleSerialRepositorio ventaDetalleSerialRepositorio(
+			IVentaDetalleSerialJpaRepository ventaDetalleSerialJpaRepository,
 			IVentaDetalleSerialJpaMapper ventaDetalleSerialJpaMapper) {
 		return new VentaDetalleSerialRepositorioImpl(ventaDetalleSerialJpaRepository, ventaDetalleSerialJpaMapper);
 	}
@@ -246,18 +258,19 @@ public class ConfiguracionGeneral {
 	IVentaDetalleSerialUseCase ventaDetalleSerialUseCase(IVentaDetalleSerialRepositorio ventaDetalleSerialRepositorio) {
 		return new VentaDetalleSerialUseCaseImpl(ventaDetalleSerialRepositorio);
 	}
-	
+
 	@Bean
-	IInventarioMovimientoRepositorio inventarioMovimientoRepositorio(IInventarioMovimientoJpaRepository inventarioMovimientoJpaRepository,
+	IInventarioMovimientoRepositorio inventarioMovimientoRepositorio(
+			IInventarioMovimientoJpaRepository inventarioMovimientoJpaRepository,
 			IInventarioMovimientoJpaMapper inventarioMovimientoJpaMapper) {
-		return new InventarioMovimientoRepositorioImpl(inventarioMovimientoJpaRepository, inventarioMovimientoJpaMapper);
+		return new InventarioMovimientoRepositorioImpl(inventarioMovimientoJpaRepository,
+				inventarioMovimientoJpaMapper);
 	}
 
 	@Bean
-	IInventarioMovimientoUseCase inventarioMovimientoSerialUseCase(IInventarioMovimientoRepositorio inventarioMovimientoRepositorio) {
+	IInventarioMovimientoUseCase inventarioMovimientoSerialUseCase(
+			IInventarioMovimientoRepositorio inventarioMovimientoRepositorio) {
 		return new InventarioMovimientoUseCaseImpl(inventarioMovimientoRepositorio);
 	}
-	
-	
 
 }

@@ -1,6 +1,5 @@
 package com.aliengnss.backend.presentacion.dto.req;
 
-import java.time.LocalDateTime;
 
 import com.aliengnss.backend.dominio.entidades.Producto;
 import com.aliengnss.backend.dominio.entidades.ProductoSerial;
@@ -16,8 +15,6 @@ public class InventarioMovimientoRequestDTO {
 
 	@Null
 	private Long idInventarioMovimiento;
-	@NotNull
-	private LocalDateTime fecha;
 	@NotBlank
 	private String tipo;
 	@NotNull
@@ -30,7 +27,7 @@ public class InventarioMovimientoRequestDTO {
 	private int referenciaId;
 	@NotNull
 	private Producto fkProducto;
-	@NotNull
+	
 	private ProductoSerial fkProductoSerial;
 	@NotNull
 	private Ubicacion fkUbicacion;

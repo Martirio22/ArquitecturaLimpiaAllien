@@ -20,4 +20,5 @@ public interface IInventarioMovimientoUseCase {
 	         LocalDateTime fechaFin
 			);
 	List<InventarioMovimiento> buscarMovimientoPorSerial(String serial);
+	Integer obtenerStockPorProductoYUbicacion(Long idProducto, Long idUbicacion);
 }

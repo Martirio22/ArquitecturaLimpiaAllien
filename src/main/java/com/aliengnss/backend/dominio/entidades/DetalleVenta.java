@@ -9,9 +9,9 @@ public class DetalleVenta implements Serializable{
 
     private final Long idDetalleVenta;
     private final int cantidad;
-    private final BigDecimal precioUnitario;
-    private final BigDecimal porcentajeComision;
-    private final BigDecimal subtotal;
+    private BigDecimal precioUnitario;
+    private BigDecimal porcentajeComision;
+    private BigDecimal subtotal;
     
     private Venta fkVenta;
     private Producto fkProducto;
@@ -56,12 +56,22 @@ public class DetalleVenta implements Serializable{
 	public BigDecimal getPrecioUnitario() {
 		return precioUnitario;
 	}
+	public void setPrecioUnitario(BigDecimal precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
 	public BigDecimal getPorcentajeComision() {
 		return porcentajeComision;
+	}
+	public void setPorcentajeComision(BigDecimal porcentajeComision) {
+		this.porcentajeComision = porcentajeComision;
 	}
 	public BigDecimal getSubtotal() {
 		return subtotal;
 	}
+	public void setSubtotal(BigDecimal subtotal) {
+		this.subtotal = subtotal;
+	}
+	
 
 
 }

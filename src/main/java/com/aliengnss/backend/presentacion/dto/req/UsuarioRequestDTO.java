@@ -36,10 +36,12 @@ public class UsuarioRequestDTO {
 
     @NotBlank
     private String cedula;
+    private int intentosActual;
 
     @NotBlank
     private String clave;
 
     @NotBlank
     private String rol;
+    private Boolean esActivo;
 }

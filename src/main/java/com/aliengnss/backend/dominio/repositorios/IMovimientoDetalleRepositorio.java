@@ -6,10 +6,12 @@ import java.util.Optional;
 import com.aliengnss.backend.dominio.entidades.MovimientoDetalle;
 
 public interface IMovimientoDetalleRepositorio {
-
     MovimientoDetalle guardar(MovimientoDetalle movimientoDetalle);
+    
+    // ✅ Agrega este método para manejar la lista de productos
+    List<MovimientoDetalle> guardarTodo(List<MovimientoDetalle> detalles);
+
     Optional<MovimientoDetalle> buscarPorId(Long idMovimientoDetalle);
     List<MovimientoDetalle> listarTodos();
     void eliminar(Long idMovimientoDetalle);
-
-    }
+}

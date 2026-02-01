@@ -7,9 +7,12 @@ import com.aliengnss.backend.presentacion.dto.req.MovimientoRequestDto;
 
 public interface IMovimientoUseCase {
 
-	Movimiento crear(MovimientoRequestDto dto);
+    Movimiento crear(MovimientoRequestDto dto);
+
     Movimiento buscarPorId(Long idMovimiento);
+    Movimiento actualizar(Movimiento movimiento);
     List<Movimiento> listarTodos();
+
     void eliminar(Long idMovimiento);
 
-    }
+}

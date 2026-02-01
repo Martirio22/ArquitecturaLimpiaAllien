@@ -22,4 +22,6 @@ public interface IInventarioMovimientoRepositorio {
 	         LocalDateTime fechaFin
 			);
 	List<InventarioMovimiento> buscarMovimientoPorSerial(String serial);
+	
+	Integer obtenerStockPorProductoYUbicacion(Long idProducto, Long idUbicacion);
 }

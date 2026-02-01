@@ -3,10 +3,12 @@ package com.aliengnss.backend.presentacion.controladores;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,10 +33,12 @@ public class MovimientoSeriesController {
         this.mapper = mapper;
     }
 
-    // CRUD
     @GetMapping
     public List<MovimientoDetalleSerialResponseDto> listar() {
-        return useCase.listarTodos().stream().map(mapper::toResponseDto).toList();
+        return useCase.listarTodos()
+                .stream()
+                .map(mapper::toResponseDto)
+                .toList();
     }
 
     @GetMapping("/{idMovimientoDetalleSerial}")
@@ -48,10 +52,24 @@ public class MovimientoSeriesController {
         return mapper.toResponseDto(useCase.guardar(mapper.toDomain(dto)));
     }
 
+    @PutMapping("/{idMovimientoDetalleSerial}")
+    public ResponseEntity<MovimientoDetalleSerialResponseDto> actualizar(
+            @PathVariable Long idMovimientoDetalleSerial,
+            @Valid @RequestBody MovimientoDetalleSerialRequestDto dto
+    ) {
+        // valida que exista
+        useCase.buscarPorId(idMovimientoDetalleSerial);
+
+        // setear id desde la URL
+        dto.setIdMovimientoDetalleSerial(idMovimientoDetalleSerial);
+
+        var actualizado = useCase.guardar(mapper.toDomain(dto));
+        return ResponseEntity.ok(mapper.toResponseDto(actualizado));
+    }
+
     @DeleteMapping("/{idMovimientoDetalleSerial}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long idMovimientoDetalleSerial) {
         useCase.eliminar(idMovimientoDetalleSerial);
     }
-
 }

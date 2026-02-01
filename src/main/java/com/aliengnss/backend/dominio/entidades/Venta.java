@@ -10,7 +10,7 @@ public class Venta implements Serializable {
     private final Long idVenta;
     private final String numeroFactura;
     private final LocalDateTime fechaVenta;
-    private final BigDecimal total;
+    private BigDecimal total;
     private final String observaciones;
     
     private Cliente fkCliente;
@@ -60,8 +60,14 @@ public class Venta implements Serializable {
 		return fechaVenta;
 	}
 
+	
+
 	public BigDecimal getTotal() {
 		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 	public String getObservaciones() {

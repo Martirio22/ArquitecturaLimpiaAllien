@@ -12,11 +12,17 @@ import lombok.Data;
 @Data
 public class ProductoRequestDto {	
 	
-	@Null
+	//@Null
     private Long idProducto;
 
     @NotBlank
     private String nombre;
+    
+    @NotBlank
+    private String marca;
+    
+    @NotBlank
+    private String tipo;
 
     @NotBlank
     private String foto;
@@ -35,6 +41,6 @@ public class ProductoRequestDto {
     @DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal porcentajeComision;
 
-    @NotNull // o @Null si lo setea el backend
+    //@NotNull // o @Null si lo setea el backend
     private LocalDateTime fechaCreacion;
 }

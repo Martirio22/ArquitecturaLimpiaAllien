@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,6 +24,8 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/producto")
+@CrossOrigin(origins = "*")
+
 public class ProductoController {
 	private final IProductoUseCase productoUseCase;
 	private final IProductoDTOMapper mapper;
@@ -35,10 +40,38 @@ public class ProductoController {
         return productoUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
     }
 	
+	@GetMapping("/{id}")
+    public ResponseEntity<ProductoResponseDto> obtenerPorId(@PathVariable Long id) {
+        var producto = productoUseCase.buscarPorId(id);
+        return ResponseEntity.ok(mapper.toResponseDto(producto));
+    }
+	
 	@PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 	public ProductoResponseDto guardar(@Valid @RequestBody ProductoRequestDto productoDto) {
         return mapper.toResponseDto(productoUseCase.guardar(mapper.toDomain(productoDto)));
+    }
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<ProductoResponseDto> actualizar(
+	        @PathVariable Long id,
+	        @Valid @RequestBody ProductoRequestDto productoDto
+	) {
+	    // 1) validar que existe (evita upsert accidental)
+	    productoUseCase.buscarPorId(id);
+
+	    // 2) poner el id del path en el DTO
+	    productoDto.setIdProducto(id);
+
+	    // 3) mapear y guardar
+	    var actualizado = productoUseCase.guardar(mapper.toDomain(productoDto));
+	    return ResponseEntity.ok(mapper.toResponseDto(actualizado));
+	}
+	
+	@DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminar(@PathVariable Long id) {
+        productoUseCase.eliminar(id);
     }
 	
 	@GetMapping("/serial/{esConSerial}")

@@ -18,6 +18,8 @@ public class ProductoJpa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProducto;
 	private String nombre;
+	private String marca;
+	private String tipo;
 	private String foto;
 	private String descripcion;
 	private BigDecimal precioVenta;

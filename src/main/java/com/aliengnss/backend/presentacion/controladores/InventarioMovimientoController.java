@@ -99,4 +99,13 @@ return ResponseEntity.ok(
                 .toList()
 );
 }
+	
+	@GetMapping("/stock/producto/{idProducto}/ubicacion/{idUbicacion}")
+	public ResponseEntity<Integer> obtenerStock(
+	        @PathVariable Long idProducto, 
+	        @PathVariable Long idUbicacion) {
+	    
+	    Integer stock = cpUseCase.obtenerStockPorProductoYUbicacion(idProducto, idUbicacion);
+	    return ResponseEntity.ok(stock);
+	}
 }

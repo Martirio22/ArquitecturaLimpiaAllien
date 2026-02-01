@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IInventarioMovimientoUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.excepciones.StockInsuficienteException;
 import com.aliengnss.backend.dominio.entidades.InventarioMovimiento;
 import com.aliengnss.backend.dominio.repositorios.IInventarioMovimientoRepositorio;
+
+import jakarta.transaction.Transactional;
 
 public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUseCase {
 	
@@ -16,9 +19,44 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 		this.cpRepositorio = cpRepositorio;
 	}
 
+
 	@Override
-	public InventarioMovimiento guardar(InventarioMovimiento inventarioMovimiento) {
-		return cpRepositorio.guardar(inventarioMovimiento);
+	@Transactional
+	public InventarioMovimiento guardar(InventarioMovimiento mov) {
+	    
+	    // 1. Si es un movimiento de SALIDA, validamos stock
+	    if (mov.getCantidadSalida() > 0) {
+	        Integer stockActual = cpRepositorio.obtenerStockPorProductoYUbicacion(
+	            mov.getFkProducto().getIdProducto(), 
+	            mov.getFkUbicacion().getIdUbicacion()
+	        );
+
+	        // Si el stock es nulo o menor a lo que se quiere sacar
+	        if (stockActual == null || stockActual < mov.getCantidadSalida()) {
+	            throw new StockInsuficienteException(
+	                "Stock insuficiente. Disponible: " + (stockActual == null ? 0 : stockActual) + 
+	                ", Solicitado: " + mov.getCantidadSalida()
+	            );
+	        }
+	    }
+
+	    // 2. Si pasa la validación (o es una entrada), sellamos fecha y guardamos
+	    LocalDateTime fechaActual = LocalDateTime.now();
+	    
+	    InventarioMovimiento movimientoParaGuardar = new InventarioMovimiento(
+	        null, 
+	        fechaActual, 
+	        mov.getTipo(), 
+	        mov.getCantidadEntrada(),
+	        mov.getCantidadSalida(), 
+	        mov.getReferenciaTipo(), 
+	        mov.getReferenciaId(), 
+	        mov.getFkProducto(),
+	        mov.getFkProductoSerial(), 
+	        mov.getFkUbicacion()
+	    );
+
+	    return cpRepositorio.guardar(movimientoParaGuardar);
 	}
 
 	@Override
@@ -50,6 +88,11 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 	@Override
 	public List<InventarioMovimiento> buscarMovimientoPorSerial(String serial) {
 		return cpRepositorio.buscarMovimientoPorSerial(serial);
+	}
+
+	@Override
+	public Integer obtenerStockPorProductoYUbicacion(Long idProducto, Long idUbicacion) {
+		return cpRepositorio.obtenerStockPorProductoYUbicacion(idProducto, idUbicacion);
 	}
 
 	
