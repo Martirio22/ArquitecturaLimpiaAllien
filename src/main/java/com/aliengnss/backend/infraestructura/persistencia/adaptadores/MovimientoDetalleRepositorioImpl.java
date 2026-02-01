@@ -55,4 +55,11 @@ public class MovimientoDetalleRepositorioImpl implements IMovimientoDetalleRepos
         repoJpa.deleteById(idMovimientoDetalle);
     }
 
+    @Override
+    public List<MovimientoDetalle> buscarPorMovimiento(Long idMovimiento) {
+        return repoJpa.findByMovimientoIdMovimiento(idMovimiento).stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
 }

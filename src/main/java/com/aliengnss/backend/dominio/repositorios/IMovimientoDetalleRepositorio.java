@@ -10,6 +10,7 @@ public interface IMovimientoDetalleRepositorio {
     
     // ✅ Agrega este método para manejar la lista de productos
     List<MovimientoDetalle> guardarTodo(List<MovimientoDetalle> detalles);
+    List<MovimientoDetalle> buscarPorMovimiento(Long idMovimiento);
 
     Optional<MovimientoDetalle> buscarPorId(Long idMovimientoDetalle);
     List<MovimientoDetalle> listarTodos();

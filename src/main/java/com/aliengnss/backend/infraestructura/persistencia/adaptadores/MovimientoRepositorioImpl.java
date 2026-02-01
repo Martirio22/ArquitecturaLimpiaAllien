@@ -30,10 +30,12 @@ public class MovimientoRepositorioImpl implements IMovimientoRepositorio {
         return repoJpa.findById(idMovimiento).map(mapper::toDomain);
     }
 
-    @Override
-    public List<Movimiento> listarTodos() {
-        return repoJpa.findAll().stream().map(mapper::toDomain).toList();
-    }
+   @Override
+public List<Movimiento> listarTodos() {
+    return repoJpa.findAllWithDetalles().stream()
+        .map(mapper::toDomain)
+        .toList();
+}
 
     @Override
     public void eliminar(Long idMovimiento) {

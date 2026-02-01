@@ -93,8 +93,24 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
     @Override
     @Transactional(readOnly = true)
     public Movimiento buscarPorId(Long idMovimiento) {
-        return repo.buscarPorId(idMovimiento)
-                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado: " + idMovimiento));
+        // Buscar el movimiento
+        Movimiento movimiento = repo.buscarPorId(idMovimiento)
+                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+
+        // ✅ Buscar los detalles asociados
+        List<MovimientoDetalle> detalles = detalleRepo.buscarPorMovimiento(idMovimiento);
+
+        // ✅ Retornar el movimiento con los detalles usando el constructor completo
+        return new Movimiento(
+                movimiento.getIdMovimiento(),
+                movimiento.getFechaMovimiento(),
+                movimiento.getTipo(),
+                movimiento.getObservaciones(),
+                movimiento.getFkUsuario(),
+                movimiento.getFkUbicacionOrigen(),
+                movimiento.getFkUbicacionDestino(),
+                detalles // ✅ Incluir los detalles
+        );
     }
 
     @Override
