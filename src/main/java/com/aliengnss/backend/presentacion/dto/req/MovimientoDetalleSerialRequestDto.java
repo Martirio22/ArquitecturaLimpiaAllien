@@ -12,7 +12,7 @@ public class MovimientoDetalleSerialRequestDto {
 	@Null
 	private Long idMovimientoDetalleSerial;
 	@NotNull
-	private MovimientoDetalle fkMovimientoDetalle;
+	private Long idMovimientoDetalle;
 	@NotNull
 	private ProductoSerial fkProductoSerial;
 }
