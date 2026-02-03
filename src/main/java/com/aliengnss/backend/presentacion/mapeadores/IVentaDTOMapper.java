@@ -12,7 +12,7 @@ public interface IVentaDTOMapper {
 	// De DTO a Dominio (Para GUARDAR)
     // Ignoramos fkUsuario porque lo seteamos manualmente en el Controller
     @Mapping(target = "fkUsuario", ignore = true)
-    @Mapping(target = "idVenta", ignore = true)
+    
     @Mapping(target = "numeroFactura", ignore = true)
     @Mapping(target = "fechaVenta", ignore = true)
     Venta toDomain(VentaRequestDto dto);

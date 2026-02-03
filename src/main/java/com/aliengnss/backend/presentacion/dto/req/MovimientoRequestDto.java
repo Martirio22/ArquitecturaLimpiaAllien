@@ -16,7 +16,6 @@ public class MovimientoRequestDto {
 	@Null
     private Long idMovimiento;
 
-    @NotNull
     private LocalDateTime fechaMovimiento;
 
     @NotBlank

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,7 +71,14 @@ public class VentaController {
         //guardamos (La lógica de fecha y factura sigue en el UseCase)
         return mapper.toResponseDto(ventaUseCase.guardar(ventaDominio));
     }
-    
+    @PutMapping("/{idVenta}")
+    public VentaResponseDto actualizar(@PathVariable Long idVenta, @Valid @RequestBody VentaRequestDto dto) {
+        // 1. Seteamos el ID de la URL al DTO (como en tu ejemplo de Usuario)
+        dto.setIdVenta(idVenta);
+        
+        // 2. Mapeamos y guardamos (el UseCase se encarga de que sea Update por llevar ID)
+        return mapper.toResponseDto(ventaUseCase.guardar(mapper.toDomain(dto)));
+    }
     @DeleteMapping("/{idVenta}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long idVenta) {

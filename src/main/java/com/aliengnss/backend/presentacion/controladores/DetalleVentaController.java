@@ -36,6 +36,22 @@ public class DetalleVentaController {
     public DetalleVentaResponseDto guardar(@Valid @RequestBody DetalleVentaRequestDto detalleVentaDto) {
         return mapper.toResponseDto(detalleVentaUseCase.guardar(mapper.toDomain(detalleVentaDto)));
     }
+    @PutMapping("/{idDetalleVenta}")
+    public DetalleVentaResponseDto actualizar(@PathVariable Long idDetalleVenta, @Valid @RequestBody DetalleVentaRequestDto dto) {
+        // 1. Seteamos el ID al DTO para que el mapper lo incluya al crear la entidad de dominio
+        dto.setIdDetalleVenta(idDetalleVenta); 
+        
+        // 2. Mapeamos (MapStruct usará tu constructor con ID) y mandamos al UseCase
+        return mapper.toResponseDto(detalleVentaUseCase.guardar(mapper.toDomain(dto)));
+    }
+
+    // ✅ MÉTODO ELIMINAR
+    @DeleteMapping("/{idDetalleVenta}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminar(@PathVariable Long idDetalleVenta) {
+        detalleVentaUseCase.eliminar(idDetalleVenta);
+    }
+    
     
     @GetMapping("/ventas/ubicacion/{idUbicacion}/producto/{idProducto}/{fechaInicio}/{fechaFin}")
     public ResponseEntity<List<DetalleVentaResponseDto>> ventasPorProductoUbicacionYFechas(

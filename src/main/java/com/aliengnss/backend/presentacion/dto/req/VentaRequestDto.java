@@ -11,6 +11,7 @@ import com.aliengnss.backend.dominio.entidades.Cliente;
 
 @Data
 public class VentaRequestDto {
+	private Long idVenta;
     @NotNull
     @DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal total;

@@ -28,40 +28,36 @@ public class VentaUseCaseImpl implements IVentaUseCase {
 		this.detalleVentaRepositorio = detalleVentaRepositorio;
 		this.inventarioRepo = inventarioRepo;
 	}
-	@Override
+ // En VentaUseCaseImpl.java
+
+    @Override
     @Transactional
     public Venta guardar(Venta venta) {
-        LocalDateTime fechaActual = LocalDateTime.now();
-        
-        // Si el ID es nulo, asumimos que es una venta NUEVA
         if (venta.getIdVenta() == null) {
+            // ... (Tu código de venta NUEVA está bien)
             String nuevoNumero = generarProximoNumeroFactura();
-            
             Venta ventaParaGuardar = new Venta(
-                null, 
-                nuevoNumero, 
-                fechaActual, 
-                venta.getTotal(), 
-                venta.getObservaciones(),
-                true, // <--- AQUÍ: Forzamos que sea true por defecto
-                venta.getFkCliente(), 
-                venta.getFkUsuario()
+                null, nuevoNumero, LocalDateTime.now(), venta.getTotal(), 
+                venta.getObservaciones(), true, venta.getFkCliente(), venta.getFkUsuario()
             );
             return repo.guardar(ventaParaGuardar);
         } else {
-            // Lógica opcional para editar si fuera necesario, 
-            // manteniendo el estado actual de 'esActivo'
+            // ✅ CORRECCIÓN PARA EDITAR:
             Venta existente = buscarPorId(venta.getIdVenta());
+            
+            // No creamos un objeto con datos incompletos. 
+            // Usamos los datos del 'existente' para lo que no debe cambiar.
             Venta ventaParaActualizar = new Venta(
                 existente.getIdVenta(),
                 existente.getNumeroFactura(),
-                existente.getFechaVenta(), // Mantenemos fecha original
-                existente.getTotal(),
-                venta.getObservaciones(),
+                existente.getFechaVenta(), 
+                existente.getTotal(), // El total no debería cambiar aquí
+                venta.getObservaciones(), // Dato que viene del form
                 existente.getEsActivo(), 
-                venta.getFkCliente(),
-                venta.getFkUsuario()
+                venta.getFkCliente(),   // Dato que viene del form
+                existente.getFkUsuario() // 🚩 MANTENEMOS EL USUARIO ORIGINAL
             );
+            
             return repo.guardar(ventaParaActualizar);
         }
     }

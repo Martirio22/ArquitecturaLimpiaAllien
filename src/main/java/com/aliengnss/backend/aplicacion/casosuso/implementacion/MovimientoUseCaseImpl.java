@@ -1,5 +1,6 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +42,14 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 
         Usuario usuario = usuarioRepositorio.buscarPorId(dto.getIdUsuario())
                 .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+        
+        LocalDateTime fechaAUsar = (dto.getFechaMovimiento() == null) 
+                ? LocalDateTime.now() 
+                : dto.getFechaMovimiento();
 
         Movimiento movimiento = new Movimiento(
                 null,
-                dto.getFechaMovimiento(),
+                fechaAUsar,
                 dto.getTipo(),
                 dto.getObservaciones(),
                 true, 
@@ -70,11 +75,15 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 	            .orElseThrow(() -> new RuntimeException("Ubicación destino no existe"));
 	    Usuario usuario = usuarioRepositorio.buscarPorId(dto.getIdUsuario())
 	            .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+	    
+	    LocalDateTime fechaAUsar = (dto.getFechaMovimiento() == null) 
+                ? existente.getFechaMovimiento() 
+                : dto.getFechaMovimiento();
 
 	    // 3. Crear el objeto actualizado preservando el estado original
 	    Movimiento movimientoActualizado = new Movimiento(
 	            id,
-	            dto.getFechaMovimiento(),
+	            fechaAUsar,
 	            dto.getTipo(),
 	            dto.getObservaciones(),
 	            existente.getEsActivo(), // <--- PRESERVAMOS el estado (si estaba anulado, sigue anulado)

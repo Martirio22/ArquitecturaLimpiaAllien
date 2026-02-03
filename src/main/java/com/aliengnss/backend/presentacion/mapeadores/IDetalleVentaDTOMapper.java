@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 
 public interface IDetalleVentaDTOMapper {
+	
     DetalleVenta toDomain(DetalleVentaRequestDto entity);
     DetalleVentaResponseDto toResponseDto(DetalleVenta detalleVenta);
 }
