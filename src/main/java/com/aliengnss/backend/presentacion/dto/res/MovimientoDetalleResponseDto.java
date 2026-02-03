@@ -10,7 +10,7 @@ public class MovimientoDetalleResponseDto {
 
 	private Long idMovimientoDetalle;
 	private int cantidad;
-	
+	private Boolean esActivo;
 	private Movimiento fkMovimiento;
 	private Producto fkProducto;
 }

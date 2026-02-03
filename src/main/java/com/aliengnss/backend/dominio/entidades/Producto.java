@@ -17,11 +17,13 @@ public class Producto implements Serializable {
 	private final Boolean esConSerial;
 	private final BigDecimal porcentajeComision;
 	private final LocalDateTime fechaCreacion;
+	private final Boolean esActivo;
 	
 	
 	public Producto(Long idProducto, String nombre, String marca, String tipo, String foto, String descripcion,
-			BigDecimal precioVenta, Boolean esConSerial, BigDecimal porcentajeComision, LocalDateTime fechaCreacion) {
-		
+			BigDecimal precioVenta, Boolean esConSerial, BigDecimal porcentajeComision, LocalDateTime fechaCreacion,
+			Boolean esActivo) {
+
 		this.idProducto = idProducto;
 		this.nombre = nombre;
 		this.marca = marca;
@@ -32,6 +34,7 @@ public class Producto implements Serializable {
 		this.esConSerial = esConSerial;
 		this.porcentajeComision = porcentajeComision;
 		this.fechaCreacion = fechaCreacion;
+		this.esActivo = esActivo;
 	}
 	public Long getIdProducto() {
 		return idProducto;
@@ -63,5 +66,9 @@ public class Producto implements Serializable {
 	public String getTipo() {
 		return tipo;
 	}
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+	
 	
 }

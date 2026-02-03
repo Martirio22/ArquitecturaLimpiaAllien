@@ -7,14 +7,15 @@ public class MovimientoDetalleSerial implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private final Long idMovimientoDetalleSerial;
-	
+	private final Boolean esActivo;
 	private MovimientoDetalle fkMovimientoDetalle;
 	private ProductoSerial fkProductoSerial;
 	
-	public MovimientoDetalleSerial(Long idMovimientoDetalleSerial, MovimientoDetalle fkMovimientoDetalle,
-			ProductoSerial fkProductoSerial) {
+	public MovimientoDetalleSerial(Long idMovimientoDetalleSerial, Boolean esActivo,
+			MovimientoDetalle fkMovimientoDetalle, ProductoSerial fkProductoSerial) {
 		super();
 		this.idMovimientoDetalleSerial = idMovimientoDetalleSerial;
+		this.esActivo = esActivo;
 		this.fkMovimientoDetalle = fkMovimientoDetalle;
 		this.fkProductoSerial = fkProductoSerial;
 	}
@@ -33,8 +34,9 @@ public class MovimientoDetalleSerial implements Serializable {
 	public Long getIdMovimientoDetalleSerial() {
 		return idMovimientoDetalleSerial;
 	}
-	
-	
-	
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+		
 	
 }

@@ -12,23 +12,24 @@ public class Venta implements Serializable {
     private final LocalDateTime fechaVenta;
     private BigDecimal total;
     private final String observaciones;
-    
+    private final Boolean esActivo;
     private Cliente fkCliente;
     private Usuario fkUsuario;
     
     public Venta(Long idVenta, String numeroFactura, LocalDateTime fechaVenta, BigDecimal total, String observaciones,
-			Cliente fkCliente, Usuario fkUsuario) {
+			Boolean esActivo, Cliente fkCliente, Usuario fkUsuario) {
 		super();
 		this.idVenta = idVenta;
 		this.numeroFactura = numeroFactura;
 		this.fechaVenta = fechaVenta;
 		this.total = total;
 		this.observaciones = observaciones;
+		this.esActivo = esActivo;
 		this.fkCliente = fkCliente;
 		this.fkUsuario = fkUsuario;
 	}
-    
-    public Cliente getFkCliente() {
+
+	public Cliente getFkCliente() {
 		return fkCliente;
 	}
 
@@ -73,7 +74,9 @@ public class Venta implements Serializable {
 	public String getObservaciones() {
 		return observaciones;
 	}
-	
 
-    
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+ 
 }

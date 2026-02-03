@@ -15,6 +15,7 @@ public class MovimientoDetalleSerialJpa implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idMovimientoDetalleSerial;
+	private Boolean esActivo;
 	@ManyToOne
     @JoinColumn(name = "idMovimientoDetalle")
 	private MovimientoDetalleJpa fkMovimientoDetalle;

@@ -31,6 +31,7 @@ public class InventarioMovimientoJpa implements Serializable {
 	private int cantidadSalida;
 	private String referenciaTipo;
 	private int referenciaId;
+	private Boolean esActivo;
 	@ManyToOne
     @JoinColumn(name = "idProducto")
 	private ProductoJpa fkProducto;

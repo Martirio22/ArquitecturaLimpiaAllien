@@ -115,10 +115,12 @@ public class ConfiguracionGeneral {
 	}
 
 	@Bean
-	IVentaUseCase ventaUseCase(IVentaRepositorio ventaRepositorio) {
-		return new VentaUseCaseImpl(ventaRepositorio);
+	IVentaUseCase ventaUseCase(
+	        IVentaRepositorio ventaRepositorio, 
+	        IDetalleVentaRepositorio detalleVentaRepositorio,
+	        IInventarioMovimientoRepositorio inventarioRepositorio) { // <--- Inyectar
+	    return new VentaUseCaseImpl(ventaRepositorio, detalleVentaRepositorio, inventarioRepositorio);
 	}
-
 	@Bean
 	IDetalleVentaRepositorio detalleVentaRepositorio(IDetalleVentaJpaRepository detalleVentaJpaRepository,
 			IDetalleVentaJpaMapper detalleVentaJpaMapper) {

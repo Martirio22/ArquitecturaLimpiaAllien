@@ -22,5 +22,5 @@ public class ClienteRequestDto {
     private  String email;
     @NotBlank
     private  String direccion;
-
+    private Boolean esActivo;
 }

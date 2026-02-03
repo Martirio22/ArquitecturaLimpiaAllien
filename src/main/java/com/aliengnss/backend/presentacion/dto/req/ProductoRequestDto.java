@@ -43,4 +43,6 @@ public class ProductoRequestDto {
 
     //@NotNull // o @Null si lo setea el backend
     private LocalDateTime fechaCreacion;
+    
+    private Boolean esActivo;
 }

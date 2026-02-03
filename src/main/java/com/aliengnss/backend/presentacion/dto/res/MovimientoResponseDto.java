@@ -12,7 +12,7 @@ public class MovimientoResponseDto {
 	private LocalDateTime fechaMovimiento;
 	private String tipo;
 	private String observaciones;
-	
+	private Boolean esActivo;
 	private Usuario fkUsuario;
 	private Long idUbicacionOrigen;
     private Long idUbicacionDestino;

@@ -19,6 +19,7 @@ public class DetalleVentaJpa implements Serializable{
     private BigDecimal precioUnitario;
     private BigDecimal porcentajeComision;
     private BigDecimal subtotal;
+    private Boolean esActivo;
     @ManyToOne
     @JoinColumn(name = "idVenta")
     private VentaJpa fkVenta;

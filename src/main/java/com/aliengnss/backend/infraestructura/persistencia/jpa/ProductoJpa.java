@@ -26,4 +26,5 @@ public class ProductoJpa implements Serializable {
 	private Boolean esConSerial;
 	private BigDecimal porcentajeComision;
 	private LocalDateTime fechaCreacion;
+	private Boolean esActivo;
 }

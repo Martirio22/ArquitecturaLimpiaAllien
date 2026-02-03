@@ -10,17 +10,20 @@ public class CompraProductoDetalle implements Serializable {
     private final Long idCompraProductoDetalle;
     private final int cantidad;
     private final BigDecimal costoUnitario;
+    private final Boolean esActivo;
     
     private CompraProducto fkCompraProducto;
     private Producto fkProducto;
     private Ubicacion fkUbicacion;
     
-	public CompraProductoDetalle(Long idCompraProductoDetalle, int cantidad, BigDecimal costoUnitario,
+	
+	public CompraProductoDetalle(Long idCompraProductoDetalle, int cantidad, BigDecimal costoUnitario, Boolean esActivo,
 			CompraProducto fkCompraProducto, Producto fkProducto, Ubicacion fkUbicacion) {
 		super();
 		this.idCompraProductoDetalle = idCompraProductoDetalle;
 		this.cantidad = cantidad;
 		this.costoUnitario = costoUnitario;
+		this.esActivo = esActivo;
 		this.fkCompraProducto = fkCompraProducto;
 		this.fkProducto = fkProducto;
 		this.fkUbicacion = fkUbicacion;
@@ -55,6 +58,8 @@ public class CompraProductoDetalle implements Serializable {
 	public BigDecimal getCostoUnitario() {
 		return costoUnitario;
 	}
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
 
-    
 }

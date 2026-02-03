@@ -21,6 +21,7 @@ public class CompraProductoJpa implements Serializable {
     private Long idCompraProducto;
     private LocalDateTime fechaIngreso;
     private String observaciones;
+    private Boolean esActivo;
     @ManyToOne
     @JoinColumn(name = "idUsuario")
     private UsuarioJpa fkUsuario;

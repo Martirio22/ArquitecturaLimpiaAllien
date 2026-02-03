@@ -13,6 +13,7 @@ public class MovimientoDetalleRequestDto {
 	private Long idMovimientoDetalle;
 	@NotNull
 	private int cantidad;
+	private Boolean esActivo;
 	@NotNull
 	private Movimiento fkMovimiento;
 	@NotNull

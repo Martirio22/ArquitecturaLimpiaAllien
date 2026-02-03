@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class MovimientoDetalleSerialResponseDto {
 	private Long idMovimientoDetalleSerial;
-	
+	private Boolean esActivo;
 	private MovimientoDetalle fkMovimientoDetalle;
 	private ProductoSerial fkProductoSerial;
 }

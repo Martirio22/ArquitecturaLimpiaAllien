@@ -9,7 +9,7 @@ import lombok.Data;
 public class VentaDetalleSerialResponseDTO {
 
 	private Long idVentaDetalleSerial;
-	
+	private Boolean esActivo;
 	private DetalleVenta fkDetalleVenta;
 	private ProductoSerial fkProductoSerial;
 }

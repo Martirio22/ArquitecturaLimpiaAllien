@@ -12,6 +12,6 @@ public class CompraProductoResponseDTO {
 	private Long idCompraProducto;
     private LocalDateTime fechaIngreso;
     private String observaciones;
-    
+    private Boolean esActivo;
     private Usuario fkUsuario;
 }

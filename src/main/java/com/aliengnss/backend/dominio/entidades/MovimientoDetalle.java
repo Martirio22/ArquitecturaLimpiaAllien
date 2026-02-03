@@ -7,14 +7,16 @@ public class MovimientoDetalle implements Serializable {
 
 	private final Long idMovimientoDetalle;
 	private final int cantidad;
-	
+	private final Boolean esActivo;
 	private Movimiento fkMovimiento;
 	private Producto fkProducto;
 
-	public MovimientoDetalle(Long idMovimientoDetalle, int cantidad, Movimiento fkMovimiento, Producto fkProducto) {
+	public MovimientoDetalle(Long idMovimientoDetalle, int cantidad, Boolean esActivo, Movimiento fkMovimiento,
+			Producto fkProducto) {
 		super();
 		this.idMovimientoDetalle = idMovimientoDetalle;
 		this.cantidad = cantidad;
+		this.esActivo = esActivo;
 		this.fkMovimiento = fkMovimiento;
 		this.fkProducto = fkProducto;
 	}
@@ -42,5 +44,9 @@ public class MovimientoDetalle implements Serializable {
 	public int getCantidad() {
 		return cantidad;
 	}
-	
+
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+
 }

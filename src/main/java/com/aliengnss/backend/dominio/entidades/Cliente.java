@@ -15,10 +15,11 @@ public class Cliente implements Serializable{
     private final String telefono;
     private final String email;
     private final String direccion;
-    
-    
+    private final Boolean esActivo;
+
 	public Cliente(Long idCliente, String primerNombre, String segundoNombre, String primerApellido,
-			String segundoApellido, String documento, String telefono, String email, String direccion) {
+			String segundoApellido, String documento, String telefono, String email, String direccion,
+			Boolean esActivo) {
 		this.idCliente = idCliente;
 		this.primerNombre = primerNombre;
 		this.segundoNombre = segundoNombre;
@@ -28,6 +29,7 @@ public class Cliente implements Serializable{
 		this.telefono = telefono;
 		this.email = email;
 		this.direccion = direccion;
+		this.esActivo = esActivo;
 	}
 
 
@@ -74,7 +76,13 @@ public class Cliente implements Serializable{
 	public String getDireccion() {
 		return direccion;
 	}
-    
+
+
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+
+
     
 	
 }

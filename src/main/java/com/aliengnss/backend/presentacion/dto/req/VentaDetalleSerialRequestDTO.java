@@ -6,7 +6,7 @@ import lombok.Data;
 public class VentaDetalleSerialRequestDTO {
 
 private Long idVentaDetalleSerial;
-    
+private Boolean esActivo;
     private DetalleVentaRef fkDetalleVenta;
     private ProductoSerialRef fkProductoSerial;
 

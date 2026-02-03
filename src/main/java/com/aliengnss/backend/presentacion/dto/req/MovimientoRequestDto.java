@@ -33,4 +33,6 @@ public class MovimientoRequestDto {
 
     @NotNull
     private Long idUbicacionDestino;
+    
+    private Boolean esActivo;
 }

@@ -33,10 +33,12 @@ public interface IInventarioMovimientoJpaRepository extends JpaRepository<Invent
 	
 
 	@Query("SELECT COALESCE(SUM(im.cantidadEntrada), 0) - COALESCE(SUM(im.cantidadSalida), 0) " +
-	       "FROM InventarioMovimientoJpa im " +
-	       "WHERE im.fkProducto.idProducto = :idProducto " +
-	       "AND im.fkUbicacion.idUbicacion = :idUbicacion")
-	Integer obtenerStockPorProductoYUbicacion(
-	    @Param("idProducto") Long idProducto, 
-	    @Param("idUbicacion") Long idUbicacion);
+		       "FROM InventarioMovimientoJpa im " +
+		       "WHERE im.fkProducto.idProducto = :idProducto " +
+		       "AND im.fkUbicacion.idUbicacion = :idUbicacion " +
+		       "AND im.esActivo = true") // <--- FILTRO CRUCIAL
+		Integer obtenerStockPorProductoYUbicacion(
+		    @Param("idProducto") Long idProducto, 
+		    @Param("idUbicacion") Long idUbicacion);
+	
 }

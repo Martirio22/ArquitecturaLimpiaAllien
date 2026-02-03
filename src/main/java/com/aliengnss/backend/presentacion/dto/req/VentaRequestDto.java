@@ -16,6 +16,7 @@ public class VentaRequestDto {
     private BigDecimal total;
     @NotBlank
     private String observaciones;
+    private Boolean esActivo;
     @NotNull
     private Cliente fkCliente;
 }

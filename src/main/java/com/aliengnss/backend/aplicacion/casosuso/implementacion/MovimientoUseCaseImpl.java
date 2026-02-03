@@ -47,6 +47,7 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
                 dto.getFechaMovimiento(),
                 dto.getTipo(),
                 dto.getObservaciones(),
+                true, 
                 usuario,
                 origen,
                 destino
@@ -58,10 +59,11 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 	@Override
 	@Transactional
 	public Movimiento actualizar(Long id, MovimientoRequestDto dto) {
-	    // 1. Verificar que existe
-	    repo.buscarPorId(id).orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
+	    // 1. Verificar que existe y obtener el estado actual
+	    Movimiento existente = repo.buscarPorId(id)
+	            .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
 
-	    // 2. Buscar las nuevas entidades (igual que en el método crear)
+	    // 2. Buscar las nuevas entidades
 	    Ubicacion origen = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionOrigen())
 	            .orElseThrow(() -> new RuntimeException("Ubicación origen no existe"));
 	    Ubicacion destino = ubicacionRepositorio.buscarPorId(dto.getIdUbicacionDestino())
@@ -69,12 +71,13 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
 	    Usuario usuario = usuarioRepositorio.buscarPorId(dto.getIdUsuario())
 	            .orElseThrow(() -> new RuntimeException("Usuario no existe"));
 
-	    // 3. Crear el objeto de dominio con el ID existente para que JPA sepa que es UPDATE
+	    // 3. Crear el objeto actualizado preservando el estado original
 	    Movimiento movimientoActualizado = new Movimiento(
 	            id,
 	            dto.getFechaMovimiento(),
 	            dto.getTipo(),
 	            dto.getObservaciones(),
+	            existente.getEsActivo(), // <--- PRESERVAMOS el estado (si estaba anulado, sigue anulado)
 	            usuario,
 	            origen,
 	            destino
@@ -98,8 +101,23 @@ public class MovimientoUseCaseImpl implements IMovimientoUseCase {
     }
 
     @Override
+    @Transactional
     public void eliminar(Long idMovimiento) {
-        repo.eliminar(idMovimiento);
+        // BORRADO LÓGICO
+        Movimiento existente = buscarPorId(idMovimiento);
+        
+        Movimiento movimientoAnulado = new Movimiento(
+                existente.getIdMovimiento(),
+                existente.getFechaMovimiento(),
+                existente.getTipo(),
+                existente.getObservaciones(),
+                false, // <--- DESACTIVAMOS
+                existente.getFkUsuario(),
+                existente.getFkUbicacionOrigen(),
+                existente.getFkUbicacionDestino()
+        );
+
+        repo.guardar(movimientoAnulado);
     }
 
    

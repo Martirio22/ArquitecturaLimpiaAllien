@@ -12,19 +12,21 @@ public class DetalleVenta implements Serializable{
     private BigDecimal precioUnitario;
     private BigDecimal porcentajeComision;
     private BigDecimal subtotal;
-    
+    private final Boolean esActivo;
     private Venta fkVenta;
     private Producto fkProducto;
     private Ubicacion fkUbicacion;
     
+	
 	public DetalleVenta(Long idDetalleVenta, int cantidad, BigDecimal precioUnitario, BigDecimal porcentajeComision,
-			BigDecimal subtotal, Venta fkVenta, Producto fkProducto, Ubicacion fkUbicacion) {
+			BigDecimal subtotal, Boolean esActivo, Venta fkVenta, Producto fkProducto, Ubicacion fkUbicacion) {
 		super();
 		this.idDetalleVenta = idDetalleVenta;
 		this.cantidad = cantidad;
 		this.precioUnitario = precioUnitario;
 		this.porcentajeComision = porcentajeComision;
 		this.subtotal = subtotal;
+		this.esActivo = esActivo;
 		this.fkVenta = fkVenta;
 		this.fkProducto = fkProducto;
 		this.fkUbicacion = fkUbicacion;
@@ -71,7 +73,7 @@ public class DetalleVenta implements Serializable{
 	public void setSubtotal(BigDecimal subtotal) {
 		this.subtotal = subtotal;
 	}
-	
-
-
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
 }

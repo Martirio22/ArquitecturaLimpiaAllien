@@ -15,7 +15,7 @@ public class VentaResponseDto {
     private LocalDateTime fechaVenta;
     private BigDecimal total;
     private String observaciones;
-    
+    private Boolean esActivo;
     private Cliente fkCliente;
     private Usuario fkUsuario;
 }

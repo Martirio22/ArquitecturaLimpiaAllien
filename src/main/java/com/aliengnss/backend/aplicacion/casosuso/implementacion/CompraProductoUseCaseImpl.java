@@ -18,8 +18,33 @@ public class CompraProductoUseCaseImpl implements ICompraProductoUseCase {
     }
 
     @Override
+    @Transactional
     public CompraProducto guardar(CompraProducto compra) {
-        return repo.guardar(compra);
+        CompraProducto compraParaGuardar;
+
+        if (compra.getIdCompraProducto() == null) {
+            // --- LÓGICA PARA CREAR ---
+            compraParaGuardar = new CompraProducto(
+                null,
+                java.time.LocalDateTime.now(), // Sella la fecha de ingreso al momento de la creación
+                compra.getObservaciones(),
+                true, // Siempre activo al nacer
+                compra.getFkUsuario()
+            );
+        } else {
+            // --- LÓGICA PARA ACTUALIZAR ---
+            CompraProducto existente = buscarPorId(compra.getIdCompraProducto());
+            
+            compraParaGuardar = new CompraProducto(
+                existente.getIdCompraProducto(),
+                existente.getFechaIngreso(), // Mantenemos la fecha original, no se debe editar
+                compra.getObservaciones(),
+                existente.getEsActivo(),     // Preservamos el estado de activación
+                compra.getFkUsuario()
+            );
+        }
+
+        return repo.guardar(compraParaGuardar);
     }
 
     @Override
@@ -36,8 +61,20 @@ public class CompraProductoUseCaseImpl implements ICompraProductoUseCase {
     }
 
     @Override
+    @Transactional
     public void eliminar(Long idCompraProducto) {
-        repo.eliminar(idCompraProducto);
+        // BORRADO LÓGICO
+        CompraProducto existente = buscarPorId(idCompraProducto);
+        
+        CompraProducto compraAnulada = new CompraProducto(
+            existente.getIdCompraProducto(),
+            existente.getFechaIngreso(),
+            existente.getObservaciones(),
+            false, // <--- Marcamos como inactivo (anulado)
+            existente.getFkUsuario()
+        );
+
+        repo.guardar(compraAnulada);
     }
 
 }

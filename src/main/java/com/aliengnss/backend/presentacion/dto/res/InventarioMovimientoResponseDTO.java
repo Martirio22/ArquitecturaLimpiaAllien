@@ -18,6 +18,7 @@ public class InventarioMovimientoResponseDTO {
 	private int cantidadSalida;
 	private String referenciaTipo;
 	private int referenciaId;
+	private Boolean esActivo;
 	private Producto fkProducto;
 	private ProductoSerial fkProductoSerial;
 	private Ubicacion fkUbicacion;

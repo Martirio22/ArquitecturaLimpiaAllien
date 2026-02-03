@@ -10,18 +10,20 @@ public class Movimiento implements Serializable {
 	private final LocalDateTime fechaMovimiento;
 	private final String tipo;
 	private final String observaciones;
-	
+	private final Boolean esActivo;
 	private Usuario fkUsuario;
 	private Ubicacion fkUbicacionOrigen;
 	private Ubicacion fkUbicacionDestino;
 	
+	
 	public Movimiento(Long idMovimiento, LocalDateTime fechaMovimiento, String tipo, String observaciones,
-			Usuario fkUsuario, Ubicacion fkUbicacionOrigen, Ubicacion fkUbicacionDestino) {
+			Boolean esActivo, Usuario fkUsuario, Ubicacion fkUbicacionOrigen, Ubicacion fkUbicacionDestino) {
 		super();
 		this.idMovimiento = idMovimiento;
 		this.fechaMovimiento = fechaMovimiento;
 		this.tipo = tipo;
 		this.observaciones = observaciones;
+		this.esActivo = esActivo;
 		this.fkUsuario = fkUsuario;
 		this.fkUbicacionOrigen = fkUbicacionOrigen;
 		this.fkUbicacionDestino = fkUbicacionDestino;
@@ -56,8 +58,7 @@ public class Movimiento implements Serializable {
 	public String getObservaciones() {
 		return observaciones;
 	}
-	
-	
-	
-	
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
 }

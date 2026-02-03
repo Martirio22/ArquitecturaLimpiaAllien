@@ -15,7 +15,7 @@ public class DetalleVentaResponseDto {
     private BigDecimal precioUnitario;
     private BigDecimal porcentajeComision;
     private BigDecimal subtotal;
-    
+    private Boolean esActivo;
     private Venta fkVenta;
     private Producto fkProducto;
     private Ubicacion fkUbicacion;

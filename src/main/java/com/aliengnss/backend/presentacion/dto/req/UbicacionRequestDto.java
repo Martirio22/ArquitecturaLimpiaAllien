@@ -14,4 +14,5 @@ public class UbicacionRequestDto {
 	private String tipo;
 	@NotBlank
 	private String descripcion;
+	private Boolean esActivo;
 }

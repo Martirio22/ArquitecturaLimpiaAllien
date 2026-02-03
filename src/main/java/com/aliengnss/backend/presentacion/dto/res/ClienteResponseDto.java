@@ -13,4 +13,5 @@ public class ClienteResponseDto {
     private  String telefono;
     private  String email;
     private  String direccion;
+    private Boolean esActivo;
 }

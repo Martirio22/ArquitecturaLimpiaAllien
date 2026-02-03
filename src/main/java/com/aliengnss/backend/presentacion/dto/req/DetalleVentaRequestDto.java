@@ -26,6 +26,7 @@ public class DetalleVentaRequestDto {
 	@NotNull
 	@DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal subtotal;
+	private Boolean esActivo;
     @NotNull
     private Venta fkVenta;
     @NotNull

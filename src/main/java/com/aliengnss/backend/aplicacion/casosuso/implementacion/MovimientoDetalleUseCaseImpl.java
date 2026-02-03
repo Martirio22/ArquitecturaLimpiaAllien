@@ -18,8 +18,35 @@ public class MovimientoDetalleUseCaseImpl implements IMovimientoDetalleUseCase {
     }
 
     @Override
+    @Transactional
     public MovimientoDetalle guardar(MovimientoDetalle movimientoDetalle) {
-        return repo.guardar(movimientoDetalle);
+        MovimientoDetalle detalleParaGuardar;
+
+        if (movimientoDetalle.getIdMovimientoDetalle() == null) {
+            // --- LÓGICA PARA CREACIÓN ---
+            // Forzamos esActivo a true por defecto
+            detalleParaGuardar = new MovimientoDetalle(
+                null,
+                movimientoDetalle.getCantidad(),
+                true, // esActivo por defecto
+                movimientoDetalle.getFkMovimiento(),
+                movimientoDetalle.getFkProducto()
+            );
+        } else {
+            // --- LÓGICA PARA EDICIÓN ---
+            // Recuperamos el existente para no perder el estado actual (si está activo o no)
+            MovimientoDetalle existente = buscarPorId(movimientoDetalle.getIdMovimientoDetalle());
+            
+            detalleParaGuardar = new MovimientoDetalle(
+                existente.getIdMovimientoDetalle(),
+                movimientoDetalle.getCantidad(),
+                existente.getEsActivo(), // Mantenemos el estado que ya tenía
+                movimientoDetalle.getFkMovimiento(),
+                movimientoDetalle.getFkProducto()
+            );
+        }
+
+        return repo.guardar(detalleParaGuardar);
     }
 
     @Override
@@ -36,8 +63,20 @@ public class MovimientoDetalleUseCaseImpl implements IMovimientoDetalleUseCase {
     }
 
     @Override
+    @Transactional
     public void eliminar(Long idMovimientoDetalle) {
-        repo.eliminar(idMovimientoDetalle);
+        // Borrado lógico: cambiamos el estado a false en lugar de eliminar la fila
+        MovimientoDetalle existente = buscarPorId(idMovimientoDetalle);
+        
+        MovimientoDetalle detalleAnulado = new MovimientoDetalle(
+            existente.getIdMovimientoDetalle(),
+            existente.getCantidad(),
+            false, // Desactivamos el registro
+            existente.getFkMovimiento(),
+            existente.getFkProducto()
+        );
+        
+        repo.guardar(detalleAnulado);
     }
 
     

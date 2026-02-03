@@ -68,4 +68,6 @@ public class ClienteJpa implements Serializable {
     @Size(max = 255, message = "direccion no debe exceder 255 caracteres")
     @Column(nullable = false, length = 255)
     private String direccion;
+    
+    private Boolean esActivo;
 }

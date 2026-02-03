@@ -22,7 +22,7 @@ public class VentaJpa implements Serializable{
     private LocalDateTime fechaVenta;
     private BigDecimal total;
     private String observaciones;
-    
+    private Boolean esActivo;
     @ManyToOne
     @JoinColumn(name = "idCliente")
     private ClienteJpa fkCliente;

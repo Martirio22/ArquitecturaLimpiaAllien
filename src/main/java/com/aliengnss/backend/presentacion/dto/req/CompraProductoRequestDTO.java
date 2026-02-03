@@ -18,7 +18,7 @@ public class CompraProductoRequestDTO {
     private LocalDateTime fechaIngreso;
 	@NotBlank
     private String observaciones;
-    
+	private Boolean esActivo;
 	@NotNull
     private UsuarioRequestDTO fkUsuario;
 

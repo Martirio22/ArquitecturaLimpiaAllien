@@ -21,7 +21,7 @@ public class CompraProductoDetalleRequestDTO {
 	@NotNull
 	@DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal costoUnitario;
-    
+	private Boolean esActivo;
     @NotNull
     private CompraProducto fkCompraProducto;
     @NotNull

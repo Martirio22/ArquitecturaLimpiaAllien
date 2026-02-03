@@ -8,6 +8,6 @@ public class UbicacionResponseDto {
 	private String nombre;
 	private String tipo;
 	private String descripcion;
-	
+	private Boolean esActivo;
 	
 }

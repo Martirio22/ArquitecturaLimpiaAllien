@@ -18,10 +18,30 @@ public class ClienteUseCaseImpl implements IClienteUseCase {
     }
 
     @Override
+    @Transactional
     public Cliente guardar(Cliente cliente) {
+        if (cliente.getIdCliente() == null) {
+            // Nuevo cliente: forzar true
+            cliente = new Cliente(
+                null, cliente.getPrimerNombre(), cliente.getSegundoNombre(),
+                cliente.getPrimerApellido(), cliente.getSegundoApellido(),
+                cliente.getDocumento(), cliente.getTelefono(),
+                cliente.getEmail(), cliente.getDireccion(),
+                true // activo por defecto
+            );
+        } else {
+            // Edición: mantener el estado que ya tenía
+            Cliente existente = buscarPorId(cliente.getIdCliente());
+            cliente = new Cliente(
+                existente.getIdCliente(), cliente.getPrimerNombre(), cliente.getSegundoNombre(),
+                cliente.getPrimerApellido(), cliente.getSegundoApellido(),
+                cliente.getDocumento(), cliente.getTelefono(),
+                cliente.getEmail(), cliente.getDireccion(),
+                existente.getEsActivo() 
+            );
+        }
         return repo.guardar(cliente);
     }
-
     @Override
     @Transactional(readOnly = true)
     public Cliente buscarPorId(Long idCliente) {
@@ -36,8 +56,27 @@ public class ClienteUseCaseImpl implements IClienteUseCase {
     }
 
     @Override
+    @Transactional
     public void eliminar(Long idCliente) {
-        repo.eliminar(idCliente);
+        // 1. Buscamos el cliente existente
+        Cliente existente = buscarPorId(idCliente);
+        
+        // 2. Creamos una nueva instancia con los mismos datos pero con esActivo en false
+        Cliente clienteDesactivado = new Cliente(
+            existente.getIdCliente(),
+            existente.getPrimerNombre(),
+            existente.getSegundoNombre(),
+            existente.getPrimerApellido(),
+            existente.getSegundoApellido(),
+            existente.getDocumento(),
+            existente.getTelefono(),
+            existente.getEmail(),
+            existente.getDireccion(),
+            false // <--- Estado desactivado
+        );
+        
+        // 3. Guardamos los cambios (esto hará un UPDATE en la DB)
+        repo.guardar(clienteDesactivado);
     }
 
 }

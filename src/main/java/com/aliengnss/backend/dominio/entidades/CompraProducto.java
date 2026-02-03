@@ -9,18 +9,22 @@ public class CompraProducto implements Serializable {
     private final Long idCompraProducto;
     private final LocalDateTime fechaIngreso;
     private final String observaciones;
-    
+    private final Boolean esActivo;
     private Usuario fkUsuario;
     
-    public CompraProducto(Long idCompraProducto, LocalDateTime fechaIngreso, String observaciones, Usuario fkUsuario) {
+    
+    
+    public CompraProducto(Long idCompraProducto, LocalDateTime fechaIngreso, String observaciones, Boolean esActivo,
+			Usuario fkUsuario) {
 		super();
 		this.idCompraProducto = idCompraProducto;
 		this.fechaIngreso = fechaIngreso;
 		this.observaciones = observaciones;
+		this.esActivo = esActivo;
 		this.fkUsuario = fkUsuario;
 	}
-    
-    public Usuario getFkUsuario() {
+
+	public Usuario getFkUsuario() {
 		return fkUsuario;
 	}
 
@@ -43,5 +47,11 @@ public class CompraProducto implements Serializable {
 	public String getObservaciones() {
 		return observaciones;
 	}
+
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+
+	
     
 }

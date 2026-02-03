@@ -14,7 +14,7 @@ public class CompraProductoDetalleResponseDTO {
 	private Long idCompraProductoDetalle;
     private int cantidad;
     private BigDecimal costoUnitario;
-    
+    private Boolean esActivo;
     private CompraProducto fkCompraProducto;
     private Producto fkProducto;
     private Ubicacion fkUbicacion;

@@ -32,17 +32,47 @@ public class DetalleVentaUseCaseImpl implements IDetalleVentaUseCase {
         Producto producto = productoRepositorio.buscarPorId(detalleVenta.getFkProducto().getIdProducto())
             .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        // CORRECCIÓN: Usar métodos de BigDecimal para el cálculo
+        // Cálculos de precio y subtotal
         BigDecimal precio = producto.getPrecioVenta();
         BigDecimal cantidad = new BigDecimal(detalleVenta.getCantidad());
-        
-        detalleVenta.setPrecioUnitario(precio);
-        // Multiplicación: precio * cantidad
-        detalleVenta.setSubtotal(precio.multiply(cantidad));
-        
-        DetalleVenta detalleGuardado = detalleVentaRepositorio.guardar(detalleVenta);
+        BigDecimal subtotalCalculado = precio.multiply(cantidad);
 
-        actualizarTotalVenta(detalleVenta.getFkVenta().getIdVenta());
+        DetalleVenta detalleParaGuardar;
+
+        if (detalleVenta.getIdDetalleVenta() == null) {
+            // --- LÓGICA PARA CREACIÓN ---
+            detalleParaGuardar = new DetalleVenta(
+                null,
+                detalleVenta.getCantidad(),
+                precio, // Usamos el precio del producto
+                detalleVenta.getPorcentajeComision(),
+                subtotalCalculado,
+                true,   // <--- SIEMPRE TRUE AL CREAR
+                detalleVenta.getFkVenta(),
+                detalleVenta.getFkProducto(),
+                detalleVenta.getFkUbicacion()
+            );
+        } else {
+            // --- LÓGICA PARA EDICIÓN ---
+            DetalleVenta existente = buscarPorId(detalleVenta.getIdDetalleVenta());
+            
+            detalleParaGuardar = new DetalleVenta(
+                existente.getIdDetalleVenta(),
+                detalleVenta.getCantidad(),
+                precio, 
+                detalleVenta.getPorcentajeComision(),
+                subtotalCalculado,
+                existente.getEsActivo(), // <--- PRESERVAR EL ESTADO ACTUAL
+                detalleVenta.getFkVenta(),
+                detalleVenta.getFkProducto(),
+                detalleVenta.getFkUbicacion()
+            );
+        }
+
+        DetalleVenta detalleGuardado = detalleVentaRepositorio.guardar(detalleParaGuardar);
+
+        // Actualizar el total de la venta padre
+        actualizarTotalVenta(detalleGuardado.getFkVenta().getIdVenta());
 
         return detalleGuardado;
     }
@@ -50,14 +80,15 @@ public class DetalleVentaUseCaseImpl implements IDetalleVentaUseCase {
     private void actualizarTotalVenta(Long idVenta) {
         List<DetalleVenta> todosLosDetalles = detalleVentaRepositorio.listarTodos();
         
-        // CORRECCIÓN: Sumar usando BigDecimal
+        // FILTRADO CLAVE: Solo sumamos los detalles que estén activos (true)
         BigDecimal nuevoTotal = todosLosDetalles.stream()
             .filter(d -> d.getFkVenta().getIdVenta().equals(idVenta))
+            .filter(DetalleVenta::getEsActivo) // <--- Solo detalles activos
             .map(DetalleVenta::getSubtotal)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         ventaRepositorio.buscarPorId(idVenta).ifPresent(venta -> {
-            venta.setTotal(nuevoTotal); // Asegúrate que en la entidad Venta, 'total' sea BigDecimal
+            venta.setTotal(nuevoTotal);
             ventaRepositorio.guardar(venta);
         });
     }
@@ -74,7 +105,27 @@ public class DetalleVentaUseCaseImpl implements IDetalleVentaUseCase {
 
     @Override
     public void eliminar(Long idDetalleVenta) {
-        detalleVentaRepositorio.eliminar(idDetalleVenta);
+        // 1. Recuperamos el detalle existente
+        DetalleVenta existente = buscarPorId(idDetalleVenta);
+
+        // 2. Aplicamos borrado lógico: Creamos una copia con esActivo en false
+        DetalleVenta detalleAnulado = new DetalleVenta(
+            existente.getIdDetalleVenta(),
+            existente.getCantidad(),
+            existente.getPrecioUnitario(),
+            existente.getPorcentajeComision(),
+            existente.getSubtotal(),
+            false, // <--- Desactivado
+            existente.getFkVenta(),
+            existente.getFkProducto(),
+            existente.getFkUbicacion()
+        );
+
+        // 3. Guardamos el estado desactivado
+        detalleVentaRepositorio.guardar(detalleAnulado);
+
+        // 4. ¡IMPORTANTE! Recalcular el total de la venta restando este detalle
+        actualizarTotalVenta(existente.getFkVenta().getIdVenta());
     }
 
 	@Override

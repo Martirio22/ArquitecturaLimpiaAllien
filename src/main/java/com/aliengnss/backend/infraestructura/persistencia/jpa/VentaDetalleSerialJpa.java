@@ -21,6 +21,7 @@ public class VentaDetalleSerialJpa implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idVentaDetalleSerial;
+	private Boolean esActivo;
 	@ManyToOne
     @JoinColumn(name = "idDetalleVenta")
 	private DetalleVentaJpa fkDetalleVenta;

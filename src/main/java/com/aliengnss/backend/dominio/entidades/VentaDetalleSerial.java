@@ -7,13 +7,16 @@ public class VentaDetalleSerial implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private final Long idVentaDetalleSerial;
-	
+	private final Boolean esActivo;
 	private DetalleVenta fkDetalleVenta;
 	private ProductoSerial fkProductoSerial;
 	
-	public VentaDetalleSerial(Long idVentaDetalleSerial, DetalleVenta fkDetalleVenta, ProductoSerial fkProductoSerial) {
+	
+	public VentaDetalleSerial(Long idVentaDetalleSerial, Boolean esActivo, DetalleVenta fkDetalleVenta,
+			ProductoSerial fkProductoSerial) {
 		super();
 		this.idVentaDetalleSerial = idVentaDetalleSerial;
+		this.esActivo = esActivo;
 		this.fkDetalleVenta = fkDetalleVenta;
 		this.fkProductoSerial = fkProductoSerial;
 	}
@@ -32,5 +35,8 @@ public class VentaDetalleSerial implements Serializable {
 	public Long getIdVentaDetalleSerial() {
 		return idVentaDetalleSerial;
 	}
-
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+	
 }

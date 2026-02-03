@@ -25,7 +25,7 @@ public class MovimientoJpa implements Serializable {
 	private LocalDateTime fechaMovimiento;
 	private String tipo;
 	private String observaciones;
-	
+	private Boolean esActivo;
 	@ManyToOne
 	@JoinColumn(name = "idUsuario")
 	private UsuarioJpa fkUsuario;

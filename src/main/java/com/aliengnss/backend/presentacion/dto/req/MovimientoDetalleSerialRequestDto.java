@@ -11,6 +11,7 @@ import lombok.Data;
 public class MovimientoDetalleSerialRequestDto {
 	@Null
 	private Long idMovimientoDetalleSerial;
+	private Boolean esActivo;
 	@NotNull
 	private Long idMovimientoDetalle;
 	@NotNull

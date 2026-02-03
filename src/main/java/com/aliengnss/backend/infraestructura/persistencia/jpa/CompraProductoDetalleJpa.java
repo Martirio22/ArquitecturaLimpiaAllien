@@ -20,7 +20,7 @@ public class CompraProductoDetalleJpa implements Serializable {
     private Long idCompraProductoDetalle;
     private int cantidad;
     private BigDecimal costoUnitario;
-    
+    private Boolean esActivo;
     @ManyToOne
     @JoinColumn(name = "idCompraProducto")
     private CompraProductoJpa fkCompraProducto;

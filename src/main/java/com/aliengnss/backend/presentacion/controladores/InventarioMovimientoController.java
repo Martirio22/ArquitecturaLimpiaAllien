@@ -49,7 +49,7 @@ public class InventarioMovimientoController {
         return mapper.toResponseDto(cpUseCase.guardar(mapper.toDomain(inventarioMovimientoDto)));
     }
     
-	@DeleteMapping("/{idCompraProducto}")
+	@DeleteMapping("/{idInventarioMovimiento}")
 	public ResponseEntity<Void> eliminar(@PathVariable Long idInventarioMovimiento){
 		cpUseCase.eliminar(idInventarioMovimiento);
 		return ResponseEntity.noContent().build();

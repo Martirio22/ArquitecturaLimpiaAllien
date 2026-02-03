@@ -23,40 +23,58 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 	@Override
 	@Transactional
 	public InventarioMovimiento guardar(InventarioMovimiento mov) {
-	    
-	    // 1. Si es un movimiento de SALIDA, validamos stock
-	    if (mov.getCantidadSalida() > 0) {
-	        Integer stockActual = cpRepositorio.obtenerStockPorProductoYUbicacion(
-	            mov.getFkProducto().getIdProducto(), 
-	            mov.getFkUbicacion().getIdUbicacion()
-	        );
+		
+		// 1. Lógica de validación de Stock para SALIDAS (Se mantiene igual)
+		if (mov.getCantidadSalida() > 0) {
+			Integer stockActual = cpRepositorio.obtenerStockPorProductoYUbicacion(
+				mov.getFkProducto().getIdProducto(), 
+				mov.getFkUbicacion().getIdUbicacion()
+			);
 
-	        // Si el stock es nulo o menor a lo que se quiere sacar
-	        if (stockActual == null || stockActual < mov.getCantidadSalida()) {
-	            throw new StockInsuficienteException(
-	                "Stock insuficiente. Disponible: " + (stockActual == null ? 0 : stockActual) + 
-	                ", Solicitado: " + mov.getCantidadSalida()
-	            );
-	        }
-	    }
+			if (stockActual == null || stockActual < mov.getCantidadSalida()) {
+				throw new StockInsuficienteException(
+					"Stock insuficiente. Disponible: " + (stockActual == null ? 0 : stockActual) + 
+					", Solicitado: " + mov.getCantidadSalida()
+				);
+			}
+		}
 
-	    // 2. Si pasa la validación (o es una entrada), sellamos fecha y guardamos
-	    LocalDateTime fechaActual = LocalDateTime.now();
-	    
-	    InventarioMovimiento movimientoParaGuardar = new InventarioMovimiento(
-	        null, 
-	        fechaActual, 
-	        mov.getTipo(), 
-	        mov.getCantidadEntrada(),
-	        mov.getCantidadSalida(), 
-	        mov.getReferenciaTipo(), 
-	        mov.getReferenciaId(), 
-	        mov.getFkProducto(),
-	        mov.getFkProductoSerial(), 
-	        mov.getFkUbicacion()
-	    );
+		InventarioMovimiento movimientoParaGuardar;
 
-	    return cpRepositorio.guardar(movimientoParaGuardar);
+		if (mov.getIdInventarioMovimiento() == null) {
+			// --- NUEVO MOVIMIENTO ---
+			movimientoParaGuardar = new InventarioMovimiento(
+				null, 
+				LocalDateTime.now(), // Sellamos fecha actual
+				mov.getTipo(), 
+				mov.getCantidadEntrada(),
+				mov.getCantidadSalida(), 
+				mov.getReferenciaTipo(), 
+				mov.getReferenciaId(), 
+				true, // <--- ACTIVO POR DEFECTO
+				mov.getFkProducto(),
+				mov.getFkProductoSerial(), 
+				mov.getFkUbicacion()
+			);
+		} else {
+			// --- EDICIÓN DE MOVIMIENTO ---
+			InventarioMovimiento existente = buscarPorId(mov.getIdInventarioMovimiento());
+			movimientoParaGuardar = new InventarioMovimiento(
+				existente.getIdInventarioMovimiento(), 
+				existente.getFecha(), // Mantenemos fecha original
+				mov.getTipo(), 
+				mov.getCantidadEntrada(),
+				mov.getCantidadSalida(), 
+				mov.getReferenciaTipo(), 
+				mov.getReferenciaId(), 
+				existente.getEsActivo(), // <--- MANTENEMOS ESTADO ACTUAL
+				mov.getFkProducto(),
+				mov.getFkProductoSerial(), 
+				mov.getFkUbicacion()
+			);
+		}
+
+		return cpRepositorio.guardar(movimientoParaGuardar);
 	}
 
 	@Override
@@ -70,8 +88,26 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 	}
 
 	@Override
+	@Transactional
 	public void eliminar(Long idInventarioMovimiento) {
-		cpRepositorio.eliminar(idInventarioMovimiento);
+		// Borrado lógico
+		InventarioMovimiento existente = buscarPorId(idInventarioMovimiento);
+		
+		InventarioMovimiento desactivado = new InventarioMovimiento(
+			existente.getIdInventarioMovimiento(), 
+			existente.getFecha(), 
+			existente.getTipo(), 
+			existente.getCantidadEntrada(),
+			existente.getCantidadSalida(), 
+			existente.getReferenciaTipo(), 
+			existente.getReferenciaId(), 
+			false, // <--- DESACTIVADO
+			existente.getFkProducto(),
+			existente.getFkProductoSerial(), 
+			existente.getFkUbicacion()
+		);
+		
+		cpRepositorio.guardar(desactivado);
 	}
 
 	@Override

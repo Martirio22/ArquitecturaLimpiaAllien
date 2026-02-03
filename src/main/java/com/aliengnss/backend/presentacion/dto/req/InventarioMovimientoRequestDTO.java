@@ -25,6 +25,7 @@ public class InventarioMovimientoRequestDTO {
 	private String referenciaTipo;
 	@NotNull
 	private int referenciaId;
+	private Boolean esActivo;
 	@NotNull
 	private Producto fkProducto;
 	

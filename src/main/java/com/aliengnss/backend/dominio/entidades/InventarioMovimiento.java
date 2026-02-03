@@ -14,12 +14,14 @@ public class InventarioMovimiento implements Serializable {
 	private final int cantidadSalida;
 	private final String referenciaTipo;
 	private final int referenciaId;
+	private final Boolean esActivo;
 	private Producto fkProducto;
 	private ProductoSerial fkProductoSerial;
 	private Ubicacion fkUbicacion;
 	
+
 	public InventarioMovimiento(Long idInventarioMovimiento, LocalDateTime fecha, String tipo, int cantidadEntrada,
-			int cantidadSalida, String referenciaTipo, int referenciaId, Producto fkProducto,
+			int cantidadSalida, String referenciaTipo, int referenciaId, Boolean esActivo, Producto fkProducto,
 			ProductoSerial fkProductoSerial, Ubicacion fkUbicacion) {
 		super();
 		this.idInventarioMovimiento = idInventarioMovimiento;
@@ -29,6 +31,7 @@ public class InventarioMovimiento implements Serializable {
 		this.cantidadSalida = cantidadSalida;
 		this.referenciaTipo = referenciaTipo;
 		this.referenciaId = referenciaId;
+		this.esActivo = esActivo;
 		this.fkProducto = fkProducto;
 		this.fkProductoSerial = fkProductoSerial;
 		this.fkUbicacion = fkUbicacion;
@@ -86,13 +89,8 @@ public class InventarioMovimiento implements Serializable {
 		return referenciaId;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public Boolean getEsActivo() {
+		return esActivo;
+	}
+
 }
