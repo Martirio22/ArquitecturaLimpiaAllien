@@ -3,9 +3,11 @@ package com.aliengnss.backend.infraestructura.configuracion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.aliengnss.backend.aplicacion.casosuso.entrada.ICatalogoUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IClienteUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoDetalleUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ICompraProductoUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleCatalogoUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IDetalleVentaUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IInventarioMovimientoUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.ILoginUseCase;
@@ -18,9 +20,11 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.IUbicacionUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IUsuarioUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaDetalleSerialUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.CatalogoUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.ClienteUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.CompraProductoDetalleUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.CompraProductoUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.DetalleCatalogoUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.DetalleVentaUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.InventarioMovimientoUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.LoginUseCaseImpl;
@@ -33,9 +37,11 @@ import com.aliengnss.backend.aplicacion.casosuso.implementacion.UbicacionUseCase
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.UsuarioUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.VentaDetalleSerialUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.VentaUseCaseImpl;
+import com.aliengnss.backend.dominio.repositorios.ICatalogoRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IClienteRepositorio;
 import com.aliengnss.backend.dominio.repositorios.ICompraProductoDetalleRepositorio;
 import com.aliengnss.backend.dominio.repositorios.ICompraProductoRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IDetalleCatalogoRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IDetalleVentaRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IInventarioMovimientoRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoDetalleRepositorio;
@@ -47,9 +53,11 @@ import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IUsuarioRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IVentaDetalleSerialRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.CatalogoRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ClienteRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.CompraProductoDetalleRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.CompraProductoRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.DetalleCatalogoRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.DetalleVentaRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.InventarioMovimientoRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.MovimientoDetalleRepositorioImpl;
@@ -61,9 +69,11 @@ import com.aliengnss.backend.infraestructura.persistencia.adaptadores.UbicacionR
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.UsuarioRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.VentaDetalleSerialRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.VentaRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.ICatalogoJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IClienteJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.ICompraProductoDetalleJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.ICompraProductoJpaMapper;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IDetalleCatalogoJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IDetalleVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IInventarioMovimientoJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoDetalleJpaMapper;
@@ -75,9 +85,11 @@ import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IUbicacionJ
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IUsuarioJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IVentaDetalleSerialJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IVentaJpaMapper;
+import com.aliengnss.backend.infraestructura.repositorios.ICatalogoJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IClienteJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.ICompraProductoDetalleJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.ICompraProductoJpaRepository;
+import com.aliengnss.backend.infraestructura.repositorios.IDetalleCatalogoJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IDetalleVentaJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IInventarioMovimientoJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoDetalleJpaRepository;
@@ -268,5 +280,27 @@ public class ConfiguracionGeneral {
 	}
 	
 	
+	
+	
+	@Bean
+	ICatalogoRepositorio catalogoRepositorio(ICatalogoJpaRepository catalogoJpaRepository,
+			ICatalogoJpaMapper catalogoJpaMapper) {
+		return new CatalogoRepositorioImpl(catalogoJpaRepository, catalogoJpaMapper);
+	}
 
+	@Bean
+	ICatalogoUseCase catalogoUseCase(ICatalogoRepositorio catalogoRepositorio) {
+		return new CatalogoUseCaseImpl(catalogoRepositorio);
+	}
+
+	@Bean
+	IDetalleCatalogoRepositorio detalleCatalogoRepositorio(IDetalleCatalogoJpaRepository detalleCatalogoJpaRepository,
+			IDetalleCatalogoJpaMapper detalleCatalogoJpaMapper) {
+		return new DetalleCatalogoRepositorioImpl(detalleCatalogoJpaRepository, detalleCatalogoJpaMapper);
+	}
+
+	@Bean
+	IDetalleCatalogoUseCase detalleCatalogoUseCase(IDetalleCatalogoRepositorio detalleCatalogoRepositorio) {
+		return new DetalleCatalogoUseCaseImpl(detalleCatalogoRepositorio);
+	}
 }
