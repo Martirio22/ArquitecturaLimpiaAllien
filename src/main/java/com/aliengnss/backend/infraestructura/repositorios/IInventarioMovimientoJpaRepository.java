@@ -41,4 +41,6 @@ public interface IInventarioMovimientoJpaRepository extends JpaRepository<Invent
 		    @Param("idProducto") Long idProducto, 
 		    @Param("idUbicacion") Long idUbicacion);
 	
+	InventarioMovimientoJpa findTopByFkProductoSerial_IdProductoSerialAndEsActivoTrueOrderByFechaDescIdInventarioMovimientoDesc(Long idProductoSerial);
+
 }

@@ -11,7 +11,7 @@ import com.aliengnss.backend.dominio.repositorios.IInventarioMovimientoRepositor
 import jakarta.transaction.Transactional;
 
 public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUseCase {
-	
+
 	private final IInventarioMovimientoRepositorio cpRepositorio;
 
 	public InventarioMovimientoUseCaseImpl(IInventarioMovimientoRepositorio cpRepositorio) {
@@ -19,23 +19,42 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 		this.cpRepositorio = cpRepositorio;
 	}
 
-
 	@Override
 	@Transactional
 	public InventarioMovimiento guardar(InventarioMovimiento mov) {
-		
-		// 1. Lógica de validación de Stock para SALIDAS (Se mantiene igual)
-		if (mov.getCantidadSalida() > 0) {
-			Integer stockActual = cpRepositorio.obtenerStockPorProductoYUbicacion(
-				mov.getFkProducto().getIdProducto(), 
-				mov.getFkUbicacion().getIdUbicacion()
-			);
 
-			if (stockActual == null || stockActual < mov.getCantidadSalida()) {
-				throw new StockInsuficienteException(
-					"Stock insuficiente. Disponible: " + (stockActual == null ? 0 : stockActual) + 
-					", Solicitado: " + mov.getCantidadSalida()
-				);
+		// 1. Validación de stock SOLO para SALIDAS
+		if (mov.getCantidadSalida() > 0) {
+
+			// ✅ Si viene serial, valida por ubicación actual del serial (NO por stock
+			// agregado)
+			if (mov.getFkProductoSerial() != null) {
+
+				Long idSerial = mov.getFkProductoSerial().getIdProductoSerial();
+				Long idUbOrigen = mov.getFkUbicacion().getIdUbicacion();
+
+				// Regla típica: un serial equivale a 1 unidad
+				if (mov.getCantidadSalida() != 1) {
+					throw new StockInsuficienteException(
+							"Salida serial inválida. Solicitado: " + mov.getCantidadSalida());
+				}
+
+				Long ubActual = cpRepositorio.obtenerUbicacionActualPorProductoSerial(idSerial);
+
+				if (ubActual == null || !ubActual.equals(idUbOrigen)) {
+					throw new StockInsuficienteException("Stock insuficiente (serial). Actual: "
+							+ (ubActual == null ? 0 : ubActual) + ", Origen: " + idUbOrigen);
+				}
+
+			} else {
+				// ✅ NO-serial: valida por stock agregado como ya lo haces
+				Integer stockActual = cpRepositorio.obtenerStockPorProductoYUbicacion(
+						mov.getFkProducto().getIdProducto(), mov.getFkUbicacion().getIdUbicacion());
+
+				if (stockActual == null || stockActual < mov.getCantidadSalida()) {
+					throw new StockInsuficienteException("Stock insuficiente. Disponible: "
+							+ (stockActual == null ? 0 : stockActual) + ", Solicitado: " + mov.getCantidadSalida());
+				}
 			}
 		}
 
@@ -43,35 +62,18 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 
 		if (mov.getIdInventarioMovimiento() == null) {
 			// --- NUEVO MOVIMIENTO ---
-			movimientoParaGuardar = new InventarioMovimiento(
-				null, 
-				LocalDateTime.now(), // Sellamos fecha actual
-				mov.getTipo(), 
-				mov.getCantidadEntrada(),
-				mov.getCantidadSalida(), 
-				mov.getReferenciaTipo(), 
-				mov.getReferenciaId(), 
-				true, // <--- ACTIVO POR DEFECTO
-				mov.getFkProducto(),
-				mov.getFkProductoSerial(), 
-				mov.getFkUbicacion()
-			);
+			movimientoParaGuardar = new InventarioMovimiento(null, LocalDateTime.now(), // Sellamos fecha actual
+					mov.getTipo(), mov.getCantidadEntrada(), mov.getCantidadSalida(), mov.getReferenciaTipo(),
+					mov.getReferenciaId(), true, // <--- ACTIVO POR DEFECTO
+					mov.getFkProducto(), mov.getFkProductoSerial(), mov.getFkUbicacion());
 		} else {
 			// --- EDICIÓN DE MOVIMIENTO ---
 			InventarioMovimiento existente = buscarPorId(mov.getIdInventarioMovimiento());
-			movimientoParaGuardar = new InventarioMovimiento(
-				existente.getIdInventarioMovimiento(), 
-				existente.getFecha(), // Mantenemos fecha original
-				mov.getTipo(), 
-				mov.getCantidadEntrada(),
-				mov.getCantidadSalida(), 
-				mov.getReferenciaTipo(), 
-				mov.getReferenciaId(), 
-				existente.getEsActivo(), // <--- MANTENEMOS ESTADO ACTUAL
-				mov.getFkProducto(),
-				mov.getFkProductoSerial(), 
-				mov.getFkUbicacion()
-			);
+			movimientoParaGuardar = new InventarioMovimiento(existente.getIdInventarioMovimiento(),
+					existente.getFecha(), // Mantenemos fecha original
+					mov.getTipo(), mov.getCantidadEntrada(), mov.getCantidadSalida(), mov.getReferenciaTipo(),
+					mov.getReferenciaId(), existente.getEsActivo(), // <--- MANTENEMOS ESTADO ACTUAL
+					mov.getFkProducto(), mov.getFkProductoSerial(), mov.getFkUbicacion());
 		}
 
 		return cpRepositorio.guardar(movimientoParaGuardar);
@@ -79,7 +81,8 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 
 	@Override
 	public InventarioMovimiento buscarPorId(Long idInventarioMovimiento) {
-		return cpRepositorio.buscarPorId(idInventarioMovimiento).orElseThrow(() -> new RuntimeException("Inventario movimiento no encontrado"));
+		return cpRepositorio.buscarPorId(idInventarioMovimiento)
+				.orElseThrow(() -> new RuntimeException("Inventario movimiento no encontrado"));
 	}
 
 	@Override
@@ -92,21 +95,13 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 	public void eliminar(Long idInventarioMovimiento) {
 		// Borrado lógico
 		InventarioMovimiento existente = buscarPorId(idInventarioMovimiento);
-		
-		InventarioMovimiento desactivado = new InventarioMovimiento(
-			existente.getIdInventarioMovimiento(), 
-			existente.getFecha(), 
-			existente.getTipo(), 
-			existente.getCantidadEntrada(),
-			existente.getCantidadSalida(), 
-			existente.getReferenciaTipo(), 
-			existente.getReferenciaId(), 
-			false, // <--- DESACTIVADO
-			existente.getFkProducto(),
-			existente.getFkProductoSerial(), 
-			existente.getFkUbicacion()
-		);
-		
+
+		InventarioMovimiento desactivado = new InventarioMovimiento(existente.getIdInventarioMovimiento(),
+				existente.getFecha(), existente.getTipo(), existente.getCantidadEntrada(),
+				existente.getCantidadSalida(), existente.getReferenciaTipo(), existente.getReferenciaId(), false, // <---
+																													// DESACTIVADO
+				existente.getFkProducto(), existente.getFkProductoSerial(), existente.getFkUbicacion());
+
 		cpRepositorio.guardar(desactivado);
 	}
 
@@ -131,5 +126,4 @@ public class InventarioMovimientoUseCaseImpl implements IInventarioMovimientoUse
 		return cpRepositorio.obtenerStockPorProductoYUbicacion(idProducto, idUbicacion);
 	}
 
-	
 }

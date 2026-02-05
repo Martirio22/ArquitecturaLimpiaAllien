@@ -75,6 +75,14 @@ public class InventarioMovimientoRepositorioImpl implements IInventarioMovimient
 		return cpJpaRepository.obtenerStockPorProductoYUbicacion(idProducto, idUbicacion);
 	}
 
-	
+	@Override
+	public Long obtenerUbicacionActualPorProductoSerial(Long idProductoSerial) {
+	    InventarioMovimientoJpa last = cpJpaRepository
+	        .findTopByFkProductoSerial_IdProductoSerialAndEsActivoTrueOrderByFechaDescIdInventarioMovimientoDesc(idProductoSerial);
+
+	    if (last == null || last.getFkUbicacion() == null) return null;
+	    return last.getFkUbicacion().getIdUbicacion();
+	}
+
 	
 }

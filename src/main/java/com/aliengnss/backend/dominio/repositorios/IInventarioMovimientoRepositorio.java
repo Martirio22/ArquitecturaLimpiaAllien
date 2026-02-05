@@ -24,4 +24,5 @@ public interface IInventarioMovimientoRepositorio {
 	List<InventarioMovimiento> buscarMovimientoPorSerial(String serial);
 	
 	Integer obtenerStockPorProductoYUbicacion(Long idProducto, Long idUbicacion);
+	Long obtenerUbicacionActualPorProductoSerial(Long idProductoSerial);
 }
