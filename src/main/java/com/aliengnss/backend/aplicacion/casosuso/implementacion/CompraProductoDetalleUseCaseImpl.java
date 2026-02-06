@@ -19,8 +19,17 @@ public class CompraProductoDetalleUseCaseImpl implements ICompraProductoDetalleU
 
     @Override
     public CompraProductoDetalle guardar(CompraProductoDetalle detalle) {
-    	
-        return repo.guardar(detalle);
+        CompraProductoDetalle detalleActivo = new CompraProductoDetalle(
+            detalle.getIdCompraProductoDetalle(),
+            detalle.getCantidad(),
+            detalle.getCostoUnitario(),
+            true, 
+            detalle.getFkCompraProducto(),
+            detalle.getFkProducto(),
+            detalle.getFkUbicacion()
+        );
+        
+        return repo.guardar(detalleActivo);
     }
 
     @Override
@@ -36,7 +45,21 @@ public class CompraProductoDetalleUseCaseImpl implements ICompraProductoDetalleU
 
     @Override
     public void eliminar(Long id) {
-        repo.eliminar(id);
+        // 1. Buscamos el registro actual
+        CompraProductoDetalle detalleExistente = repo.buscarPorId(id)
+                .orElseThrow(() -> new RuntimeException("Detalle no encontrado con ID: " + id));
+
+        CompraProductoDetalle detalleAnulado = new CompraProductoDetalle(
+            detalleExistente.getIdCompraProductoDetalle(),
+            detalleExistente.getCantidad(),
+            detalleExistente.getCostoUnitario(),
+            false,
+            detalleExistente.getFkCompraProducto(),
+            detalleExistente.getFkProducto(),
+            detalleExistente.getFkUbicacion()
+        );
+
+        repo.guardar(detalleAnulado);
     }
 
 	@Override

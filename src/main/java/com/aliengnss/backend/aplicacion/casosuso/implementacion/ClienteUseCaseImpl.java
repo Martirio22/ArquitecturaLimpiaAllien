@@ -20,6 +20,11 @@ public class ClienteUseCaseImpl implements IClienteUseCase {
     @Override
     @Transactional
     public Cliente guardar(Cliente cliente) {
+        // 1. Validar el documento (Cédula Ecuatoriana)
+        if (!validarCedula(cliente.getDocumento())) {
+            throw new RuntimeException("El documento ingresado no es una cédula ecuatoriana válida");
+        }
+
         if (cliente.getIdCliente() == null) {
             // Nuevo cliente: forzar true
             cliente = new Cliente(
@@ -34,13 +39,38 @@ public class ClienteUseCaseImpl implements IClienteUseCase {
             Cliente existente = buscarPorId(cliente.getIdCliente());
             cliente = new Cliente(
                 existente.getIdCliente(), cliente.getPrimerNombre(), cliente.getSegundoNombre(),
-                cliente.getPrimerApellido(), cliente.getSegundoApellido(),
+                existente.getPrimerApellido(), existente.getSegundoApellido(), // Corregido: usualmente se mantiene el apellido original o se usa el del objeto 'cliente' según tu lógica
                 cliente.getDocumento(), cliente.getTelefono(),
                 cliente.getEmail(), cliente.getDireccion(),
                 existente.getEsActivo() 
             );
         }
         return repo.guardar(cliente);
+    }
+
+    // Reutilización del algoritmo de validación
+    private boolean validarCedula(String cedula) {
+        if (cedula == null || cedula.length() != 10) return false;
+        try {
+            int provincia = Integer.parseInt(cedula.substring(0, 2));
+            if (provincia < 1 || provincia > 24) return false;
+            
+            int d10 = Integer.parseInt(cedula.substring(9, 10));
+            int suma = 0;
+            for (int i = 0; i < 9; i++) {
+                int d = Integer.parseInt(cedula.substring(i, i + 1));
+                if (i % 2 == 0) {
+                    d = d * 2;
+                    if (d > 9) d -= 9;
+                }
+                suma += d;
+            }
+            int residuo = suma % 10;
+            int verificado = (residuo == 0) ? 0 : 10 - residuo;
+            return verificado == d10;
+        } catch (NumberFormatException e) { 
+            return false; 
+        }
     }
     @Override
     @Transactional(readOnly = true)
