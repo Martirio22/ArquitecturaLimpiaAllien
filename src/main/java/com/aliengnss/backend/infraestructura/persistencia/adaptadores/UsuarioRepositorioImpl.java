@@ -56,4 +56,26 @@ public class UsuarioRepositorioImpl implements IUsuarioRepositorio{
 	    return usuarioJpaRepository.findByCorreoElectronico(correoElectronico).map(entityMapper::toDomain);
 	}
 	
+	@Override
+	public Optional<Usuario> buscarPorCedula(String cedula) {
+	    return usuarioJpaRepository.findByCedula(cedula).map(entityMapper::toDomain);
+	}
+	
+	@Override
+	public void actualizarPassword(Long idUsuario, String claveNueva) {
+	    int updated = usuarioJpaRepository.actualizarPassword(idUsuario, claveNueva);
+	    if (updated == 0) {
+	        throw new RuntimeException("Usuario no encontrado");
+	    }
+	}
+	
+	@Override
+	public void resetPassword(Long idUsuario, String claveTemporal) {
+	    int updated = usuarioJpaRepository.resetPassword(idUsuario, claveTemporal);
+	    if (updated == 0) {
+	        throw new RuntimeException("Usuario no encontrado");
+	    }
+	}
+
+
 }

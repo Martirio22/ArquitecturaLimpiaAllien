@@ -12,4 +12,7 @@ public interface IUsuarioUseCase {
 	void eliminar(Long idUsuario);
 	
 	List<Usuario> buscarPorNombres(String nombre);
+	void cambiarPassword(Long idUsuario, String claveActual, String claveNueva);
+	void resetPassword(Long idUsuario, String claveTemporal);
+
 }

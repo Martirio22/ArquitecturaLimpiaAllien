@@ -42,4 +42,19 @@ public class ClienteRepositorioImpl implements IClienteRepositorio {
         clienteJpaRepository.deleteById(idCliente);
     }
 
+    @Override
+    public Optional<Cliente> buscarPorDocumento(String documento) {
+        return clienteJpaRepository.findByDocumento(documento).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<Cliente> buscarPorEmail(String email) {
+        return clienteJpaRepository.findByEmail(email).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<Cliente> buscarPorTelefono(String telefono) {
+        return clienteJpaRepository.findByTelefono(telefono).map(mapper::toDomain);
+    }
+
 }

@@ -12,4 +12,7 @@ public interface IClienteRepositorio {
     List<Cliente> listarTodos();
     void eliminar(Long idCliente);
 
+    Optional<Cliente> buscarPorDocumento(String documento);
+    Optional<Cliente> buscarPorEmail(String email);
+    Optional<Cliente> buscarPorTelefono(String telefono);
 }

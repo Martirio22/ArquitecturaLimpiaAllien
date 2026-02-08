@@ -22,10 +22,11 @@ public class Usuario implements Serializable {
     private final LocalDateTime ultimoAcceso;
     private final String rol;
     private final Boolean esActivo;
-
-    public Usuario(Long idUsuario, String primerNombre, String segundoNombre, String primerApellido,
+    private final Boolean esNuevo;
+    
+	public Usuario(Long idUsuario, String primerNombre, String segundoNombre, String primerApellido,
 			String segundoApellido, String nombreUsuario, String correoElectronico, String cedula, String clave,
-			int intentosActual, LocalDateTime ultimoAcceso, String rol, Boolean esActivo) {
+			int intentosActual, LocalDateTime ultimoAcceso, String rol, Boolean esActivo, Boolean esNuevo) {
 		super();
 		this.idUsuario = idUsuario;
 		this.primerNombre = primerNombre;
@@ -40,10 +41,7 @@ public class Usuario implements Serializable {
 		this.ultimoAcceso = ultimoAcceso;
 		this.rol = rol;
 		this.esActivo = esActivo;
-	}
-    
-    public static long getSerialversionuid() {
-		return serialVersionUID;
+		this.esNuevo = esNuevo;
 	}
 
 	public Long getIdUsuario() {
@@ -97,5 +95,10 @@ public class Usuario implements Serializable {
 	public Boolean getEsActivo() {
 		return esActivo;
 	}
+
+	public Boolean getEsNuevo() {
+		return esNuevo;
+	}
+    
     
 }

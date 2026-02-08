@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IUsuarioUseCase;
+import com.aliengnss.backend.presentacion.dto.req.CambiarPasswordRequestDTO;
+import com.aliengnss.backend.presentacion.dto.req.ResetPasswordRequestDTO;
 import com.aliengnss.backend.presentacion.dto.req.UsuarioRequestDTO;
 import com.aliengnss.backend.presentacion.dto.res.UsuarioResponseDTO;
 import com.aliengnss.backend.presentacion.mapeadores.IUsuarioDtoMapper;
@@ -54,4 +56,19 @@ public class UsuarioController {
 				.toList();
 		return ResponseEntity.ok(lista);
 	}
+	
+	@PatchMapping("/{id}/password")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void cambiarPassword(@PathVariable Long id,
+	                            @Valid @RequestBody CambiarPasswordRequestDTO dto) {
+	    usuarioUseCase.cambiarPassword(id, dto.getClaveActual(), dto.getClaveNueva());
+	}
+	
+	@PatchMapping("/{id}/reset-password")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void resetPassword(@PathVariable Long id,
+	                          @Valid @RequestBody ResetPasswordRequestDTO dto) {
+	    usuarioUseCase.resetPassword(id, dto.getClaveTemporal());
+	}
+
 }

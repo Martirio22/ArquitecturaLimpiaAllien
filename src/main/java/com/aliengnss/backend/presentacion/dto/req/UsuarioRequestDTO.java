@@ -44,4 +44,5 @@ public class UsuarioRequestDTO {
     @NotBlank
     private String rol;
     private Boolean esActivo;
+    private Boolean esNuevo;
 }

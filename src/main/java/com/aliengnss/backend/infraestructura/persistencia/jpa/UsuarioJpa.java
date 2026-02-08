@@ -33,4 +33,5 @@ public class UsuarioJpa implements Serializable {
     private Date ultimoAcceso;
     private String rol;
     private Boolean esActivo;
+    private Boolean esNuevo;
 }

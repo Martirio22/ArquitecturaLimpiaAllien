@@ -20,5 +20,6 @@ public class UsuarioResponseDTO {
     private Date ultimoAcceso;
     private String rol;
     private Boolean esActivo;
+    private Boolean esNuevo;
     
 }

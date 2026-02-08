@@ -17,34 +17,55 @@ public class UsuarioUseCaseImpl implements IUsuarioUseCase{
 
 	@Override
 	public Usuario guardar(Usuario usuario) {
-	    // 1. Validar Cédula Ecuatoriana
-	    if (!validarCedula(usuario.getCedula())) {
-	        throw new RuntimeException("La cédula ingresada no es válida para Ecuador");
-	    }
 
-	    // 2. Validar Correo Único (Solo si es nuevo usuario)
-	    if (usuario.getIdUsuario() == null) {
+	    boolean esNuevo = (usuario.getIdUsuario() == null);
+
+	    if (esNuevo) {
+	        // Validar únicos
 	        usuarioRepositorio.buscarPorCorreo(usuario.getCorreoElectronico())
 	            .ifPresent(u -> { throw new RuntimeException("El correo ya está registrado"); });
-	        
-	        // 3. Valores por defecto para NUEVO usuario
+
+	        usuarioRepositorio.buscarPorCedula(usuario.getCedula())
+	            .ifPresent(u -> { throw new RuntimeException("La cédula ya está registrada"); });
+
+	        // Defaults para nuevo
 	        usuario = new Usuario(
-	            null, usuario.getPrimerNombre(), usuario.getSegundoNombre(),
+	            null,
+	            usuario.getPrimerNombre(), usuario.getSegundoNombre(),
 	            usuario.getPrimerApellido(), usuario.getSegundoApellido(),
 	            usuario.getNombreUsuario(), usuario.getCorreoElectronico(),
 	            usuario.getCedula(), usuario.getClave(),
-	            0, null, usuario.getRol(), true // activo por defecto e intentos 0
+	            0, null, usuario.getRol(),
+	            true,  // esActivo
+	            true   // esNuevo (por ejemplo: true al crear)
 	        );
+
 	    } else {
-	        // Lógica para EDITAR: Recuperar datos que no se deben perder
 	        Usuario existente = buscarPorId(usuario.getIdUsuario());
+
+	        // Si cambió correo => validar que no exista en otro
+	        if (!existente.getCorreoElectronico().equalsIgnoreCase(usuario.getCorreoElectronico())) {
+	            usuarioRepositorio.buscarPorCorreo(usuario.getCorreoElectronico())
+	                .ifPresent(u -> { throw new RuntimeException("El correo ya está registrado"); });
+	        }
+
+	        // Si cambió cédula => validar que no exista en otro
+	        if (!existente.getCedula().equals(usuario.getCedula())) {
+	            usuarioRepositorio.buscarPorCedula(usuario.getCedula())
+	                .ifPresent(u -> { throw new RuntimeException("La cédula ya está registrada"); });
+	        }
+
 	        usuario = new Usuario(
-	            existente.getIdUsuario(), usuario.getPrimerNombre(), usuario.getSegundoNombre(),
+	            existente.getIdUsuario(),
+	            usuario.getPrimerNombre(), usuario.getSegundoNombre(),
 	            usuario.getPrimerApellido(), usuario.getSegundoApellido(),
 	            usuario.getNombreUsuario(), usuario.getCorreoElectronico(),
 	            usuario.getCedula(), usuario.getClave(),
-	            existente.getIntentosActual(), existente.getUltimoAcceso(), 
-	            usuario.getRol(), existente.getEsActivo()
+	            existente.getIntentosActual(),
+	            existente.getUltimoAcceso(),
+	            usuario.getRol(),
+	            existente.getEsActivo(),
+	            existente.getEsNuevo() // conservar el valor actual
 	        );
 	    }
 
@@ -91,6 +112,28 @@ public class UsuarioUseCaseImpl implements IUsuarioUseCase{
 	@Override
 	public List<Usuario> buscarPorNombres(String nombre) {
 		return usuarioRepositorio.buscarPorNombres(nombre);
+	}
+
+	@Override
+	public void cambiarPassword(Long idUsuario, String claveActual, String claveNueva) {
+
+	    Usuario existente = buscarPorId(idUsuario);
+
+	    // Validar clave actual
+	    if (!existente.getClave().equals(claveActual)) {
+	        throw new RuntimeException("La clave actual no es correcta");
+	    }
+
+	    // Update parcial: clave nueva + esNuevo=false
+	    usuarioRepositorio.actualizarPassword(idUsuario, claveNueva);
+	}
+
+	@Override
+	public void resetPassword(Long idUsuario, String claveTemporal) {
+
+	    buscarPorId(idUsuario);
+
+	    usuarioRepositorio.resetPassword(idUsuario, claveTemporal);
 	}
 
 	
