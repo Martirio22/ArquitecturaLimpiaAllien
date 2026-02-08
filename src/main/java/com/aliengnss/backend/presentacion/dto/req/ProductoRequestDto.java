@@ -30,7 +30,7 @@ public class ProductoRequestDto {
     @NotBlank
     private String descripcion;
 
-    @NotNull
+    //@NotNull
     @DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal precioVenta;
 

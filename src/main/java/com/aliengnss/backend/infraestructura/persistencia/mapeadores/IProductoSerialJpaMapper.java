@@ -3,10 +3,14 @@ package com.aliengnss.backend.infraestructura.persistencia.mapeadores;
 import com.aliengnss.backend.dominio.entidades.ProductoSerial;
 import com.aliengnss.backend.infraestructura.persistencia.jpa.ProductoSerialJpa;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
-
+@Mapper(componentModel = "spring", uses = Base64Mapper.class)
 public interface IProductoSerialJpaMapper {
-	ProductoSerial toDomain(ProductoSerialJpa entity);
-	ProductoSerialJpa toEntity(ProductoSerial productoSerial);
+
+    @Mapping(target = "fkProducto.foto", ignore = true)
+    ProductoSerial toDomain(ProductoSerialJpa entity);
+
+    @Mapping(target = "fkProducto.foto", ignore = true)
+    ProductoSerialJpa toEntity(ProductoSerial productoSerial);
 }

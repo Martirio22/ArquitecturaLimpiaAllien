@@ -15,125 +15,97 @@ import com.aliengnss.backend.infraestructura.repositorios.IProductoJpaRepository
 import com.aliengnss.backend.infraestructura.repositorios.IProductoPrecioVentaJpaRepository;
 
 public class ProductoRepositorioImpl implements IProductoRepositorio {
-	
-	private final IProductoJpaRepository productoJpaRepository;
-    private final IProductoPrecioVentaJpaRepository precioRepo;
-    private final IProductoJpaMapper mapper;
 
-    public ProductoRepositorioImpl(IProductoJpaRepository productoJpaRepository,
-                                   IProductoPrecioVentaJpaRepository precioRepo,
-                                   IProductoJpaMapper mapper) {
-        this.productoJpaRepository = productoJpaRepository;
-        this.precioRepo = precioRepo;
-        this.mapper = mapper;
-    }
+	private final IProductoJpaRepository productoJpaRepository;
+	private final IProductoPrecioVentaJpaRepository precioRepo;
+	private final IProductoJpaMapper mapper;
+
+	public ProductoRepositorioImpl(IProductoJpaRepository productoJpaRepository,
+			IProductoPrecioVentaJpaRepository precioRepo, IProductoJpaMapper mapper) {
+		this.productoJpaRepository = productoJpaRepository;
+		this.precioRepo = precioRepo;
+		this.mapper = mapper;
+	}
 
 	@Override
 	public Producto guardar(Producto producto) {
-        // guardamos datos fijos
-        ProductoJpa entity = mapper.toEntity(producto);
-        ProductoJpa guardado = productoJpaRepository.save(entity);
+		// guardamos datos fijos
+		ProductoJpa entity = mapper.toEntity(producto);
+		ProductoJpa guardado = productoJpaRepository.save(entity);
 
-        // si es nuevo, insertamos precio inicial
-        if (producto.getIdProducto() == null) {
-            ProductoPrecioVentaJpa precio = new ProductoPrecioVentaJpa();
-            precio.setProducto(guardado);
-            precio.setPrecioVenta(producto.getPrecioVenta());
-            precio.setDesde(LocalDateTime.now());
-            precio.setHasta(null);
-            precioRepo.save(precio);
-        }
+		// si es nuevo, insertamos precio inicial
+		if (producto.getIdProducto() == null) {
+			ProductoPrecioVentaJpa precio = new ProductoPrecioVentaJpa();
+			precio.setProducto(guardado);
+			precio.setPrecioVenta(producto.getPrecioVenta());
+			precio.setDesde(LocalDateTime.now());
+			precio.setHasta(null);
+			precioRepo.save(precio);
+		}
 
-        // devolvemos producto con precio vigente
-        BigDecimal precioVigente = precioRepo
-            .findFirstByProductoIdProductoAndHastaIsNull(guardado.getIdProducto())
-            .map(ProductoPrecioVentaJpa::getPrecioVenta)
-            .orElse(BigDecimal.ZERO);
+		// devolvemos producto con precio vigente
+		BigDecimal precioVigente = precioRepo.findFirstByProductoIdProductoAndHastaIsNull(guardado.getIdProducto())
+				.map(ProductoPrecioVentaJpa::getPrecioVenta).orElse(BigDecimal.ZERO);
 
-        Producto dom = mapper.toDomain(guardado);
+		Producto dom = mapper.toDomain(guardado);
 
-        return new Producto(
-            dom.getIdProducto(),
-            dom.getNombre(),
-            dom.getMarca(),
-            dom.getTipo(),
-            dom.getFoto(),
-            dom.getDescripcion(),
-            precioVigente,
-            dom.getEsConSerial(),
-            dom.getPorcentajeComision(),
-            dom.getFechaCreacion(),
-            dom.getEsActivo()
-        );
-    }
+		return new Producto(dom.getIdProducto(), dom.getNombre(), dom.getMarca(), dom.getTipo(), dom.getFoto(),
+				dom.getDescripcion(), precioVigente, dom.getEsConSerial(), dom.getPorcentajeComision(),
+				dom.getFechaCreacion(), dom.getEsActivo());
+	}
 
 	@Override
-    public Optional<Producto> buscarPorId(Long idProducto) {
-        return productoJpaRepository.findById(idProducto).map(p -> {
-            BigDecimal precioVigente = precioRepo
-                .findFirstByProductoIdProductoAndHastaIsNull(p.getIdProducto())
-                .map(ProductoPrecioVentaJpa::getPrecioVenta)
-                .orElse(BigDecimal.ZERO);
+	public Optional<Producto> buscarPorId(Long idProducto) {
+		return productoJpaRepository.findById(idProducto).map(p -> {
+			BigDecimal precioVigente = precioRepo.findFirstByProductoIdProductoAndHastaIsNull(p.getIdProducto())
+					.map(ProductoPrecioVentaJpa::getPrecioVenta).orElse(BigDecimal.ZERO);
 
-            Producto dom = mapper.toDomain(p);
+			Producto dom = mapper.toDomain(p);
 
-            return new Producto(
-                dom.getIdProducto(), dom.getNombre(), dom.getMarca(), dom.getTipo(),
-                dom.getFoto(), dom.getDescripcion(),
-                precioVigente,
-                dom.getEsConSerial(),
-                dom.getPorcentajeComision(),
-                dom.getFechaCreacion(),
-                dom.getEsActivo()
-            );
-        });
-    }
+			return new Producto(dom.getIdProducto(), dom.getNombre(), dom.getMarca(), dom.getTipo(), dom.getFoto(),
+					dom.getDescripcion(), precioVigente, dom.getEsConSerial(), dom.getPorcentajeComision(),
+					dom.getFechaCreacion(), dom.getEsActivo());
+		});
+	}
 
-    @Override
-    public List<Producto> listarTodos() {
-        return productoJpaRepository.findAll().stream().map(p -> {
-            BigDecimal precioVigente = precioRepo
-                .findFirstByProductoIdProductoAndHastaIsNull(p.getIdProducto())
-                .map(ProductoPrecioVentaJpa::getPrecioVenta)
-                .orElse(BigDecimal.ZERO);
+	@Override
+	public List<Producto> listarTodos() {
+		return productoJpaRepository.listarSinFoto().stream().map(p -> {
 
-            Producto dom = mapper.toDomain(p);
+			BigDecimal precioVigente = precioRepo.findFirstByProductoIdProductoAndHastaIsNull(p.getIdProducto())
+					.map(ProductoPrecioVentaJpa::getPrecioVenta).orElse(BigDecimal.ZERO);
 
-            return new Producto(
-                dom.getIdProducto(), dom.getNombre(), dom.getMarca(), dom.getTipo(),
-                dom.getFoto(), dom.getDescripcion(),
-                precioVigente,
-                dom.getEsConSerial(),
-                dom.getPorcentajeComision(),
-                dom.getFechaCreacion(),
-                dom.getEsActivo()
-            );
-        }).toList();
-    }
-    
-    @Override
-    public Optional<Producto> buscarPorNombreMarcaTipo(String nombre, String marca, String tipo) {
-        return productoJpaRepository
-            .findByNombreIgnoreCaseAndMarcaIgnoreCaseAndTipoIgnoreCase(nombre.trim(), marca.trim(), tipo.trim())
-            .map(mapper::toDomain);
-    }
+			// Aquí foto = null porque no la listamos (así no pesa)
+			return new Producto(p.getIdProducto(), p.getNombre(), p.getMarca(), p.getTipo(), null, // ✅ NO FOTO EN
+																									// LISTADO
+					p.getDescripcion(), precioVigente, p.getEsConSerial(), p.getPorcentajeComision(),
+					p.getFechaCreacion(), p.getEsActivo());
+		}).toList();
+	}
 
-    @Override
-    public void cambiarPrecio(Long idProducto, BigDecimal nuevoPrecio) {
-        ProductoJpa producto = productoJpaRepository.findById(idProducto)
-            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+	@Override
+	public Optional<Producto> buscarPorNombreMarcaTipo(String nombre, String marca, String tipo) {
+		return productoJpaRepository
+				.findByNombreIgnoreCaseAndMarcaIgnoreCaseAndTipoIgnoreCase(nombre.trim(), marca.trim(), tipo.trim())
+				.map(mapper::toDomain);
+	}
 
-        LocalDateTime ahora = LocalDateTime.now();
-        precioRepo.cerrarPrecioActual(idProducto, ahora);
+	@Override
+	public void cambiarPrecio(Long idProducto, BigDecimal nuevoPrecio) {
+		ProductoJpa producto = productoJpaRepository.findById(idProducto)
+				.orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        ProductoPrecioVentaJpa nuevo = new ProductoPrecioVentaJpa();
-        nuevo.setProducto(producto);
-        nuevo.setPrecioVenta(nuevoPrecio);
-        nuevo.setDesde(ahora);
-        nuevo.setHasta(null);
+		LocalDateTime ahora = LocalDateTime.now();
+		precioRepo.cerrarPrecioActual(idProducto, ahora);
 
-        precioRepo.save(nuevo);
-    }
+		ProductoPrecioVentaJpa nuevo = new ProductoPrecioVentaJpa();
+		nuevo.setProducto(producto);
+		nuevo.setPrecioVenta(nuevoPrecio);
+		nuevo.setDesde(ahora);
+		nuevo.setHasta(null);
+
+		precioRepo.save(nuevo);
+	}
 
 	@Override
 	public void eliminar(Long idProducto) {
@@ -142,39 +114,24 @@ public class ProductoRepositorioImpl implements IProductoRepositorio {
 
 	@Override
 	public List<Producto> buscarPorSerial(boolean esConSerial) {
-	    return productoJpaRepository.buscarPorSerial(esConSerial).stream().map(p -> {
-	        BigDecimal precioVigente = precioRepo
-	            .findFirstByProductoIdProductoAndHastaIsNull(p.getIdProducto())
-	            .map(ProductoPrecioVentaJpa::getPrecioVenta)
-	            .orElse(BigDecimal.ZERO);
+		return productoJpaRepository.buscarPorSerial(esConSerial).stream().map(p -> {
+			BigDecimal precioVigente = precioRepo.findFirstByProductoIdProductoAndHastaIsNull(p.getIdProducto())
+					.map(ProductoPrecioVentaJpa::getPrecioVenta).orElse(BigDecimal.ZERO);
 
-	        Producto dom = mapper.toDomain(p);
+			Producto dom = mapper.toDomain(p);
 
-	        return new Producto(
-	            dom.getIdProducto(), dom.getNombre(), dom.getMarca(), dom.getTipo(),
-	            dom.getFoto(), dom.getDescripcion(),
-	            precioVigente,
-	            dom.getEsConSerial(),
-	            dom.getPorcentajeComision(),
-	            dom.getFechaCreacion(),
-	            dom.getEsActivo()
-	        );
-	    }).toList();
+			return new Producto(dom.getIdProducto(), dom.getNombre(), dom.getMarca(), dom.getTipo(), dom.getFoto(),
+					dom.getDescripcion(), precioVigente, dom.getEsConSerial(), dom.getPorcentajeComision(),
+					dom.getFechaCreacion(), dom.getEsActivo());
+		}).toList();
 	}
 
 	@Override
 	public List<ProductoPrecioVenta> historialPrecios(Long idProducto) {
-	    return precioRepo.findByProductoIdProductoOrderByDesdeDesc(idProducto)
-	        .stream()
-	        .map(p -> new ProductoPrecioVenta(
-	            p.getIdPrecioVenta(),
-	            p.getProducto().getIdProducto(),
-	            p.getPrecioVenta(),
-	            p.getDesde(),
-	            p.getHasta()
-	        ))
-	        .toList();
+		return precioRepo.findByProductoIdProductoOrderByDesdeDesc(idProducto).stream()
+				.map(p -> new ProductoPrecioVenta(p.getIdPrecioVenta(), p.getProducto().getIdProducto(),
+						p.getPrecioVenta(), p.getDesde(), p.getHasta()))
+				.toList();
 	}
 
-	
 }

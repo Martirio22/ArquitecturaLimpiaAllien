@@ -69,6 +69,4 @@ public class Producto implements Serializable {
 	public Boolean getEsActivo() {
 		return esActivo;
 	}
-	
-	
 }
