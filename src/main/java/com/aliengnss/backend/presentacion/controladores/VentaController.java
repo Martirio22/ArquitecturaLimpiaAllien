@@ -20,8 +20,10 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.IVentaUseCase;
 import com.aliengnss.backend.dominio.entidades.Usuario;
 import com.aliengnss.backend.dominio.entidades.Venta;
 import com.aliengnss.backend.presentacion.dto.req.VentaRequestDto;
+import com.aliengnss.backend.presentacion.dto.res.FacturaVentaResponseDto;
 import com.aliengnss.backend.presentacion.dto.res.VentaResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IVentaDTOMapper;
+import com.aliengnss.backend.services.FacturaVentaService;
 
 import jakarta.validation.Valid;
 
@@ -29,60 +31,67 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/venta")
 public class VentaController {
 
-    private final IVentaUseCase ventaUseCase;
-    private final IUsuarioUseCase usuarioUseCase;
-    private final IClienteUseCase clienteUseCase;
-    private final IVentaDTOMapper mapper;
+	private final IVentaUseCase ventaUseCase;
+	private final IUsuarioUseCase usuarioUseCase;
+	private final IClienteUseCase clienteUseCase;
+	private final IVentaDTOMapper mapper;
+	private final FacturaVentaService facturaVentaService;
 
-    
-
-    public VentaController(IVentaUseCase ventaUseCase, IUsuarioUseCase usuarioUseCase, IClienteUseCase clienteUseCase,
-			IVentaDTOMapper mapper) {
+	public VentaController(IVentaUseCase ventaUseCase, IUsuarioUseCase usuarioUseCase, IClienteUseCase clienteUseCase,
+			IVentaDTOMapper mapper, FacturaVentaService facturaVentaService) {
 		this.ventaUseCase = ventaUseCase;
 		this.usuarioUseCase = usuarioUseCase;
 		this.clienteUseCase = clienteUseCase;
 		this.mapper = mapper;
+		this.facturaVentaService = facturaVentaService;
 	}
 
 	@GetMapping
-    public List<VentaResponseDto> listar() {
-        return ventaUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
-    }
+	public List<VentaResponseDto> listar() {
+		return ventaUseCase.listarTodos().stream().map(mapper::toResponseDto).toList();
+	}
 
-    @GetMapping("/{idVenta}")
-    public VentaResponseDto buscarPorId(@PathVariable Long idVenta) {
-        return mapper.toResponseDto(ventaUseCase.buscarPorId(idVenta));
-    }
+	@GetMapping("/{idVenta}")
+	public VentaResponseDto buscarPorId(@PathVariable Long idVenta) {
+		return mapper.toResponseDto(ventaUseCase.buscarPorId(idVenta));
+	}
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public VentaResponseDto guardar(
-        @Valid @RequestBody VentaRequestDto dto, @RequestParam Long idUsuario) { 
-        
-        //buscamos al usuario directamente por su ID único
-        Usuario usuario = usuarioUseCase.buscarPorId(idUsuario);
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public VentaResponseDto guardar(@Valid @RequestBody VentaRequestDto dto, @RequestParam Long idUsuario) {
 
-        //mapeamos el DTO al modelo de dominio
-        Venta ventaDominio = mapper.toDomain(dto);
-        
-        //le asignamos el usuario encontrado
-        ventaDominio.setFkUsuario(usuario);
+		// buscamos al usuario directamente por su ID único
+		Usuario usuario = usuarioUseCase.buscarPorId(idUsuario);
 
-        //guardamos (La lógica de fecha y factura sigue en el UseCase)
-        return mapper.toResponseDto(ventaUseCase.guardar(ventaDominio));
-    }
-    @PutMapping("/{idVenta}")
-    public VentaResponseDto actualizar(@PathVariable Long idVenta, @Valid @RequestBody VentaRequestDto dto) {
-        // 1. Seteamos el ID de la URL al DTO (como en tu ejemplo de Usuario)
-        dto.setIdVenta(idVenta);
-        
-        // 2. Mapeamos y guardamos (el UseCase se encarga de que sea Update por llevar ID)
-        return mapper.toResponseDto(ventaUseCase.guardar(mapper.toDomain(dto)));
-    }
-    @DeleteMapping("/{idVenta}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminar(@PathVariable Long idVenta) {
-        ventaUseCase.eliminar(idVenta);
-    }
+		// mapeamos el DTO al modelo de dominio
+		Venta ventaDominio = mapper.toDomain(dto);
+
+		// le asignamos el usuario encontrado
+		ventaDominio.setFkUsuario(usuario);
+
+		// guardamos (La lógica de fecha y factura sigue en el UseCase)
+		return mapper.toResponseDto(ventaUseCase.guardar(ventaDominio));
+	}
+
+	@PutMapping("/{idVenta}")
+	public VentaResponseDto actualizar(@PathVariable Long idVenta, @Valid @RequestBody VentaRequestDto dto) {
+		// 1. Seteamos el ID de la URL al DTO (como en tu ejemplo de Usuario)
+		dto.setIdVenta(idVenta);
+
+		// 2. Mapeamos y guardamos (el UseCase se encarga de que sea Update por llevar
+		// ID)
+		return mapper.toResponseDto(ventaUseCase.guardar(mapper.toDomain(dto)));
+	}
+
+	@DeleteMapping("/{idVenta}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void eliminar(@PathVariable Long idVenta) {
+		ventaUseCase.eliminar(idVenta);
+	}
+
+	@GetMapping("/{idVenta}/factura")
+	public FacturaVentaResponseDto factura(@PathVariable Long idVenta) {
+	  return facturaVentaService.obtenerFactura(idVenta);
+	}
 
 }
