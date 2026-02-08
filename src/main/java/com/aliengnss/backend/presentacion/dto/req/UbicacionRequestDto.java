@@ -15,4 +15,5 @@ public class UbicacionRequestDto {
 	@NotBlank
 	private String descripcion;
 	private Boolean esActivo;
+	private Boolean esPuntoVenta;
 }

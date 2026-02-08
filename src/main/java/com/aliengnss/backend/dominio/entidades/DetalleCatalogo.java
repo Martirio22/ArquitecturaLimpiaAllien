@@ -1,6 +1,7 @@
 package com.aliengnss.backend.dominio.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class DetalleCatalogo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -11,11 +12,14 @@ public class DetalleCatalogo implements Serializable {
 	private double valorNumerico;
 	private Long orden;
 	private boolean esActivo;
+	private LocalDateTime fechaCreacion;
+	private LocalDateTime fechaActualizacion;
 	
 	private Long idCatalogo;
 
 	public DetalleCatalogo(Long idDetalleCatalogo, String codigoDetalle, String descripcion, double valorNumerico,
-			Long orden, boolean esActivo, Long idCatalogo) {
+			Long orden, boolean esActivo, LocalDateTime fechaCreacion, LocalDateTime fechaActualizacion,
+			Long idCatalogo) {
 		super();
 		this.idDetalleCatalogo = idDetalleCatalogo;
 		this.codigoDetalle = codigoDetalle;
@@ -23,6 +27,8 @@ public class DetalleCatalogo implements Serializable {
 		this.valorNumerico = valorNumerico;
 		this.orden = orden;
 		this.esActivo = esActivo;
+		this.fechaCreacion = fechaCreacion;
+		this.fechaActualizacion = fechaActualizacion;
 		this.idCatalogo = idCatalogo;
 	}
 
@@ -74,6 +80,22 @@ public class DetalleCatalogo implements Serializable {
 		this.esActivo = esActivo;
 	}
 
+	public LocalDateTime getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(LocalDateTime fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	public LocalDateTime getFechaActualizacion() {
+		return fechaActualizacion;
+	}
+
+	public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
 	public Long getIdCatalogo() {
 		return idCatalogo;
 	}
@@ -81,7 +103,5 @@ public class DetalleCatalogo implements Serializable {
 	public void setIdCatalogo(Long idCatalogo) {
 		this.idCatalogo = idCatalogo;
 	}
-	
-	
 
 }

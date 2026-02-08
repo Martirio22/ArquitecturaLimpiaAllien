@@ -23,25 +23,26 @@ public class UbicacionUseCaseImpl implements IUbicacionUseCase {
 	    Ubicacion ubicacionParaGuardar;
 
 	    if (ubicacion.getIdUbicacion() == null) {
-	        // --- LÓGICA PARA CREAR ---
+	        // --- CREAR ---
 	        ubicacionParaGuardar = new Ubicacion(
-	            null, 
+	            null,
 	            ubicacion.getNombre(),
 	            ubicacion.getTipo(),
 	            ubicacion.getDescripcion(),
-	            true // <--- Siempre activo al nacer
+	            true,                       // siempre activo al nacer
+	            ubicacion.getEsPuntoVenta() // NUEVO
 	        );
 	    } else {
-	        // --- LÓGICA PARA ACTUALIZAR ---
-	        // Recuperamos la versión actual de la DB para no perder el estado 'esActivo'
+	        // --- ACTUALIZAR ---
 	        Ubicacion existente = obtenerPorId(ubicacion.getIdUbicacion());
-	        
+
 	        ubicacionParaGuardar = new Ubicacion(
 	            existente.getIdUbicacion(),
 	            ubicacion.getNombre(),
 	            ubicacion.getTipo(),
 	            ubicacion.getDescripcion(),
-	            existente.getEsActivo() // <--- Mantiene su estado actual (activo o inactivo)
+	            existente.getEsActivo(),     // mantiene estado actual
+	            ubicacion.getEsPuntoVenta()  // NUEVO (o existente si no quieres permitir cambiarlo)
 	        );
 	    }
 
@@ -61,21 +62,19 @@ public class UbicacionUseCaseImpl implements IUbicacionUseCase {
 	}
 
 	@Override
-    @Transactional
-    public void eliminar(Long id) {
-        // Borrado lógico: recuperamos la ubicación y la desactivamos
-        Ubicacion existente = obtenerPorId(id);
-        
-        Ubicacion ubicacionDesactivada = new Ubicacion(
-            existente.getIdUbicacion(),
-            existente.getNombre(),
-            existente.getTipo(),
-            existente.getDescripcion(),
-            false // <--- Desactivado
-        );
-        
-        repositorio.guardar(ubicacionDesactivada);
-    }
-	
+	@Transactional
+	public void eliminar(Long id) {
+	    Ubicacion existente = obtenerPorId(id);
 
+	    Ubicacion ubicacionDesactivada = new Ubicacion(
+	        existente.getIdUbicacion(),
+	        existente.getNombre(),
+	        existente.getTipo(),
+	        existente.getDescripcion(),
+	        false,                   // desactivado
+	        existente.getEsPuntoVenta() // NUEVO: no cambies este flag al eliminar
+	    );
+
+	    repositorio.guardar(ubicacionDesactivada);
+	}
 }

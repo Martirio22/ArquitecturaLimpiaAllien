@@ -23,9 +23,31 @@ public class DetalleCatalogoRepositorioImpl implements IDetalleCatalogoRepositor
 
 	@Override
 	public DetalleCatalogo guardarDetalleCatalogo(DetalleCatalogo detalleCatalogo) {
-		DetalleCatalogoJpa entity = mapper.toEntity(detalleCatalogo);
-		DetalleCatalogoJpa guardar = detalleCatalogoJpaRepository.save(entity);
-		return mapper.toDomain(guardar);
+
+	  // UPDATE
+	  if (detalleCatalogo.getIdDetalleCatalogo() != null) {
+
+	    DetalleCatalogoJpa entity = detalleCatalogoJpaRepository
+	        .findById(detalleCatalogo.getIdDetalleCatalogo())
+	        .orElseThrow(() -> new RuntimeException("Detalle no encontrado: " + detalleCatalogo.getIdDetalleCatalogo()));
+
+	    entity.setCodigoDetalle(detalleCatalogo.getCodigoDetalle());
+	    entity.setDescripcion(detalleCatalogo.getDescripcion());
+	    entity.setValorNumerico(detalleCatalogo.getValorNumerico());
+	    entity.setOrden(detalleCatalogo.getOrden());
+	    entity.setEsActivo(detalleCatalogo.isEsActivo());
+
+	    // si permites cambiar catálogo:
+	    entity.getCatalogo().setIdCatalogo(detalleCatalogo.getIdCatalogo());
+
+	    DetalleCatalogoJpa saved = detalleCatalogoJpaRepository.save(entity);
+	    return mapper.toDomain(saved);
+	  }
+
+	  // CREATE
+	  DetalleCatalogoJpa entity = mapper.toEntity(detalleCatalogo);
+	  DetalleCatalogoJpa saved = detalleCatalogoJpaRepository.save(entity);
+	  return mapper.toDomain(saved);
 	}
 
 	@Override
