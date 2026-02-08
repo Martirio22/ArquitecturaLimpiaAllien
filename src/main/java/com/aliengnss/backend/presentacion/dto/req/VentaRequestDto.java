@@ -12,12 +12,18 @@ import com.aliengnss.backend.dominio.entidades.Cliente;
 @Data
 public class VentaRequestDto {
 	private Long idVenta;
+
+    private String numeroFactura; // ✅ nuevo (opcional al inicio)
+
     @NotNull
     @DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal total;
+
     @NotBlank
     private String observaciones;
+
     private Boolean esActivo;
+
     @NotNull
     private Cliente fkCliente;
 }

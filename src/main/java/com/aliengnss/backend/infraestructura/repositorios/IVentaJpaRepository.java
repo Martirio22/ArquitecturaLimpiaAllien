@@ -10,4 +10,5 @@ public interface IVentaJpaRepository extends JpaRepository<VentaJpa, Long> {
 
 	// Busca la última venta registrada para obtener su número
     Optional<VentaJpa> findFirstByOrderByIdVentaDesc();
+    boolean existsByNumeroFactura(String numeroFactura);
 }

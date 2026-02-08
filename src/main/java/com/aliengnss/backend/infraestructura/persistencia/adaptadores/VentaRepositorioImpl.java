@@ -39,4 +39,8 @@ public class VentaRepositorioImpl implements IVentaRepositorio {
         ventaJpaRepository.deleteById(idVenta);
     }
 
+    @Override
+    public boolean existeNumeroFactura(String numeroFactura) {
+        return ventaJpaRepository.existsByNumeroFactura(numeroFactura);
+    }
 }

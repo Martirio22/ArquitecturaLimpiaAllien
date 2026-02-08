@@ -12,4 +12,5 @@ public interface IVentaRepositorio {
     List<Venta> listarTodos();
     void eliminar(Long idVenta);
 
+    boolean existeNumeroFactura(String numeroFactura);
 }

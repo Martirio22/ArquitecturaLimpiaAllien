@@ -9,23 +9,32 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "Venta")
+@Table(
+    name = "Venta",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_venta_numero_factura", columnNames = "numeroFactura")
+    }
+)
+public class VentaJpa implements Serializable {
 
-public class VentaJpa implements Serializable{
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idVenta;
+    private Long idVenta;
+
+    @Column(nullable = false)
     private String numeroFactura;
+
     private LocalDateTime fechaVenta;
     private BigDecimal total;
     private String observaciones;
     private Boolean esActivo;
+
     @ManyToOne
     @JoinColumn(name = "idCliente")
     private ClienteJpa fkCliente;
+
     @ManyToOne
     @JoinColumn(name = "idUsuario")
     private UsuarioJpa fkUsuario;
