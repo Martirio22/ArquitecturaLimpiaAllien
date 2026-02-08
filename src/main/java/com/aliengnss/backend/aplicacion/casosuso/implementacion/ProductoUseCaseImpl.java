@@ -1,5 +1,6 @@
 package com.aliengnss.backend.aplicacion.casosuso.implementacion;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoUseCase;
 import com.aliengnss.backend.dominio.entidades.Producto;
+import com.aliengnss.backend.dominio.entidades.ProductoPrecioVenta;
 import com.aliengnss.backend.dominio.repositorios.IProductoRepositorio;
 
 public class ProductoUseCaseImpl implements IProductoUseCase {
@@ -20,10 +22,35 @@ public class ProductoUseCaseImpl implements IProductoUseCase {
 	@Override
 	@Transactional
 	public Producto guardar(Producto producto) {
+
+	    boolean esNuevo = (producto.getIdProducto() == null);
+
+	    Producto existente = null;
+	    if (!esNuevo) {
+	        existente = buscarPorId(producto.getIdProducto());
+	    }
+
+	    // 1) Validar duplicado por (nombre, marca, tipo)
+	    if (esNuevo) {
+	        productoRepositorio.buscarPorNombreMarcaTipo(producto.getNombre(), producto.getMarca(), producto.getTipo())
+	            .ifPresent(p -> { throw new RuntimeException("Ya existe un producto con ese nombre, marca y tipo"); });
+	    } else {
+	        boolean cambiaClave =
+	            !existente.getNombre().equalsIgnoreCase(producto.getNombre()) ||
+	            !existente.getMarca().equalsIgnoreCase(producto.getMarca()) ||
+	            !existente.getTipo().equalsIgnoreCase(producto.getTipo());
+
+	        if (cambiaClave) {
+	            productoRepositorio.buscarPorNombreMarcaTipo(producto.getNombre(), producto.getMarca(), producto.getTipo())
+	                .ifPresent(p -> { throw new RuntimeException("Ya existe un producto con ese nombre, marca y tipo"); });
+	        }
+	    }
+
+	    // 2) Construir objeto a guardar
 	    Producto productoParaGuardar;
 
-	    if (producto.getIdProducto() == null) {
-	        // --- LÓGICA PARA CREAR ---
+	    if (esNuevo) {
+	        // Crear: el precio inicial sí se usa (para crear el primer histórico)
 	        productoParaGuardar = new Producto(
 	            null,
 	            producto.getNombre(),
@@ -31,16 +58,14 @@ public class ProductoUseCaseImpl implements IProductoUseCase {
 	            producto.getTipo(),
 	            producto.getFoto(),
 	            producto.getDescripcion(),
-	            producto.getPrecioVenta(),
+	            producto.getPrecioVenta(),            // ✅ solo aquí
 	            producto.getEsConSerial(),
 	            producto.getPorcentajeComision(),
-	            LocalDateTime.now(), // Sella la fecha de creación actual
-	            true // esActivo por defecto
+	            LocalDateTime.now(),
+	            true
 	        );
 	    } else {
-	        // --- LÓGICA PARA ACTUALIZAR ---
-	        Producto existente = buscarPorId(producto.getIdProducto());
-	        
+	        // Update: NO cambiar precio por aquí (se cambia con PATCH precio)
 	        productoParaGuardar = new Producto(
 	            existente.getIdProducto(),
 	            producto.getNombre(),
@@ -48,11 +73,11 @@ public class ProductoUseCaseImpl implements IProductoUseCase {
 	            producto.getTipo(),
 	            producto.getFoto(),
 	            producto.getDescripcion(),
-	            producto.getPrecioVenta(),
+	            existente.getPrecioVenta(),            // ✅ conservar vigente
 	            producto.getEsConSerial(),
 	            producto.getPorcentajeComision(),
-	            existente.getFechaCreacion(), // Mantenemos la fecha original
-	            existente.getEsActivo()      // Mantenemos el estado de activación
+	            existente.getFechaCreacion(),
+	            existente.getEsActivo()
 	        );
 	    }
 
@@ -97,5 +122,18 @@ public class ProductoUseCaseImpl implements IProductoUseCase {
 		return productoRepositorio.buscarPorSerial(esConSerial);
 	}
 
-	
+	@Override
+	@Transactional
+	public void cambiarPrecio(Long idProducto, BigDecimal precioVenta) {
+	    buscarPorId(idProducto); // valida existe
+	    productoRepositorio.cambiarPrecio(idProducto, precioVenta);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProductoPrecioVenta> historialPrecios(Long idProducto) {
+	    buscarPorId(idProducto); // valida existe
+	    return productoRepositorio.historialPrecios(idProducto);
+	}
+
 }

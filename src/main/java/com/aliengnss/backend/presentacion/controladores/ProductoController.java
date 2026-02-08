@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoUseCase;
+import com.aliengnss.backend.presentacion.dto.req.CambiarPrecioRequestDto;
 import com.aliengnss.backend.presentacion.dto.req.ProductoRequestDto;
+import com.aliengnss.backend.presentacion.dto.res.ProductoPrecioVentaResponseDTO;
 import com.aliengnss.backend.presentacion.dto.res.ProductoResponseDto;
 import com.aliengnss.backend.presentacion.mapeadores.IProductoDTOMapper;
 
@@ -79,4 +82,27 @@ public class ProductoController {
 				.toList();
 		return ResponseEntity.ok(lista);
 	}
+	
+	@PatchMapping("/{id}/precio")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void cambiarPrecio(@PathVariable Long id,
+	                          @Valid @RequestBody CambiarPrecioRequestDto dto) {
+	    productoUseCase.cambiarPrecio(id, dto.getPrecioVenta());
+	}
+
+	@GetMapping("/{id}/historial-precios")
+	public List<ProductoPrecioVentaResponseDTO> historial(@PathVariable Long id) {
+	    return productoUseCase.historialPrecios(id).stream()
+	        .map(pp -> {
+	            ProductoPrecioVentaResponseDTO dto = new ProductoPrecioVentaResponseDTO();
+	            dto.setIdPrecioVenta(pp.getIdPrecioVenta());
+	            dto.setIdProducto(pp.getIdProducto());
+	            dto.setPrecioVenta(pp.getPrecioVenta());
+	            dto.setDesde(pp.getDesde());
+	            dto.setHasta(pp.getHasta());
+	            return dto;
+	        })
+	        .toList();
+	}
+
 }

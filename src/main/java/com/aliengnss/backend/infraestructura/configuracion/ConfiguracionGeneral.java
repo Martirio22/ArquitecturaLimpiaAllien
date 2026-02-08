@@ -14,6 +14,7 @@ import com.aliengnss.backend.aplicacion.casosuso.entrada.ILoginUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoDetalleUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoSeriesUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IMovimientoUseCase;
+import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoPrecioVentaUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoSerialUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IProductoUseCase;
 import com.aliengnss.backend.aplicacion.casosuso.entrada.IUbicacionUseCase;
@@ -31,6 +32,7 @@ import com.aliengnss.backend.aplicacion.casosuso.implementacion.LoginUseCaseImpl
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoDetalleUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoSeriesUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.MovimientoUseCaseImpl;
+import com.aliengnss.backend.aplicacion.casosuso.implementacion.ProductoPrecioVentaUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.ProductoSerialUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.ProductoUseCaseImpl;
 import com.aliengnss.backend.aplicacion.casosuso.implementacion.UbicacionUseCaseImpl;
@@ -47,6 +49,7 @@ import com.aliengnss.backend.dominio.repositorios.IInventarioMovimientoRepositor
 import com.aliengnss.backend.dominio.repositorios.IMovimientoDetalleRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IMovimientoSeriesRepositorio;
+import com.aliengnss.backend.dominio.repositorios.IProductoPrecioVentaRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IProductoRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IProductoSerialRepositorio;
 import com.aliengnss.backend.dominio.repositorios.IUbicacionRepositorio;
@@ -63,6 +66,7 @@ import com.aliengnss.backend.infraestructura.persistencia.adaptadores.Inventario
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.MovimientoDetalleRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.MovimientoRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.MovimientoSeriesRepositorioImpl;
+import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ProductoPrecioVentaRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ProductoRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.ProductoSerialRepositorioImpl;
 import com.aliengnss.backend.infraestructura.persistencia.adaptadores.UbicacionRepositorioImpl;
@@ -80,6 +84,7 @@ import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimiento
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IMovimientoSeriesJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IProductoJpaMapper;
+import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IProductoPrecioVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IProductoSerialJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IUbicacionJpaMapper;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IUsuarioJpaMapper;
@@ -96,6 +101,7 @@ import com.aliengnss.backend.infraestructura.repositorios.IMovimientoDetalleJpaR
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IMovimientoSeriesJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IProductoJpaRepository;
+import com.aliengnss.backend.infraestructura.repositorios.IProductoPrecioVentaJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IProductoSerialJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IUbicacionJpaRepository;
 import com.aliengnss.backend.infraestructura.repositorios.IUsuarioJpaRepository;
@@ -152,9 +158,12 @@ public class ConfiguracionGeneral {
 	}
 
 	@Bean
-	IProductoRepositorio productoRepositorio(IProductoJpaRepository productoJpaRepository,
-			IProductoJpaMapper productoJpaMapper) {
-		return new ProductoRepositorioImpl(productoJpaRepository, productoJpaMapper);
+	IProductoRepositorio productoRepositorio(
+	        IProductoJpaRepository productoJpaRepository,
+	        IProductoPrecioVentaJpaRepository productoPrecioVentaJpaRepository,
+	        IProductoJpaMapper productoJpaMapper
+	) {
+	    return new ProductoRepositorioImpl(productoJpaRepository, productoPrecioVentaJpaRepository, productoJpaMapper);
 	}
 
 	@Bean
@@ -302,5 +311,18 @@ public class ConfiguracionGeneral {
 	@Bean
 	IDetalleCatalogoUseCase detalleCatalogoUseCase(IDetalleCatalogoRepositorio detalleCatalogoRepositorio) {
 		return new DetalleCatalogoUseCaseImpl(detalleCatalogoRepositorio);
+	}
+	
+	@Bean
+	IProductoPrecioVentaRepositorio productoPrecioVentaRepositorio(
+	        IProductoPrecioVentaJpaRepository repo,
+	        IProductoPrecioVentaJpaMapper mapper
+	) {
+	    return new ProductoPrecioVentaRepositorioImpl(repo, mapper);
+	}
+
+	@Bean
+	IProductoPrecioVentaUseCase productoPrecioVentaUseCase(IProductoPrecioVentaRepositorio repo) {
+	    return new ProductoPrecioVentaUseCaseImpl(repo);
 	}
 }
