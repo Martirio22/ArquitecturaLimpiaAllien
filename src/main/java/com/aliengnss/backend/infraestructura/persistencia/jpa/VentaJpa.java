@@ -10,14 +10,12 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(
-    name = "Venta",
-    uniqueConstraints = {
-        @UniqueConstraint(name = "uk_venta_numero_factura", columnNames = "numeroFactura")
-    }
+  name = "Venta",
+  uniqueConstraints = {
+    @UniqueConstraint(name = "uk_venta_numero_factura", columnNames = "numeroFactura")
+  }
 )
 public class VentaJpa implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +25,20 @@ public class VentaJpa implements Serializable {
     private String numeroFactura;
 
     private LocalDateTime fechaVenta;
+
+    // NUEVOS (opcionales => nullable por defecto)
+    @Column(precision = 18, scale = 2)
+    private BigDecimal subtotal;
+
+    @Column(precision = 5, scale = 2) // 15.00, 12.00, etc
+    private BigDecimal ivaPorcentaje;
+
+    @Column(precision = 18, scale = 2)
+    private BigDecimal ivaValor;
+
+    @Column(precision = 18, scale = 2)
     private BigDecimal total;
+
     private String observaciones;
     private Boolean esActivo;
 

@@ -11,12 +11,17 @@ public class FacturaVentaResponseDto {
   private Long idVenta;
   private String numeroFactura;
   private LocalDateTime fechaVenta;
+
+  // NUEVOS
+  private BigDecimal subtotal;
+  private BigDecimal ivaPorcentaje;
+  private BigDecimal ivaValor;
+
   private BigDecimal total;
   private String observaciones;
 
   private ClienteFacturaDto cliente;
   private UsuarioFacturaDto usuario;
-
   private List<DetalleFacturaDto> detalles;
 
   @Data

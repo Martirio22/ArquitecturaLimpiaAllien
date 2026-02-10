@@ -32,6 +32,15 @@ public class VentaUseCaseImpl implements IVentaUseCase {
 	@Transactional
 	public Venta guardar(Venta venta) {
 
+	    // ✅ DEBUG: lo primero que se ejecuta
+	    System.out.println(">>> DEBUG VentaUseCase.guardar");
+	    System.out.println("idVenta = " + venta.getIdVenta());
+	    System.out.println("numeroFactura = " + venta.getNumeroFactura());
+	    System.out.println("subtotal = " + venta.getSubtotal());
+	    System.out.println("ivaPorcentaje = " + venta.getIvaPorcentaje());
+	    System.out.println("ivaValor = " + venta.getIvaValor());
+	    System.out.println("total = " + venta.getTotal());
+
 	    if (venta.getIdVenta() == null) {
 
 	        String numero = venta.getNumeroFactura();
@@ -39,15 +48,28 @@ public class VentaUseCaseImpl implements IVentaUseCase {
 	            throw new RuntimeException("El número de factura es obligatorio");
 	        }
 
-	        // ✅ VALIDACIÓN: no permitir repetidos
 	        if (repo.existeNumeroFactura(numero)) {
 	            throw new RuntimeException("El número de factura ya existe");
 	        }
 
 	        Venta ventaParaGuardar = new Venta(
-	            null, numero, LocalDateTime.now(), venta.getTotal(),
-	            venta.getObservaciones(), true, venta.getFkCliente(), venta.getFkUsuario()
+	            null,
+	            numero,
+	            LocalDateTime.now(),
+
+	            venta.getSubtotal(),
+	            venta.getIvaPorcentaje(),
+	            venta.getIvaValor(),
+
+	            venta.getTotal(),
+	            venta.getObservaciones(),
+	            true,
+	            venta.getFkCliente(),
+	            venta.getFkUsuario()
 	        );
+
+	        // ✅ (opcional) otro debug para confirmar lo que realmente guardas
+	        System.out.println(">>> DEBUG ventaParaGuardar.total = " + ventaParaGuardar.getTotal());
 
 	        return repo.guardar(ventaParaGuardar);
 
@@ -57,9 +79,17 @@ public class VentaUseCaseImpl implements IVentaUseCase {
 
 	        Venta ventaParaActualizar = new Venta(
 	            existente.getIdVenta(),
-	            existente.getNumeroFactura(),     // no cambiar
-	            existente.getFechaVenta(),
-	            existente.getTotal(),
+	            existente.getNumeroFactura(),  // no cambiar
+	            existente.getFechaVenta(),     // no cambiar
+
+	            // NUEVOS (opcionales) -> se actualizan con lo que manda UI
+	            venta.getSubtotal(),
+	            venta.getIvaPorcentaje(),
+	            venta.getIvaValor(),
+
+	            // total también viene desde UI
+	            venta.getTotal(),
+
 	            venta.getObservaciones(),
 	            existente.getEsActivo(),
 	            venta.getFkCliente(),
@@ -92,32 +122,57 @@ public class VentaUseCaseImpl implements IVentaUseCase {
 	@Override
 	@Transactional
 	public void eliminar(Long idVenta) {
-		// 1. Anular la Venta (Cabecera)
-		Venta v = buscarPorId(idVenta);
-		Venta ventaAnulada = new Venta(v.getIdVenta(), v.getNumeroFactura(), v.getFechaVenta(), v.getTotal(),
-				v.getObservaciones(), false, v.getFkCliente(), v.getFkUsuario());
-		repo.guardar(ventaAnulada);
 
-		// 2. Anular Detalles y sus Movimientos de Inventario
-		// Buscamos todos los movimientos que tengan como referencia esta VENTA
-		List<InventarioMovimiento> movimientos = inventarioRepo.listarTodos().stream()
-				.filter(m -> "VENTA".equals(m.getReferenciaTipo()) && m.getReferenciaId() == idVenta.intValue())
-				.toList();
+	    // 1. Anular la Venta (Cabecera)
+	    Venta v = buscarPorId(idVenta);
 
-		for (InventarioMovimiento mov : movimientos) {
-			// Usamos el método eliminar que ya tienes en InventarioMovimientoUseCase
-			// O simplemente lo guardamos como false aquí:
-			InventarioMovimiento movDesactivado = new InventarioMovimiento(mov.getIdInventarioMovimiento(),
-					mov.getFecha(), mov.getTipo(), mov.getCantidadEntrada(), mov.getCantidadSalida(),
-					mov.getReferenciaTipo(), mov.getReferenciaId(), false, // <--- ESTO RECUPERA EL STOCK
-					mov.getFkProducto(), mov.getFkProductoSerial(), mov.getFkUbicacion());
-			inventarioRepo.guardar(movDesactivado);
-		}
+	    Venta ventaAnulada = new Venta(
+	        v.getIdVenta(),
+	        v.getNumeroFactura(),
+	        v.getFechaVenta(),
 
-		// 3. Opcional: Anular los DetalleVenta si los usas para reportes
-		detalleVentaRepositorio.listarTodos().stream().filter(d -> d.getFkVenta().getIdVenta().equals(idVenta))
-				.forEach(d -> {
-					// ... lógica para setear esActivo = false en detalle ...
-				});
+	        // nuevos (copiar)
+	        v.getSubtotal(),
+	        v.getIvaPorcentaje(),
+	        v.getIvaValor(),
+
+	        v.getTotal(),
+	        v.getObservaciones(),
+	        false,
+	        v.getFkCliente(),
+	        v.getFkUsuario()
+	    );
+
+	    repo.guardar(ventaAnulada);
+
+	    // 2. Anular Movimientos de Inventario (igual que antes)
+	    List<InventarioMovimiento> movimientos = inventarioRepo.listarTodos().stream()
+	        .filter(m -> "VENTA".equals(m.getReferenciaTipo()) && m.getReferenciaId() == idVenta.intValue())
+	        .toList();
+
+	    for (InventarioMovimiento mov : movimientos) {
+	        InventarioMovimiento movDesactivado = new InventarioMovimiento(
+	            mov.getIdInventarioMovimiento(),
+	            mov.getFecha(),
+	            mov.getTipo(),
+	            mov.getCantidadEntrada(),
+	            mov.getCantidadSalida(),
+	            mov.getReferenciaTipo(),
+	            mov.getReferenciaId(),
+	            false,
+	            mov.getFkProducto(),
+	            mov.getFkProductoSerial(),
+	            mov.getFkUbicacion()
+	        );
+	        inventarioRepo.guardar(movDesactivado);
+	    }
+
+	    // 3. Opcional: Anular los DetalleVenta (dejas igual)
+	    detalleVentaRepositorio.listarTodos().stream()
+	        .filter(d -> d.getFkVenta().getIdVenta().equals(idVenta))
+	        .forEach(d -> {
+	            // ... lógica para setear esActivo = false en detalle ...
+	        });
 	}
+
 }

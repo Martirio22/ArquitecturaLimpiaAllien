@@ -62,6 +62,11 @@ public class FacturaVentaService {
     dto.setIdVenta(venta.getIdVenta());
     dto.setNumeroFactura(venta.getNumeroFactura());
     dto.setFechaVenta(venta.getFechaVenta());
+
+    dto.setSubtotal(venta.getSubtotal());
+    dto.setIvaPorcentaje(venta.getIvaPorcentaje());
+    dto.setIvaValor(venta.getIvaValor());
+
     dto.setTotal(venta.getTotal());
     dto.setObservaciones(venta.getObservaciones());
 

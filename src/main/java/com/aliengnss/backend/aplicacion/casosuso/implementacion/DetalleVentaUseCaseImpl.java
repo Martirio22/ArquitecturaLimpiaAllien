@@ -33,9 +33,13 @@ public class DetalleVentaUseCaseImpl implements IDetalleVentaUseCase {
             .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         // Cálculos de precio y subtotal
-        BigDecimal precio = producto.getPrecioVenta();
+        BigDecimal precio = detalleVenta.getPrecioUnitario();
+        if (precio == null) {
+            precio = producto.getPrecioVenta(); // fallback
+        }
         BigDecimal cantidad = new BigDecimal(detalleVenta.getCantidad());
-        BigDecimal subtotalCalculado = precio.multiply(cantidad);
+        BigDecimal subtotalCalculado = precio.multiply(cantidad)
+        	    .setScale(2, java.math.RoundingMode.HALF_UP);
 
         DetalleVenta detalleParaGuardar;
 
@@ -78,17 +82,30 @@ public class DetalleVentaUseCaseImpl implements IDetalleVentaUseCase {
     }
 
     private void actualizarTotalVenta(Long idVenta) {
-        List<DetalleVenta> todosLosDetalles = detalleVentaRepositorio.listarTodos();
-        
-        // FILTRADO CLAVE: Solo sumamos los detalles que estén activos (true)
-        BigDecimal nuevoTotal = todosLosDetalles.stream()
+
+        BigDecimal subtotalCalc = detalleVentaRepositorio.listarTodos().stream()
             .filter(d -> d.getFkVenta().getIdVenta().equals(idVenta))
-            .filter(DetalleVenta::getEsActivo) // <--- Solo detalles activos
+            .filter(DetalleVenta::getEsActivo)
             .map(DetalleVenta::getSubtotal)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         ventaRepositorio.buscarPorId(idVenta).ifPresent(venta -> {
-            venta.setTotal(nuevoTotal);
+
+            BigDecimal ivaPct = venta.getIvaPorcentaje() != null
+                ? venta.getIvaPorcentaje()
+                : BigDecimal.ZERO;
+
+            BigDecimal ivaValorCalc = subtotalCalc
+                .multiply(ivaPct)
+                .divide(new BigDecimal("100"), 2, java.math.RoundingMode.HALF_UP);
+
+            BigDecimal subtotalFinal = subtotalCalc.setScale(2, java.math.RoundingMode.HALF_UP);
+            BigDecimal totalFinal = subtotalFinal.add(ivaValorCalc).setScale(2, java.math.RoundingMode.HALF_UP);
+
+            venta.setSubtotal(subtotalFinal);
+            venta.setIvaValor(ivaValorCalc);
+            venta.setTotal(totalFinal);
+
             ventaRepositorio.guardar(venta);
         });
     }

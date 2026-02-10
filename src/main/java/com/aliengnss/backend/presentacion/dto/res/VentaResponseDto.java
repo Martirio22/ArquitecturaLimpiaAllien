@@ -10,9 +10,15 @@ import com.aliengnss.backend.dominio.entidades.Usuario;
 
 @Data
 public class VentaResponseDto {
-	private Long idVenta;
+    private Long idVenta;
     private String numeroFactura;
     private LocalDateTime fechaVenta;
+
+    // NUEVOS
+    private BigDecimal subtotal;
+    private BigDecimal ivaPorcentaje;
+    private BigDecimal ivaValor;
+
     private BigDecimal total;
     private String observaciones;
     private Boolean esActivo;

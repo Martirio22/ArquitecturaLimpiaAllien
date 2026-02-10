@@ -11,11 +11,20 @@ import com.aliengnss.backend.dominio.entidades.Cliente;
 
 @Data
 public class VentaRequestDto {
-	private Long idVenta;
+    private Long idVenta;
+    private String numeroFactura;
 
-    private String numeroFactura; // ✅ nuevo (opcional al inicio)
+    // NUEVOS (opcionales)
+    @DecimalMin(value = "0.0", inclusive = true)
+    private BigDecimal subtotal;
 
-    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
+    private BigDecimal ivaPorcentaje;
+
+    @DecimalMin(value = "0.0", inclusive = true)
+    private BigDecimal ivaValor;
+
+    // total sigue existiendo (si lo mandas desde UI)
     @DecimalMin(value = "0.0", inclusive = true)
     private BigDecimal total;
 

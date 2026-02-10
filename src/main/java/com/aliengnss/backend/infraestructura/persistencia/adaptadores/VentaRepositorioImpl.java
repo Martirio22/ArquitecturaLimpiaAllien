@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.aliengnss.backend.dominio.entidades.Venta;
 import com.aliengnss.backend.dominio.repositorios.IVentaRepositorio;
+import com.aliengnss.backend.infraestructura.persistencia.jpa.VentaJpa;
 import com.aliengnss.backend.infraestructura.persistencia.mapeadores.IVentaJpaMapper;
 import com.aliengnss.backend.infraestructura.repositorios.IVentaJpaRepository;
 
@@ -21,6 +22,14 @@ public class VentaRepositorioImpl implements IVentaRepositorio {
 
     @Override
     public Venta guardar(Venta venta) {
+        System.out.println(">>> TRACE VentaRepositorioImpl.guardar idVenta=" + venta.getIdVenta()
+            + " subtotal=" + venta.getSubtotal()
+            + " ivaValor=" + venta.getIvaValor()
+            + " total=" + venta.getTotal());
+
+        // imprime quién llamó
+        Thread.dumpStack();
+
         return mapper.toDomain(ventaJpaRepository.save(mapper.toEntity(venta)));
     }
 
