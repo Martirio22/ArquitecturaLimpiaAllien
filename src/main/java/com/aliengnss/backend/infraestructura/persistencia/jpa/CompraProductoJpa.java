@@ -25,11 +25,4 @@ public class CompraProductoJpa implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idUsuario")
     private UsuarioJpa fkUsuario;
-
-    
-    
-    
-    
-    
-    
 }
